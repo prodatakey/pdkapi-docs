@@ -1,10 +1,54 @@
 FORMAT: 1A
-HOST: http://pdk.io
+HOST: http://pdk.io/api/v1
 
 # PDK Panel API
 The PDK Panel API provides for programmatic access to CRUD operations on entities and a realtime event stream from the PDK Access Control system.
 
-#Group Auth
+The API conforms to many of the tenets of the REST style architecture and fully embraces the HTTP standard to fulfill many of these.
+
+* Stateless
+* Cacheable
+* A URL identifies a Resource
+* Operations conveyed implicitly through HTTP verbs
+
+This drives certain uniform architectural attributes of the API.
+
+##Authentication
+
+Authenticating to this stateless API is handled by including an HTTP Authentication header in each request.
+A Bearer token that is provided by the authentication system is used as the value of this header.
+
+##Resource Operations
+
+Standard CRUD operations on resources are performed using HTTP verbs.
+
+* GET - Retrieve a resource, never modifies data
+* POST - Create a resource or perform other non-data operations (e.g. trigger a system event)
+* PUT - Update a resource
+* DELETE - Delete a resource
+
+##Cache Headers
+
+The current state of a resource is identified by an opaque key in the ETag HTTP header of the response to a requested resource.
+This key can be used for change detection and intermediate caching. Standard HTTP caching rules are adhered to by the API server (e.g. responding with 304 Not Modified).
+
+##URI Format
+
+Resource URIs will generally follow a format similar to those shown below.
+
+* Resource Collection - `http://panelname.pdk.io/api/v1/{resource-name}`
+* Specific Resource - `http://panelname.pdk.io/api/v1/{resource-name}/{id}`
+* Related Resource Collection - `http://panelname.pdk.io/api/v1/{resource-name}/{id}/{related-resource}`
+* Specific Related Resource - `http://panelname.pdk.io/api/v1/{resource-name}/{id}/{related-resource}/{id}`
+
+## Topology
+There are a couple endpoints involved in successfully communicating with the panel.
+
+
+
+# Group Auth
+Before making any requests to the panel's API andpoint you will need an authentication token.
+Because the API 
 
 ## Auth [/auth]
 
