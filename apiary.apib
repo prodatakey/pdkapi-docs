@@ -13,7 +13,7 @@ The API conforms to many of the tenets of the REST style architecture and fully 
 
 This drives certain uniform architectural attributes of the API.
 
-##Authentication
+#Authentication
 
 Authenticating to this stateless API is handled by including an HTTP Authentication header in each request.
 Before making any requests to the panel's API andpoint you will need a Bearer token.
@@ -27,7 +27,7 @@ The Authorization header MUST be of the following format:
 `Authorization: Bearer {token-value}` 
 
 
-##Resource Operations
+#Resource Operations
 
 Standard CRUD operations on resources are performed using HTTP verbs.
 
@@ -36,12 +36,12 @@ Standard CRUD operations on resources are performed using HTTP verbs.
 * PUT - Update a resource
 * DELETE - Delete a resource
 
-##Cache Headers
+#Cache Headers
 
 The current state of a resource is identified by an opaque key in the ETag HTTP header of the response to a requested resource.
 This key can be used for change detection and intermediate caching. Standard HTTP caching rules are adhered to by the API server (e.g. responding with 304 Not Modified).
 
-##URI Format
+#URI Format
 
 Resource URIs will generally follow a format similar to those shown below.
 
