@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://pdk.io/api/v1
+HOST: https://{panel-name}.pdk.io/api/v1
 
 # PDK Panel API
 The PDK Panel API provides for programmatic access to CRUD operations on entities and a realtime event stream from the PDK Access Control system.
@@ -16,7 +16,16 @@ This drives certain uniform architectural attributes of the API.
 ##Authentication
 
 Authenticating to this stateless API is handled by including an HTTP Authentication header in each request.
-A Bearer token that is provided by the authentication system is used as the value of this header.
+Before making any requests to the panel's API andpoint you will need a Bearer token.
+This token represents your application's permission to access the API as delegated by the user.
+
+For instructions on retrieving a token for communicating with a panel's API, see the [Auth Server API documentation](http://docs.pdkauthapi.apiary.io/).
+
+Because the API is stateless, this Bearer token must be included in every request to the API.
+The Authorization header MUST be of the following format:
+
+`Authorization: Bearer {token-value}` 
+
 
 ##Resource Operations
 
@@ -41,17 +50,24 @@ Resource URIs will generally follow a format similar to those shown below.
 * Related Resource Collection - `http://panelname.pdk.io/api/v1/{resource-name}/{id}/{related-resource}`
 * Specific Related Resource - `http://panelname.pdk.io/api/v1/{resource-name}/{id}/{related-resource}/{id}`
 
-## Topology
-There are a couple endpoints involved in successfully communicating with the panel.
+# Filtering, Fields, and Sorting
+Most of the collection endpoints support a set of uniform query parameters that allow for filtering the data, selecting specific fields, and setting the sort order of the result.
 
+## Filtering
 
+## Fields
 
-# Group Auth
-Before making any requests to the panel's API andpoint you will need an authentication token.
-Because the API 
+## Sorting
 
-## Auth [/auth]
+# Group People
+A person entity represents the attributes of a person that will be interacting with the access control system.
+These attributes include things like a name, a list of credentials, list of group membership, and others. 
 
+## People Collection [/people]
+## List all People [GET]
++ Response 200 (application/json)
+
+    
 
 # Group Notes
 Notes related resources of the **Notes API**
