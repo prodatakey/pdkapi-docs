@@ -13,7 +13,7 @@ The API conforms to many of the tenets of the REST style architecture and fully 
 
 This drives certain uniform architectural attributes of the API.
 
-#Authentication
+# Authentication
 
 Authenticating to this stateless API is handled by including an HTTP Authentication header in each request.
 Before making any requests to the panel's API andpoint you will need a Bearer token.
@@ -27,7 +27,7 @@ The Authorization header MUST be of the following format:
 `Authorization: Bearer {token-value}` 
 
 
-#Resource Operations
+# Resource Operations
 
 Standard CRUD operations on resources are performed using HTTP verbs.
 
@@ -36,12 +36,12 @@ Standard CRUD operations on resources are performed using HTTP verbs.
 * PUT - Update a resource
 * DELETE - Delete a resource
 
-#Cache Headers
+# Cache Headers
 
-The current state of a resource is identified by an opaque key in the ETag HTTP header of the response to a requested resource.
-This key can be used for change detection and intermediate caching. Standard HTTP caching rules are adhered to by the API server (e.g. responding with 304 Not Modified).
+The current state of a resource is identified by standard HTTP caching mechanisms in the response to a requested resource (e.g. ETag, Last-Modified, cache-control).
+These headers can be used for change detection and intermediate caching. Standard HTTP caching rules are adhered to by the API server, for example .
 
-#URI Format
+# URI Format
 
 Resource URIs will generally follow a format similar to those shown below.
 
@@ -50,63 +50,40 @@ Resource URIs will generally follow a format similar to those shown below.
 * Related Resource Collection - `http://panelname.pdk.io/api/v1/{resource-name}/{id}/{related-resource}`
 * Specific Related Resource - `http://panelname.pdk.io/api/v1/{resource-name}/{id}/{related-resource}/{id}`
 
-# Filtering, Fields, and Sorting
-Most of the collection endpoints support a set of uniform query parameters that allow for filtering the data, selecting specific fields, and setting the sort order of the result.
-
-## Filtering
-
+# Collection Fields, Sorting, and Paging
+The collection endpoints support a set of uniform query parameters that allow for selecting specific fields, setting the sort order, and paging through the result set.
 ## Fields
 
 ## Sorting
 
+## Paging
+
 # Group People
 A person entity represents the attributes of a person that will be interacting with the access control system.
-These attributes include things like a name, a list of credentials, list of group membership, and others. 
+These attributes include things like their name, list of credentials, list of group memberships, and others. 
 
 ## People Collection [/people]
-## List all People [GET]
-+ Response 200 (application/json)
-
+### List all People [GET]
++ Request
+    + Headers
     
-
-# Group Notes
-Notes related resources of the **Notes API**
-
-## Notes Collection [/notes]
-### List all Notes [GET]
+            Authorization: Bearer {token}
+        
 + Response 200 (application/json)
 
-        [{
-          "id": 1, "title": "Jogging in park"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-office"
-        }]
+## Person [/people/{id}]
+A distinct person entity.
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    
+### Retrieve a Person [GET]
++ Response 200 (application/json)
 
-### Create a Note [POST]
-+ Request (application/json)
-
-        { "title": "Buy cheese and bread for breakfast." }
-
+### Create a Person [POST]
 + Response 201 (application/json)
 
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+### Update a Person [PUT]
++ Response 204
 
-## Note [/notes/{id}]
-A single Note object with all its details
-
-+ Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
-
-### Retrieve a Note [GET]
-+ Response 200 (application/json)
-
-    + Header
-
-            X-My-Header: The Value
-
-    + Body
-
-            { "id": 2, "title": "Pick-up posters from post-office" }
-
-### Remove a Note [DELETE]
+### Delete a Person [DELETE]
 + Response 204
