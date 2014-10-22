@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: https://panel-id.pdk.io/api/v1
+HOST: https://panel-id.pdk.io/api
 
 # PDK Panel API
 The PDK Panel API provides for programmatic access to CRUD operations on entities and a realtime event stream from the PDK Access Control system.
@@ -45,10 +45,10 @@ These headers can be used for change detection and intermediate caching. Standar
 
 Resource URIs will generally follow a format similar to those shown below.
 
-* Resource Collection - `http://panel-id.pdk.io/api/v1/{resource-name}`
-* Specific Resource - `http://panel-id.pdk.io/api/v1/{resource-name}/{id}`
-* Related Resource Collection - `http://panel-id.pdk.io/api/v1/{resource-name}/{id}/{related-resource}`
-* Specific Related Resource - `http://panel-id.pdk.io/api/v1/{resource-name}/{id}/{related-resource}/{id}`
+* Resource Collection - `https://panel-id.pdk.io/api/{resource-name}`
+* Specific Resource - `https://panel-id.pdk.io/api/{resource-name}/{id}`
+* Related Resource Collection - `https://panel-id.pdk.io/api/{resource-name}/{id}/{related-resource}`
+* Specific Related Resource - `https://panel-id.pdk.io/api/{resource-name}/{id}/{related-resource}/{id}`
 
 # Collection Fields, Sorting, and Paging
 The collection endpoints support a set of uniform query parameters that allow for selecting specific fields, setting the sort order, and paging through the result set.
@@ -60,7 +60,7 @@ The collection endpoints support a set of uniform query parameters that allow fo
 
 # Group People
 A person entity represents the attributes of a person that will be interacting with the access control system.
-These attributes include things like their name, list of credentials, list of group memberships, and others. 
+These attributes include the person's name, a list of their credentials, rules that apply to them, and a list of group memberships, among others. 
 
 ## People Collection [/people]
 ### List all People [GET]
@@ -86,4 +86,33 @@ A distinct person entity.
 + Response 204
 
 ### Delete a Person [DELETE]
++ Response 204
+
+# Group Groups
+A group entity represents a set of shared rules that apply to people that are members of the group.
+
+## Groups Collection [/groups]
+### List all Groups [GET]
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+        
++ Response 200 (application/json)
+
+## Group [/groups/{id}]
+A distinct group entity.
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
+    
+### Retrieve a Group [GET]
++ Response 200 (application/json)
+
+### Create a Group [POST]
++ Response 201 (application/json)
+
+### Update a Group [PUT]
++ Response 204
+
+### Delete a Group [DELETE]
 + Response 204
