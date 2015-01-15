@@ -110,7 +110,7 @@ These attributes include the person's name, a list of their credentials, rules t
 ## Person [/people/{id}]
 A distinct person entity.
 + Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
     
 ### Retrieve a Person [GET]
 + Response 200 (application/json)
@@ -127,7 +127,7 @@ A distinct person entity.
 ## Person Image [/people/{id}/image]
 A Person's profile image. For ease of use in `src` elements, the authentication token can be passed in the query string as `access_token`.
 + Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Person to retrieve the image for.
+    + id (required, string, `1`) ... Alphanumeric `id` of the Person to retrieve the image for.
 
 ### Retrieve the Image [GET]
 + Response 200 (image/jpeg)
@@ -147,7 +147,7 @@ A group entity represents a set of shared rules that apply to people that are me
 ## Group [/groups/{id}]
 A distinct group entity.
 + Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
+    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
     
 ### Retrieve a Group [GET]
 + Response 200 (application/json)
