@@ -65,16 +65,25 @@ These attributes include the person's name, a list of their credentials, rules t
 ## Persons Collection [/persons?page={page}&per_page={per_page}]
 ### List all Persons [GET]
 + Request
+    
+    + `page` (optional, number, 0) ... Number of page (by default 0).
+    + `per_page` (optional, number, 10) ... Count of items per page (by default 10).
+    
     + Headers
     
             Authorization: Bearer {token}
     
 + Response 200 (application/json)
+    
+    + `id` (required, number) ... Person's id.
+    + `name` (required, string) ...  Person's name. 
+    + `logoUrl` (required, string) ... Person's logo in Base64 format.
+    
     + Headers
 
             Link: <https://panel-id.pdk.io/people?page=2&per_page=10>; rel="next", <https://panel-id.pdk.io/panels?page=3&per_page=10>; rel="last"
             X-Total-Count: 25
-
+    
     + Body
     
             {
@@ -82,6 +91,7 @@ These attributes include the person's name, a list of their credentials, rules t
                             {
                                 "id": "10",
                                 "name": "Ted Froëdington"
+                                "logoUrl": "http://example.com/img.png"
                             }
                         ]
             }
@@ -96,11 +106,17 @@ Performes operations with a single person.
     
 + Response 200 (application/json)
 Successfull response.
+
+    + `id` (required, number) ... Person's id.
+    + `name` (required, string) ...  Person's name. 
+    + `logoUrl` (required, string) ... Person's logo in Base64 format. 
+
     + Body
     
             {
                 "id": "1",
-                "name": "Ted Froëdington"
+                "name": "Ted Froëdington",
+                "logoUrl": "http://example.com/img.png"
             }
 
 + Response 400 (application/json)
@@ -114,8 +130,24 @@ Successfull response.
 + Response 500 (application/json)
 
 ### Create a Person [POST /persons]
+
++ Request
+
+    + `name` (required, string) ...  Person's name. 
+    + `logoBase64` (optional, string) ... Person's logo in Base64 format. 
+    
+    + Body
+            
+            {
+                "name": "Ted Froëdington"
+                "logoBase64": "<Person's logo in Base64 format>"
+            }
+            
 + Response 200 (application/json)
-Successfull response. Response contains id of created entity.
+Successfull response.
+
+    + `id` (required, number) ... Id of created entity.
+
     + Body
     
             {
@@ -142,18 +174,60 @@ Person with the same name has already been existed.
 + Response 500 (application/json)
 
 ### Update a Person [PUT]
++ Request
+    
+    + name (optional, string) ...  Person's name. 
+    + logoBase64 (optional, string) ... Person's logo in Base64 format. 
+    
+    + Body
+    
+            {
+                "name": "Ted Froëdington"
+                "logoBase64": "data:image/gif;base64,R0lGODlhPQBEAPeoAJosM..."
+            }
+            
 + Response 204
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 422 (application/json)
+Person with the same name has already been existed.
+    + Body
+    
+            {
+                "code": 106,
+                "message": "Person with the same name has already been existed."
+            }  
+
++ Response 500 (application/json)
 
 ### Delete a Person [DELETE]
 + Response 204
 
-## Person Image [/people/{id}/image]
-A Person's profile image. For ease of use in `src` elements, the authentication token can be passed in the query string as `access_token`.
-+ Parameters
-    + id (required, string, `1`) ... Alphanumeric `id` of the Person to retrieve the image for.
++ Response 400 (application/json)
 
-### Retrieve the Image [GET]
-+ Response 200 (image/jpeg)
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 422 (application/json)
+Person with the same name has already been existed.
+    + Body
+    
+            {
+                "code": 106,
+                "message": "Person with the same name has already been existed."
+            }  
+
++ Response 500 (application/json)
 
 # Group Groups
 A group entity represents a set of shared rules that apply to people that are members of the group.
