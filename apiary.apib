@@ -62,13 +62,13 @@ The collection endpoints support a set of uniform query parameters that allow fo
 A person entity represents the attributes of a person that will be interacting with the access control system.
 These attributes include the person's name, a list of their credentials, rules that apply to them, and a list of group memberships, among others. 
 
-## People Collection [/people]
-### List all People [GET]
+## People Collection [/persons?page={1}&per_page={10}]
+### List all Persons [GET]
 + Request
     + Headers
     
             Authorization: Bearer {token}
-        
+    
 + Response 200 (application/json)
     + Headers
 
@@ -77,35 +77,26 @@ These attributes include the person's name, a list of their credentials, rules t
 
     + Body
     
-            [
-                {
-                    "id": "10",
-                    "name": "Ted Froëdington",
-                    "partitionid": "5",
-                    "cards": [{
-                        "id": "332",
-                        "description": "Fob",
-                        "cardnumber": "123456"
-                    }, {
-                        "id": "333",
-                        "description": "Wallet",
-                        "cardnumber": "123457"
-                    }]
-                },                 {
-                    "id": "11",
-                    "name": "Jerry Torrents",
-                    "partitionid": "5",
-                    "cards": [{
-                        "id": "334",
-                        "description": "Sticker",
-                        "cardnumber": "123458"
-                    }, {
-                        "id": "335",
-                        "description": "Wristband",
-                        "cardnumber": "123459"
-                    }]
-                }
-            ]
+            {
+                "items":[
+                            {
+                                "id": "10",
+                                "name": "Ted Froëdington"
+                            }
+                        ]
+            }
++ Response 500 (application/json)
+    + Headers
+
+            Link: <https://panel-id.pdk.io/people?page=2&per_page=10>; rel="next", <https://panel-id.pdk.io/panels?page=3&per_page=10>; rel="last"
+            X-Total-Count: 25
+
+    + Body
+    
+            {
+                "code": 100,
+                "message": "Unexpected error"
+            }    
 
 ## Person [/people/{id}]
 A distinct person entity.
