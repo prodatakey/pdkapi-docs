@@ -229,6 +229,66 @@ Person with the same name has already been existed.
 
 + Response 500 (application/json)
 
+## Group Person's photo
+Group of methods provide operations with Person's logo 
+## Photo [/persons/{id}/photo]
+
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    
+### Retrieve a photo [GET]
++ Request
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+            
++ Response 200 (application/json)
+
+    + `photoUrl` (required, string) ... Url of the photo.
+    
+    + Body
+    
+            {
+                "photoUrl": "http://example.com/photo.png"
+            }
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 500 (application/json)
+    
+### Create a photo [POST]
++ Request
+    
+    + 'photoBase64' (required, string) ... Photo in Base64 format.
+    
+    + Body
+    
+            {
+                "photoBase64: "data:image/gif;base64,R0lGODlhPQBEAPeoAJosM..."
+            }
++ Response 204
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 422 (application/json)
+
++ Response 500 (application/json)
+
+
+
 # Group Groups
 A group entity represents a set of shared rules that apply to people that are members of the group.
 
