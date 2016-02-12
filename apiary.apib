@@ -62,7 +62,7 @@ The collection endpoints support a set of uniform query parameters that allow fo
 A person entity represents the attributes of a person that will be interacting with the access control system.
 These attributes include the person's name, a list of their credentials, rules that apply to them, and a list of group memberships, among others. 
 
-## People Collection [/persons?page={page}&per_page={per_page}]
+## Persons Collection [/persons?page={page}&per_page={per_page}]
 ### List all Persons [GET]
 + Request
     + Headers
@@ -87,23 +87,59 @@ These attributes include the person's name, a list of their credentials, rules t
             }
 + Response 500 (application/json)
 
-    + Body
+## Person [/persons/{id}]
+Performes operations with a single person.
     
-            {
-                "code": 100,
-                "message": "Unexpected error"
-            }    
-
-## Person [/people/{id}]
-A distinct person entity.
+### Retrieve a Person [GET]
 + Parameters
     + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
     
-### Retrieve a Person [GET]
 + Response 200 (application/json)
+Successfull response.
+    + Body
+    
+            {
+                "id": "1",
+                "name": "Ted Froëdington"
+            }
 
-### Create a Person [POST]
-+ Response 201 (application/json)
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 500 (application/json)
+
+### Create a Person [POST /persons]
++ Response 200 (application/json)
+Successfull response. Response contains id of created entity.
+    + Body
+    
+            {
+                "id": "1",
+            }
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 422 (application/json)
+Person with the same name has already been existed.
+    + Body
+    
+            {
+                "code": 106,
+                "message": "Person with the same name has already been existed."
+            }  
+
++ Response 500 (application/json)
 
 ### Update a Person [PUT]
 + Response 204
