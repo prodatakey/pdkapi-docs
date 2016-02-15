@@ -77,7 +77,6 @@ These attributes include the person's name, a list of their credentials, rules t
     
     + `id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name. 
-    + `logoUrl` (required, string) ... Person's logo in Base64 format.
     
     + Headers
 
@@ -91,7 +90,6 @@ These attributes include the person's name, a list of their credentials, rules t
                             {
                                 "id": "10",
                                 "name": "Ted Froëdington"
-                                "logoUrl": "http://example.com/img.png"
                             }
                         ]
             }
@@ -109,14 +107,12 @@ Successfull response.
 
     + `id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name. 
-    + `logoUrl` (required, string) ... Person's logo in Base64 format. 
 
     + Body
     
             {
                 "id": "1",
-                "name": "Ted Froëdington",
-                "logoUrl": "http://example.com/img.png"
+                "name": "Ted Froëdington"
             }
 
 + Response 400 (application/json)
@@ -134,13 +130,11 @@ Successfull response.
 + Request
 
     + `name` (required, string) ...  Person's name. 
-    + `logoBase64` (optional, string) ... Person's logo in Base64 format. 
     
     + Body
             
             {
                 "name": "Ted Froëdington"
-                "logoBase64": "<Person's logo in Base64 format>"
             }
             
 + Response 200 (application/json)
@@ -151,7 +145,7 @@ Successfull response.
     + Body
     
             {
-                "id": "1",
+                "id": "1"
             }
 
 + Response 400 (application/json)
@@ -177,13 +171,11 @@ Person with the same name has already been existed.
 + Request
     
     + name (optional, string) ...  Person's name. 
-    + logoBase64 (optional, string) ... Person's logo in Base64 format. 
     
     + Body
     
             {
                 "name": "Ted Froëdington"
-                "logoBase64": "data:image/gif;base64,R0lGODlhPQBEAPeoAJosM..."
             }
             
 + Response 204
@@ -229,29 +221,149 @@ Person with the same name has already been existed.
 
 + Response 500 (application/json)
 
-## Group Person's photo
-Group of methods provide operations with Person's logo 
+# Group Photo
+A group provides ability to manage Person's photo.
+
 ## Photo [/persons/{id}/photo]
 
-+ Parameters
-    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    
-### Retrieve a photo [GET]
+### Retrieve a Photo [GET]
 + Request
+    + Parameters
+        + `id` (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+    + photoURL (required, string) ... URL of Person's photo.
+
+    + Body
+
+            {
+                "photoUrl": "www.example.com/photo.png"
+            }
+            
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 500 (application/json)
+    
+### Create a Photo [POST]
++ Request
+    + Parameters
+        + `id` (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+        + `photoBase64` (required, string) ... Person's photo in Base64 format
+        
+    + Headers
+    
+            Authorization: Bearer {token}
+    
+    + Body
+    
+            {
+                "photoBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgA..."
+            }
+
++ Response 204 (application/json)
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 500 (application/json)
+
+### Delete a Photo [DELETE]
++ Request
+    + Parameters
+        + `id` (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+        
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 204 (application/json)
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 500 (application/json)
+
+# Group Card
+A group provides operations with Person's cards.
+
+## Card [/persons/{id}/card]
+
+### Retrieve a Card [GET]
++ Request
+    + Parameters
+        + `id` (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+    + `id` (required, number, `1`) ... Alphanumeric `id` of the Card.
+    + `description` (optional, string) ... Card description (max length 255).
+    + `cardNumber` (required, number) ... Card number. 
+    
+    + Body
+    
+            {
+                "items": [
+                            {
+                                "id": "1",
+                                "description": "Card description",
+                                "cardNumber": "123"
+                            }
+                        ]
+            }
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 404 (application/json)
+
++ Response 500 (application/json)
+
+### Create a Card [POST]
++ Request
+    + Parameters
+        + `id` (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+        + `description` (optional, string) ... Card description (max length 255).
+        + `cardNumber` (required, number) ... Card number. 
     
     + Headers
     
             Authorization: Bearer {token}
             
-+ Response 200 (application/json)
-
-    + `photoUrl` (required, string) ... Url of the photo.
-    
     + Body
-    
+        
             {
-                "photoUrl": "http://example.com/photo.png"
+                "description": "Card description",
+                "cardNumber": "123"
             }
+        
+
++ Response 204 (application/json)
 
 + Response 400 (application/json)
 
@@ -262,18 +374,14 @@ Group of methods provide operations with Person's logo
 + Response 404 (application/json)
 
 + Response 500 (application/json)
-    
-### Create a photo [POST]
+
+### Delete a Card [DELETE /persons/{person_id}/card/{card_id}]
 + Request
+    + Headers
     
-    + 'photoBase64' (required, string) ... Photo in Base64 format.
-    
-    + Body
-    
-            {
-                "photoBase64: "data:image/gif;base64,R0lGODlhPQBEAPeoAJosM..."
-            }
-+ Response 204
+            Authorization: Bearer {token}
+
++ Response 204 (application/json)
 
 + Response 400 (application/json)
 
@@ -283,11 +391,7 @@ Group of methods provide operations with Person's logo
 
 + Response 404 (application/json)
 
-+ Response 422 (application/json)
-
 + Response 500 (application/json)
-
-
 
 # Group Groups
 A group entity represents a set of shared rules that apply to people that are members of the group.
