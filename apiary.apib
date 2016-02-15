@@ -247,6 +247,404 @@ Person with the same name already exists.
 
 + Response 500 (application/json)
 
+## Person Rules  [/persons/{id}/rules]
+Managing rules for a person.
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+
+### Get Rules Collection for a Person [GET]
+
++ Request
+    
+    + `page` (optional, number, 0) ... Number of page (by default 0).
+    + `per_page` (optional, number, 10) ... Count of items per page (by default 10).
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+        
+        {
+            "items": [
+                {
+                    "id": "1",
+                    "name": "John Smith",
+                    "rules": [
+                        {
+                            "doorRules": [
+                                {
+                                    "id": "1",
+                                    "allow": "true",
+                                    "startTime": "12:00",
+                                    "stopTime": "23:00",
+                                    "recurring": [
+                                        "Monday",
+                                        "Tuesday"
+                                    ],
+                                    "singleDate": "2016-02-23",
+                                    "doors": [
+                                        {
+                                            "id": "1",
+                                            "description": "Door101"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "elevatorRules": [
+                                {
+                                    "id": "2",
+                                    "startTime": "12:00",
+                                    "stopTime": "23:00",
+                                    "recurring": [
+                                        "Monday",
+                                        "Tuesday"
+                                    ],
+                                    "singleDate": "2016-02-23",
+                                    "floorGroups": [
+                                        {
+                                            "id": "1",
+                                            "name": "Group3",
+                                            "floors": [
+                                                {
+                                                    "id": "12",
+                                                    "description": "Door102"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "eventRules": [
+                                {
+                                    "id": "3",
+                                    "name": "MyEventRule",
+                                    "triggerType": "When allowed",
+                                    "action": "Delay Open",
+                                    "delay": "0:25:43",
+                                    "startTime": "12:00",
+                                    "stopTime": "23:00",
+                                    "recurring": [
+                                        "Monday",
+                                        "Tuesday"
+                                    ],
+                                    "singleDate": "2016-02-23",
+                                    "sourceDoors": [
+                                        {
+                                            "id": "1",
+                                            "description": "DoorOnTheFirstFloor"
+                                        }
+                                    ],
+                                    "targetDoors": [
+                                        {
+                                            "id": "2",
+                                            "description": "DoorOnTheSecondFloor"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
++ Response 401 (application/json)
++ Response 500 (application/json)
+
+### Add Door Rule for a Person  [POST /persons/{id}/rules/door]
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
++ Request (application/json)
+    +`recurring` (conditional required, array) List of days of a week when rule should be performed
+    
+    +`singleDate` (conditional required, string) Day when rule should be performed
+    
+    + Body
+    
+            {
+                "allow": "true",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "doors": [
+                    {
+                        "id": "1"
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+    + `id` (required, number) ... Id of created rule.
+
+    + Body
+    
+            {
+                "id":"1"
+            }
++ Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Add Elevator Rule for a Person  [POST /persons/{id}/rules/elevator]
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
++ Request (application/json)
+    +`recurring` (conditional required, array) List of days of a week when rule should be performed
+    
+    +`singleDate` (conditional required, string) Day when rule should be performed
+
+    + Body
+    
+            {
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "floorGroups": [
+                    {
+                        "id": "1"
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+    + `id` (required, number) ... Id of created rule.
+
+    + Body
+    
+            {
+                "id":"1"
+            }
++ Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Add Event Rule for a Person  [POST /persons/{id}/rules/event]
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
++ Request (application/json)
+    +`recurring` (conditional required, array) List of days of a week when rule should be performed
+    
+    +`singleDate` (conditional required, string) Day when rule should be performed
+    
+    +`delay` (conditional required, string) Time to wait before open/close door
+
+    + Body
+    
+            {
+                "name": "MyEventRule",
+                "triggerType": "When allowed",
+                "action": "Delay Open",
+                "delay": "0:25:43",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "sourceDoors": [
+                    {
+                        "id": "1"
+                    }
+                ],
+                "targetDoors": [
+                    {
+                        "id": "2"
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+    + `id` (required, number) ... Id of created rule.
+
+    + Body
+    
+            {
+                "id":"1"
+            }
+            + Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update a Door Rule for a Person [PUT /persons/{pid}/rules/door/{rid}]
+
++ Parameters
+    + pid (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            {
+                "allow": "true",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "doors": [
+                    {
+                        "id": "1"
+                    }
+                ]
+            }
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update an Elevator Rule for a Person [PUT /persons/{pid}/rules/elevator/{rid}]
+
++ Parameters
+    + pid (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            {
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "floorGroups": [
+                    {
+                        "id": "1"
+                    }
+                ]
+            }
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update an Event Rule for a Person [PUT /persons/{pid}/rules/event/{rid}]
+
++ Parameters
+    + pid (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            {
+                "name": "MyEventRule",
+                "triggerType": "When allowed",
+                "action": "Delay Open",
+                "delay": "0:25:43",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "sourceDoors": [
+                    {
+                        "id": "1"
+                    }
+                ],
+                "targetDoors": [
+                    {
+                        "id": "2"
+                    }
+                ]
+            }
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+
+### Delete a Door Rule for a Person [DELETE /persons/{pid}/rules/door/{rid}]
++ Parameters
+    + pid (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Delete a Door Rule for a Person [DELETE /persons/{pid}/rules/elevator/{rid}]
++ Parameters
+    + pid (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Delete a Door Rule for a Person [DELETE /persons/{pid}/rules/event/{rid}]
++ Parameters
+    + pid (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
 # Group Photo
 A group provides ability to manage Person's photo.
 
@@ -514,13 +912,13 @@ A group entity represents a set of shared rules that apply to people that are me
     + Body
 
             {
-                "items":[
-                            {
-                                "id": "1",
-                                "name": "group1"
-                            }
-                        ]
-            }
+                "items": [
+                    {
+                        "id": "1",
+                        "name": "group1"
+                    }
+                ]
+            }            
 
 + Response 401 (application/json)
 + Response 500 (application/json)
@@ -638,36 +1036,106 @@ Managing rules for a group.
 
 ### Get Rules Collection for a Group [GET]
 
-+ Request (application/json)
++ Request
+    
+    + `page` (optional, number, 0) ... Number of page (by default 0).
+    + `per_page` (optional, number, 10) ... Count of items per page (by default 10).
+    
+    + Headers
+    
+            Authorization: Bearer {token}
 
 + Response 200 (application/json)
         
         {
-            "id":"groupId",
-            [
-                {
-                    "doors":
-                        [
-                            {
-                            }
-                        ]
-                },
-                {   
-                    "elevators":
-                        [
-                            {
-                            }
-                        ]
-                },
-                {
-                    "events":
-                        [
-                            {
-                            }
-                        ]
-                }
-            ]
+            "items": [
+                {
+                    "id": "1",
+                    "name": "Group1",
+                    "rules": [
+                        {
+                            "doorRules": [
+                                {
+                                    "id": "1",
+                                    "allow": "true",
+                                    "startTime": "12:00",
+                                    "stopTime": "23:00",
+                                    "recurring": [
+                                        "Monday",
+                                        "Tuesday"
+                                    ],
+                                    "singleDate": "2016-02-23",
+                                    "doors": [
+                                        {
+                                            "id": "1",
+                                            "description": "Door101"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "elevatorRules": [
+                                {
+                                    "id": "2",
+                                    "startTime": "12:00",
+                                    "stopTime": "23:00",
+                                    "recurring": [
+                                        "Monday",
+                                        "Tuesday"
+                                    ],
+                                    "singleDate": "2016-02-23",
+                                    "floorGroups": [
+                                        {
+                                            "id": "1",
+                                            "name": "Group3",
+                                            "floors": [
+                                                {
+                                                    "id": "12",
+                                                    "description": "Door102"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "eventRules": [
+                                {
+                                    "id": "3",
+                                    "name": "MyEventRule",
+                                    "triggerType": "When allowed",
+                                    "action": "Delay Open",
+                                    "delay": "0:25:43",
+                                    "startTime": "12:00",
+                                    "stopTime": "23:00",
+                                    "recurring": [
+                                        "Monday",
+                                        "Tuesday"
+                                    ],
+                                    "singleDate": "2016-02-23",
+                                    "sourceDoors": [
+                                        {
+                                            "id": "1",
+                                            "description": "DoorOnTheFirstFloor"
+                                        }
+                                    ],
+                                    "targetDoors": [
+                                        {
+                                            "id": "2",
+                                            "description": "DoorOnTheSecondFloor"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
++ Response 401 (application/json)
++ Response 500 (application/json)
 
 ### Add Door Rule for a Group  [POST /groups/{id}/rules/door]
 + Parameters
@@ -680,25 +1148,35 @@ Managing rules for a group.
     + Body
     
             {
-                "allow":"true",
-                "startTime":"12:00",
-                "stopTime":"23:00",
-                "recurring":
-                    [
-                        "Monday", 
-                        "Tuesday"
-                    ],
-                "singleDate":"2016-02-23T18:25:43.511Z",
-                "doors":
-                    [
-                        {
-                            "id":"1"
-                        }
-                    ]
+                "allow": "true",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "doors": [
+                    {
+                        "id": "1"
+                    }
+                ]
             }
 
 + Response 200 (application/json)
-        
+    + `id` (required, number) ... Id of created rule.
+
+    + Body
+    
+            {
+                "id":"1"
+            }
++ Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
 ### Add Elevator Rule for a Group  [POST /groups/{id}/rules/elevator]
 + Parameters
     + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
@@ -710,23 +1188,33 @@ Managing rules for a group.
     + Body
     
             {
-                "startTime":"12:00",
-                "stopTime":"23:00",
-                "recurring":
-                    [
-                        "Monday", 
-                        "Tuesday"
-                    ],
-                "singleDate":"2016-02-23T18:25:43.511Z",
-                "floorGroups":
-                    [
-                        {
-                            "id":"1"
-                        }
-                    ]
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "floorGroups": [
+                    {
+                        "id": "1"
+                    }
+                ]
             }
 
 + Response 200 (application/json)
+    + `id` (required, number) ... Id of created rule.
+
+    + Body
+    
+            {
+                "id":"1"
+            }
++ Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
 
 ### Add Event Rule for a Group  [POST /groups/{id}/rules/event]
 + Parameters
@@ -734,31 +1222,207 @@ Managing rules for a group.
 + Request (application/json)
     +`recurring` (conditional required, array) List of days of a week when rule should be performed
     
-    +`singleDate` (conditional required, string) Day when rule should be performed    
+    +`singleDate` (conditional required, string) Day when rule should be performed
+    
+    +`delay` (conditional required, string) Time to wait before open/close door
 
     + Body
     
             {
-                "name":"MyEventRule",
-                "triggerType":"When allowed",
-                "action":"Send Email",
-                "delay":"",
-                "allow":"true",
-                "startTime":"12:00",
-                "stopTime":"23:00",
-                "recurring":
-                    [
-                        "Monday", 
-                        "Tuesday"
-                    ],
-                "singleDate":"2016-02-23T18:25:43.511Z",
-                "doors":
-                    [
-                        {
-                        },
-                        {
-                        }
-                    ]
+                "name": "MyEventRule",
+                "triggerType": "When allowed",
+                "action": "Delay Open",
+                "delay": "0:25:43",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "sourceDoors": [
+                    {
+                        "id": "1"
+                    }
+                ],
+                "targetDoors": [
+                    {
+                        "id": "2"
+                    }
+                ]
             }
 
 + Response 200 (application/json)
+    + `id` (required, number) ... Id of created rule.
+
+    + Body
+    
+            {
+                "id":"1"
+            }
+            + Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update a Door Rule for a Group [PUT /groups/{gid}/rules/door/{rid}]
+
++ Parameters
+    + gid (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            {
+                "allow": "true",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "doors": [
+                    {
+                        "id": "1"
+                    }
+                ]
+            }
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update an Elevator Rule for a Group [PUT /groups/{gid}/rules/elevator/{rid}]
+
++ Parameters
+    + gid (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            {
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "floorGroups": [
+                    {
+                        "id": "1"
+                    }
+                ]
+            }
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update an Event Rule for a Group [PUT /groups/{gid}/rules/event/{rid}]
+
++ Parameters
+    + gid (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            {
+                "name": "MyEventRule",
+                "triggerType": "When allowed",
+                "action": "Delay Open",
+                "delay": "0:25:43",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "sourceDoors": [
+                    {
+                        "id": "1"
+                    }
+                ],
+                "targetDoors": [
+                    {
+                        "id": "2"
+                    }
+                ]
+            }
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+
+### Delete a Door Rule for a Group [DELETE /groups/{gid}/rules/door/{rid}]
++ Parameters
+    + gid (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Delete a Door Rule for a Group [DELETE /groups/{gid}/rules/elevator/{rid}]
++ Parameters
+    + gid (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Delete a Door Rule for a Group [DELETE /groups/{gid}/rules/event/{rid}]
++ Parameters
+    + gid (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + rid (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
