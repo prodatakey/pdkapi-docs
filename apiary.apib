@@ -102,7 +102,10 @@ These attributes include the person's name, a list of their credentials, rules t
 + Response 200 (application/json)
     
     + `id` (required, number) ... Person's id.
-    + `name` (required, string) ...  Person's name. 
+    + `name` (required, string) ...  Person's name.
+    + `enabled` (optional, string) ... Person's account mode. True by default.
+    + `activedate` (optional, string) ...  Person's account active date. Null by default. 
+    + `expdate` (optional, string) ... Person's account experation date. Null by default.
     
     + Headers
 
@@ -115,7 +118,10 @@ These attributes include the person's name, a list of their credentials, rules t
                 "items":[
                             {
                                 "id": "10",
-                                "name": "Ted Froëdington"
+                                "name": "Ted Froëdington",
+                                "enabled":"true",
+                                "activedate":"2016-03-23T18:25:43.511Z",
+                                "expdate":"2016-04-23T18:25:43.511Z"
                             }
                         ]
             }
@@ -138,7 +144,10 @@ Successfull response.
     
             {
                 "id": "1",
-                "name": "Ted Froëdington"
+                "name": "Ted Froëdington",
+                "enabled":"true",
+                "activedate":"2016-03-23T18:25:43.511Z",
+                "expdate":"2016-04-23T18:25:43.511Z"
             }
 
 + Response 400 (application/json)
@@ -160,7 +169,10 @@ Successfull response.
     + Body
             
             {
-                "name": "Ted Froëdington"
+                "name": "Ted Froëdington",
+                "enabled":"true",
+                "activedate":"2016-03-23T18:25:43.511Z",
+                "expdate":"2016-04-23T18:25:43.511Z"
             }
             
 + Response 200 (application/json)
@@ -201,7 +213,10 @@ Person with the same name already exists.
     + Body
     
             {
-                "name": "Ted Froëdington"
+                "name": "Ted Froëdington",
+                "enabled":"true",
+                "activedate":"2016-03-23T18:25:43.511Z",
+                "expdate":"2016-04-23T18:25:43.511Z"
             }
             
 + Response 204
@@ -1798,6 +1813,136 @@ A group provides ability to manage Auto Open Rules.
 ### Delete an Auto Open Rule [DELETE /auto_open/{id}]
 + Parameters
     + id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+# Group Elevators
+A group provides ability to manage Auto Open Rules.
+
+## Elevators Collection [/elevators]
+
+### Get Elevators Collection [GET /elevators?page={page}&per_page={per_page}]
+
++ Request
+
+    + `page` (optional, number, 0) ... Number of page (by default 0).
+    + `per_page` (optional, number, 10) ... Count of items per page (by default 10).
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/people?page=2&per_page=10>; rel="next", <https://panel-id.pdk.io/panels?page=3&per_page=10>; rel="last"
+            X-Total-Count: 25
+
+    + Body
+
+            {
+                "items": [
+                    {
+                        "id":"1",
+                        "name": "Elevator1",
+                        "readerPort": {
+                                "id": "1",
+                                "description": "Door11"
+                            },
+                        "floors": [
+                            {
+                                "id": "1",
+                                "description": "Door112"
+                            }
+                        ]
+                    }
+                ]
+            }            
+
++ Response 401 (application/json)
++ Response 500 (application/json)
+
+### Add Elevator  [POST /elevators]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "name": "Elevator1",
+                "readerPort": {
+                    "id": "1",
+                    "description": "Door11"
+                },
+                "floors": [
+                    {
+                        "id": "1",
+                        "description": "Door112"
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+    + `id` (required, number) ... Id of created elevator.
+
+    + Body
+    
+            {
+                "id":"1"
+            }
++ Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update an Auto Open Rule [PUT /elevators/{id}]
+
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Elevator to perform the action on.
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+            
+    + Body
+    
+            {
+                "name": "Elevator1",
+                "readerPort": {
+                    "id": "1",
+                    "description": "Door11"
+                },
+                "floors": [
+                    {
+                        "id": "1",
+                        "description": "Door112"
+                    }
+                ]
+            }
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Delete an Auto Open Rule [DELETE /auto_open/{id}]
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Elevator to perform the action on.
 + Request
     + Headers
     
