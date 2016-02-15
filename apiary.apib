@@ -50,6 +50,32 @@ Resource URIs will generally follow a format similar to those shown below.
 * Related Resource Collection - `https://panel-id.pdk.io/api/{resource-name}/{id}/{related-resource}`
 * Specific Related Resource - `https://panel-id.pdk.io/api/{resource-name}/{id}/{related-resource}/{id}`
 
+# Response Codes
+##HTTP Codes
+* 200 - OK status with json body
+* 204 - OK status without body
+* 400 - Bad Request
+* 401 - Unauthorized
+* 403 - Forbidden
+* 404 - Not Found
+* 422 - Unpossible Entity
+* 500 - Internal Server Error
+
+##Error json format
+    {
+        "code" : "106",
+        "message":"Person already exists"    
+    }
+
+##API Codes
+* 100 - Inconsistent request
+* 101 - Unauthorized
+* 102 - Access denied
+* 103 - Resourse not found
+* 104 - Server error
+* 105 - Unconsistent door rule
+* 106 - Entity already exists
+
 # Collection Fields, Sorting, and Paging
 The collection endpoints support a set of uniform query parameters that allow for selecting specific fields, setting the sort order, and paging through the result set.
 ## Fields
@@ -77,6 +103,7 @@ These attributes include the person's name, a list of their credentials, rules t
     
     + `id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name. 
+    + `logoUrl` (required, string) ... Person's logo in Base64 format.
     
     + Headers
 
@@ -90,6 +117,7 @@ These attributes include the person's name, a list of their credentials, rules t
                             {
                                 "id": "10",
                                 "name": "Ted Froëdington"
+                                "logoUrl": "http://example.com/img.png"
                             }
                         ]
             }
@@ -107,12 +135,14 @@ Successfull response.
 
     + `id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name. 
+    + `logoUrl` (required, string) ... Person's logo in Base64 format. 
 
     + Body
     
             {
                 "id": "1",
-                "name": "Ted Froëdington"
+                "name": "Ted Froëdington",
+                "logoUrl": "http://example.com/img.png"
             }
 
 + Response 400 (application/json)
@@ -130,11 +160,13 @@ Successfull response.
 + Request
 
     + `name` (required, string) ...  Person's name. 
+    + `logoBase64` (optional, string) ... Person's logo in Base64 format. 
     
     + Body
             
             {
                 "name": "Ted Froëdington"
+                "logoBase64": "<Person's logo in Base64 format>"
             }
             
 + Response 200 (application/json)
@@ -145,7 +177,7 @@ Successfull response.
     + Body
     
             {
-                "id": "1"
+                "id": "1",
             }
 
 + Response 400 (application/json)
@@ -157,12 +189,12 @@ Successfull response.
 + Response 404 (application/json)
 
 + Response 422 (application/json)
-Person with the same name has already been existed.
+Person with the same name already exists.
     + Body
     
             {
                 "code": 106,
-                "message": "Person with the same name has already been existed."
+                "message": "Person already exists."
             }  
 
 + Response 500 (application/json)
@@ -171,11 +203,13 @@ Person with the same name has already been existed.
 + Request
     
     + name (optional, string) ...  Person's name. 
+    + logoBase64 (optional, string) ... Person's logo in Base64 format. 
     
     + Body
     
             {
                 "name": "Ted Froëdington"
+                "logoBase64": "data:image/gif;base64,R0lGODlhPQBEAPeoAJosM..."
             }
             
 + Response 204
@@ -189,12 +223,12 @@ Person with the same name has already been existed.
 + Response 404 (application/json)
 
 + Response 422 (application/json)
-Person with the same name has already been existed.
+Person with the same name already exists.
     + Body
     
             {
                 "code": 106,
-                "message": "Person with the same name has already been existed."
+                "message": "Person already exists."
             }  
 
 + Response 500 (application/json)
@@ -211,12 +245,12 @@ Person with the same name has already been existed.
 + Response 404 (application/json)
 
 + Response 422 (application/json)
-Person with the same name has already been existed.
+Person with the same name already exists.
     + Body
     
             {
                 "code": 106,
-                "message": "Person with the same name has already been existed."
+                "message": "Person already exists."
             }  
 
 + Response 500 (application/json)
@@ -397,27 +431,264 @@ A group provides operations with Person's cards.
 A group entity represents a set of shared rules that apply to people that are members of the group.
 
 ## Groups Collection [/groups]
-### List all Groups [GET]
+
+### List All Groups [GET]
++ Request
+
+    + `page` (optional, number, 0) ... Number of page (by default 0).
+    + `per_page` (optional, number, 10) ... Count of items per page (by default 10).
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/people?page=2&per_page=10>; rel="next", <https://panel-id.pdk.io/panels?page=3&per_page=10>; rel="last"
+            X-Total-Count: 25
+
+    + Body
+
+            {
+                "items":[
+                            {
+                                "id": "1",
+                                "name": "group1"
+                            }
+                        ]
+            }
+
++ Response 401 (application/json)
++ Response 500 (application/json)
+
+## Group [/groups/{id}]
+A distinct group entity.
+
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+
+### Retrieve a Group [GET]
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Group id.
+    + `name` (required, string) ...  Group name.
+
+    + Body
+    
+            {
+                "id": "1",
+                "name": "group1"
+            }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+    
+### Create a Group [POST /groups]
+
++ Request
+    +`name` (required, string) Group name
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            {
+                "name": "group1"
+            }
+
++ Response 200 (application/json)
+    + `id` (required, number) ... Id of created group.
+    + Body
+
+            {
+                "id": "1"
+            }
++ Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 422 (application/json)
+Group with the same name already exists. API Code 106.
+    + Body
+    
+            {
+                "code": 106,
+                "message": "Group already exists"
+            }
++ Response 500 (application/json)
+            
+### Update a Group [PUT]
+
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+
++ Request
+    +`name` (required, string) Group name
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            {
+                "name": "group1"
+            }
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 422 (application/json)
+Group with the same name already exists. API Code 106.
+    + Body
+    
+            {
+                "code": 106,
+                "message": "Group already exists"
+            }
++ Response 500 (application/json)
+
+
+### Delete a Group [DELETE]
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
 + Request
     + Headers
     
             Authorization: Bearer {token}
-        
-+ Response 200 (application/json)
 
-## Group [/groups/{id}]
-A distinct group entity.
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+## Group Rules  [/groups/{id}/rules]
+Managing rules for a group.
 + Parameters
     + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+
+### Get Rules Collection for a Group [GET]
+
++ Request (application/json)
+
++ Response 200 (application/json)
+        
+        {
+            "id":"groupId",
+            [
+                {
+                    "doors":
+                        [
+                            {
+                            }
+                        ]
+                },
+                {   
+                    "elevators":
+                        [
+                            {
+                            }
+                        ]
+                },
+                {
+                    "events":
+                        [
+                            {
+                            }
+                        ]
+                }
+            ]
+        }
+
+### Add Door Rule for a Group  [POST /groups/{id}/rules/door]
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
++ Request (application/json)
+    +`recurring` (conditional required, string) List of days when rule should be performed
     
-### Retrieve a Group [GET]
+    +`singleDate` (conditional required, string) Day when rule should be performed
+    
+    + Body
+    
+            {
+                "allow":"true",
+                "startTime":"12:00AM",
+                "stopTime":"2:00PM",
+                "recurring":
+                    [
+                        "Monday", 
+                        "Tuesday"
+                    ],
+                "singleDate":"",
+                "doors":
+                    [
+                        {
+                            "id":"1"
+                        }
+                    ]
+            }
+
++ Response 200 (application/json)
+        
+### Add Elevator Rule for a Group  [POST /groups/{id}/rules/elevator]
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
++ Request (application/json)
+    +`recurring` (conditional required, string) List of days when rule should be performed
+    
+    +`singleDate` (conditional required, string) Day when rule should be performed
+
+    + Body
+    
+            {
+                "startTime":"12:00AM",
+                "stopTime":"2:00PM",
+                "recurring":"",
+                "singleDate":"",
+                "floorGroups":
+                    [
+                        {
+                            "id":"1"
+                        }
+                    ]
+            }
+
 + Response 200 (application/json)
 
-### Create a Group [POST]
-+ Response 201 (application/json)
+### Add Event Rule for a Group  [POST /groups/{id}/rules/event]
++ Parameters
+    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
++ Request (application/json)
+    +`recurring` (conditional required, string) List of days when rule should be performed
+    
+    +`singleDate` (conditional required, string) Day when rule should be performed    
 
-### Update a Group [PUT]
-+ Response 204
+    + Body
+    
+            {
+                "name":"",
+                "triggerType":"",
+                "action":"",
+                "delay":"",
+                "allow":"",
+                "startTime":"12:00AM",
+                "stopTime":"2:00PM",
+                "recurring":"",
+                "singleDate":"",
+                "doors":
+                    [
+                        {
+                        },
+                        {
+                        }
+                    ]
+            }
 
-### Delete a Group [DELETE]
-+ Response 204
++ Response 200 (application/json)
