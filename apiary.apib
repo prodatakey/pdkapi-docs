@@ -340,7 +340,7 @@ A group provides ability to manage Person's photo.
 # Group Card
 A group provides operations with Person's cards.
 
-## Card [/persons/{id}/card]
+## Card [/persons/{id}/cards]
 
 ### Retrieve a Card [GET]
 + Request
@@ -426,6 +426,76 @@ A group provides operations with Person's cards.
 + Response 404 (application/json)
 
 + Response 500 (application/json)
+
+# Group Person Groups
+
+## Person Groups [/persons/{id}/groups]
+
+### Retrieve Person Groups [GET]
++ Request
+    + Parameters
+        + `id` (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+    + Body
+    
+            {
+                "items": [
+                            {
+                                "id": "1",
+                                "name": "Floor 1"
+                            }
+                        ]
+            }
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 500 (application/json)
+
+### Add Person to Group [POST]
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+    
+    + Body
+        
+            {
+                "id": "1"
+            }
+            
++ Response 204 (application/json)
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 500 (application/json)
+
+### Remove Person from Group [DELETE /persons/{person_id}/groups/{group_id}]
++ Request
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 204 (application/json)
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 500 (application/json)    
 
 # Group Groups
 A group entity represents a set of shared rules that apply to people that are members of the group.
@@ -611,7 +681,7 @@ Managing rules for a group.
 + Parameters
     + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
 + Request (application/json)
-    +`recurring` (conditional required, string) List of days when rule should be performed
+    +`recurring` (conditional required, array) List of days of a week when rule should be performed
     
     +`singleDate` (conditional required, string) Day when rule should be performed
     
@@ -619,14 +689,14 @@ Managing rules for a group.
     
             {
                 "allow":"true",
-                "startTime":"12:00AM",
-                "stopTime":"2:00PM",
+                "startTime":"12:00",
+                "stopTime":"23:00",
                 "recurring":
                     [
                         "Monday", 
                         "Tuesday"
                     ],
-                "singleDate":"",
+                "singleDate":"2016-02-23T18:25:43.511Z",
                 "doors":
                     [
                         {
@@ -641,17 +711,21 @@ Managing rules for a group.
 + Parameters
     + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
 + Request (application/json)
-    +`recurring` (conditional required, string) List of days when rule should be performed
+    +`recurring` (conditional required, array) List of days of a week when rule should be performed
     
     +`singleDate` (conditional required, string) Day when rule should be performed
 
     + Body
     
             {
-                "startTime":"12:00AM",
-                "stopTime":"2:00PM",
-                "recurring":"",
-                "singleDate":"",
+                "startTime":"12:00",
+                "stopTime":"23:00",
+                "recurring":
+                    [
+                        "Monday", 
+                        "Tuesday"
+                    ],
+                "singleDate":"2016-02-23T18:25:43.511Z",
                 "floorGroups":
                     [
                         {
@@ -666,22 +740,26 @@ Managing rules for a group.
 + Parameters
     + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
 + Request (application/json)
-    +`recurring` (conditional required, string) List of days when rule should be performed
+    +`recurring` (conditional required, array) List of days of a week when rule should be performed
     
     +`singleDate` (conditional required, string) Day when rule should be performed    
 
     + Body
     
             {
-                "name":"",
-                "triggerType":"",
-                "action":"",
+                "name":"MyEventRule",
+                "triggerType":"When allowed",
+                "action":"Send Email",
                 "delay":"",
-                "allow":"",
-                "startTime":"12:00AM",
-                "stopTime":"2:00PM",
-                "recurring":"",
-                "singleDate":"",
+                "allow":"true",
+                "startTime":"12:00",
+                "stopTime":"23:00",
+                "recurring":
+                    [
+                        "Monday", 
+                        "Tuesday"
+                    ],
+                "singleDate":"2016-02-23T18:25:43.511Z",
                 "doors":
                     [
                         {
