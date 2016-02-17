@@ -58,29 +58,29 @@ Content type is set to `application/json` for all API calls
 # Response Codes
 
 ## HTTP Codes
-* 200 - OK status with JSON body
-* 204 - OK status without body
-* 400 - Bad Request
-* 401 - Unauthorized
-* 403 - Forbidden
-* 404 - Not Found
-* 422 - Unprocessable Entity
-* 500 - Internal Server Error
+* `200` - OK status with JSON body
+* `204` - OK status without body
+* `400` - Bad Request
+* `401` - Unauthorized
+* `403` - Forbidden
+* `404` - Not Found
+* `422` - Unprocessable Entity
+* `500` - Internal Server Error
 
 ## Error message format
 
     {
         "code" : "106",
-        "message" : "Person already exists"    
+        "message" : "Entity already exists"    
     }
 
 ## Error Codes
-* 100 - Unprocessible request
-* 101 - Unauthorized
-* 102 - Access denied
-* 103 - Resourse not found
-* 104 - Unexpected Server error
-* 106 - Entity already exists
+* `100` - Unprocessible request
+* `101` - Unauthorized
+* `102` - Access denied
+* `103` - Resourse not found
+* `104` - Unexpected Server error
+* `106` - Entity already exists
 
 # Roles
 
@@ -95,16 +95,24 @@ Roles that application users can have:
 A person entity represents the attributes of a person that will be interacting with the access control system.
 These attributes include the person's name, a list of their credentials, rules that apply to them, and a list of group memberships, among others. 
 
-## Persons Collection [/persons?page={page}&per-page={per_page}&sort={sort_order}]
+## Persons Collection [/persons?page={page}&per_page={per_page}&sort={sort_order}]
 
 The functionality is available for [Admin, Manager, Reporter] roles.
++ Model
 
-### Retrieve all Persons [GET /persons?page={page}&per-page={per_page}&sort={sort_order}]
+    + Body
+    
+            {
+                "code" : "106",
+                "message" : "Entity already exists"    
+            }
+        
+### Retrieve all Persons [GET /persons?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (by default 0).
-    + per_page (optional, number, `10`) ... Count of items per page (by default 10).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be "asc" or "desc" (by default asc).
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
 
 + Request
 
@@ -116,52 +124,89 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 
     + `id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, string) ... Person's account mode. True by default.
-    + `activeDate` (optional, string) ...  Person's account active date. Null by default. 
-    + `expDate` (optional, string) ... Person's account expiration date. Null by default.
+    + `enabled` (optional, boolean) ... Person's account mode. True by default.
+    + `activeDate` (optional, string) ...  Person's account active date in JavaScript built-in format. Null by default. 
+    + `expDate` (optional, string) ... Person's account expiration date in JavaScript built-in format. Null by default.
+    + `imageUrl` (optional, string) ... Person's account image URL. Null by default.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/persons?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
     
     + Body
     
             {
-                "totalCount": "1",
                 "items": [
                     {
-                        "id": "10",
+                        "id": 10,
                         "name": "Ted Froëdington",
-                        "enabled": "true",
+                        "enabled": true,
                         "activeDate": "2016-03-23T18:25:43.511Z",
-                        "expDate": "2016-04-23T18:25:43.511Z"
+                        "expDate": "2016-04-23T18:25:43.511Z",
+                        "imageUrl":"/usersImages/32224"
                     }
                 ]
             }
-            
++ Response 401 (application/json)
++ Response 401 (application/json)            
 + Response 500 (application/json)
         
-## Person [/persons/{id}]
+## Person [/persons/{person_id}]
 
 ##### Performes operations with a single person.
 The functionality is available for [Admin, Manager] roles. Retrieving a Person is also available for the [Reporter] role.
+
++ Model
+
+    + `person_id` (required, number) ... Person's id.
+    + `name` (required, string) ...  Person's name.
+    + `enabled` (optional, boolean) ... Person's account mode. True by default.
+    + `activeDate` (optional, string) ...  Person's account active date in JavaScript built-in format. Null by default. 
+    + `expDate` (optional, string) ... Person's account expiration date in JavaScript built-in format. Null by default.
+    + `imageUrl` (optional, string) ... Person's account image URL. Null by default.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+
+    + Body
+    
+            {
+                "name": "Ted Froëdington",
+                "enabled": true,
+                "activeDate": "2016-03-23T18:25:43.511Z",
+                "expDate": "2016-04-23T18:25:43.511Z",
+                "imageUrl":"/usersImages/32224"
+            }
+
 ### Retrieve a Person [GET]
 + Parameters
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
     
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, string) ... Person's account mode. True by default.
-    + `activeDate` (optional, string) ...  Person's account active date. Null by default. 
-    + `expDate` (optional, string) ... Person's account expiration date. Null by default.
+    + `enabled` (optional, boolean) ... Person's account mode. True by default.
+    + `activeDate` (optional, string) ...  Person's account active date in JavaScript built-in format. Null by default. 
+    + `expDate` (optional, string) ... Person's account expiration date in JavaScript built-in format. Null by default.
+    + `imageUrl` (optional, string) ... Person's account image URL. Null by default.
     
     + Body
     
             {
-                "id": "1",
                 "name": "Ted Froëdington",
-                "enabled": "true",
+                "enabled": true,
                 "activeDate": "2016-03-23T18:25:43.511Z",
-                "expDate": "2016-04-23T18:25:43.511Z"
+                "expDate": "2016-04-23T18:25:43.511Z",
+                "imageUrl":"/usersImages/32224"
             }
 
 + Response 400 (application/json)
@@ -176,21 +221,10 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Person i
 
 ### Create a Person [POST /persons]
 
-+ Request
++ Request (application/json)
 
-    + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, string) ... Person's account mode. True by default.
-    + `activeDate` (optional, string) ...  Person's account active date. Null by default. 
-    + `expDate` (optional, string) ... Person's account expiration date. Null by default.
-    
-    + Body
-            
-            {
-                "name": "Ted Froëdington",
-                "enabled": "true",
-                "activeDate": "2016-03-23T18:25:43.511Z",
-                "expDate": "2016-04-23T18:25:43.511Z"
-            }
+    [Person][]
+
             
 + Response 200 (application/json)
 
@@ -199,7 +233,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Person i
     + Body
     
             {
-                "id": "1"
+                "id": 1
             }
 
 + Response 400 (application/json)
@@ -212,31 +246,35 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Person i
 
 + Response 422 (application/json)
 
-    + Body
-    
-            {
-                "code": 106,
-                "message": "Person already exists."
-            }
+    [Persons Collection][]
             
 + Response 500 (application/json)
 
 ### Update a Person [PUT]
++ Parameters
 
-+ Request
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    
++ Request (application/json)
 
     + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, string) ... Person's account mode. True by default.
-    + `activeDate` (optional, string) ...  Person's account active date. Null by default. 
-    + `expDate` (optional, string) ... Person's account expiration date. Null by default.
+    + `enabled` (required, boolean) ... Person's account mode. True by default.
+    + `activeDate` (required, string) ...  Person's account active date in JavaScript built-in format. Null by default. 
+    + `expDate` (required, string) ... Person's account expiration date in JavaScript built-in format. Null by default.
+    + `imageUrl` (required, string) ... Person's account image URL. Null by default.
     
+    + Headers
+    
+            Authorization: Bearer {token}
+
     + Body
     
             {
-                "name": "Ted Froëdington",
-                "enabled": "true",
-                "activeDate": "2016-03-23T18:25:43.511Z",
-                "expDate": "2016-04-23T18:25:43.511Z"
+                "name": "Ted Froëdington",
+                "enabled": true,
+                "activeDate": "2016-03-23T18:25:43.511Z",
+                "expDate": "2016-04-23T18:25:43.511Z",
+                "imageUrl":"/usersImages/32224"
             }
             
 + Response 204
@@ -251,16 +289,15 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Person i
 
 + Response 422 (application/json)
 
-    + Body
-    
-            {
-                "code": 106,
-                "message": "Person already exists."
-            }
+    [Persons Collection][]
 
 + Response 500 (application/json)
 
 ### Delete a Person [DELETE]
++ Parameters
+
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+
 + Response 204
 
 + Response 400 (application/json)
@@ -273,103 +310,33 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Person i
 
 + Response 500 (application/json)
 
-## Person Photo [/persons/{id}/photo]
-The functionality is available for [Admin, Manager] roles.  Retrieving a Photo is also available for the [Reporter] role.
-### Retrieve a Photo [GET]
-+ Parameters
-
-    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-        
-+ Request
-
-    + Headers
-    
-            Authorization: Bearer {token}
-
-+ Response 200 (application/json)
-
-    + photoURL (required, string) ... URL of Person's photo.
-    
-    + Body
-    
-            {
-                "photoUrl": "www.example.com/photo.png"
-            }
-            
-+ Response 400 (application/json)
-
-+ Response 401 (application/json)
-
-+ Response 403 (application/json)
-
-+ Response 404 (application/json)
-
-+ Response 500 (application/json)
-
-### Create a Photo [POST]
-
-+ Request
-
-    + Parameters
-    
-        + `id` (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-        + `photoBase64` (required, string) ... Person's photo in Base64 format
-        
-    + Headers
-    
-            Authorization: Bearer {token}
-    
-    + Body
-    
-            {
-                "photoBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgA..."
-            }
-
-+ Response 204 (application/json)
-
-+ Response 400 (application/json)
-
-+ Response 401 (application/json)
-
-+ Response 403 (application/json)
-
-+ Response 404 (application/json)
-
-+ Response 500 (application/json)
-
-### Delete a Photo [DELETE]
-+ Parameters
-
-    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-            
-+ Request
-    
-    + Headers
-    
-            Authorization: Bearer {token}
-    
-+ Response 204 (application/json)
-
-+ Response 400 (application/json)
-
-+ Response 401 (application/json)
-
-+ Response 403 (application/json)
-
-+ Response 404 (application/json)
-
-+ Response 500 (application/json)
-
-## Person Card [/persons/{id}/cards]
+## Person Card [/persons/{person_id}/cards]
 
 The functionality is available for [Admin, Manager] roles.  Retrieving Cards is also available for the [Reporter] role.
 
-### Retrieve all Cards [GET /persons/{id}/cards?page={page}&per-page={per_page}&sort={sort_order}]
++ Model
+
+    + `description` (optional, string) ... Card description (max length 255).
+    + `cardNumber` (required, number) ... Card number. 
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+    
+    + Body
+    
+            {
+                "description": "Card description",
+                "cardNumber": "123"
+            }
+
+### Retrieve all Cards [GET /persons/{person_id}/cards?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (by default 0).
-    + per_page (optional, number, `10`) ... Count of items per page (by default 10).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be "asc" or "desc" (by default asc).]
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
 
 + Request
 
@@ -382,13 +349,18 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
     + `id` (required, number, `1`) ... Alphanumeric `id` of the Card.
     + `description` (optional, string) ... Card description (max length 255).
     + `cardNumber` (required, number) ... Card number. 
+
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/cards?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
     
     + Body
     
             {
                 "items": [
                     {
-                        "id": "1",
+                        "id": 1,
                         "description": "myCard",
                         "cardNumber":"12321"
                     }
@@ -406,27 +378,24 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 + Response 500 (application/json)
 
 ### Retrieve a Card [GET /persons/{person_id}/cards/{card_id}]
++ Parameters
+
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
 
 + Request
 
-    + Parameters
-    
-        + `person_id` (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    
     + Headers
     
             Authorization: Bearer {token}
 
 + Response 200 (application/json)
 
-    + `id` (required, number, `1`) ... Alphanumeric `id` of the Card.
     + `description` (optional, string) ... Card description (max length 255).
     + `cardNumber` (required, number) ... Card number. 
     
     + Body
     
             {
-                "id": "1",
                 "description": "Card description",
                 "cardNumber": "123"
             }
@@ -442,26 +411,15 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 + Response 500 (application/json)
 
 ### Create a Card [POST]
-+ Request
++ Parameters
 
-    + Parameters
-        + `id` (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-        + `description` (optional, string) ... Card description (max length 255).
-        + `cardNumber` (required, number) ... Card number. 
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
     
-    + Headers
-    
-            Authorization: Bearer {token}
-            
-    + Body
-        
-            {
-                "description": "Card description",
-                "cardNumber": "123"
-            }
-        
++ Request (application/json)
 
-+ Response 204 (application/json)
+    [Person Card][]
+
++ Response 204
 
 + Response 400 (application/json)
 
@@ -474,13 +432,17 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 + Response 500 (application/json)
 
 ### Delete a Card [DELETE /persons/{person_id}/card/{card_id}]
++ Parameters
+
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+
 + Request
 
     + Headers
     
             Authorization: Bearer {token}
 
-+ Response 204 (application/json)
++ Response 204
 
 + Response 400 (application/json)
 
@@ -492,19 +454,17 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 
 + Response 500 (application/json)
 
-## Person Rules Collection [/persons/{id}/rules?page={page}&per-page={per_page}&sort={sort_order}]
+## Person Rules Collection [/persons/{person_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
 #### Managing rules for a person.
 The functionality is available for [Admin, Manager, Reporter] roles.
-+ Parameters
-
-    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
 
 ### Retrieve Rules Collection for a Person [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (by default 0).
-    + per_page (optional, number, `10`) ... Count of items per page (by default 10).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be "asc" or "desc" (by default asc).
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
 
 + Request
 
@@ -514,89 +474,94 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 
 + Response 200 (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
+    + Common parameters for all rule types
+        + `id` (required, nubmer) ... Numeric rule `id`.
+        + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+        + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+        + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+        + `label` (required, string) ... Text that contents essential information about rule.
+    + Specific `door` rule type fields
+        + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
+        + `doors` (required, array) ... Doors on which rule should be performed.
+    + Specific `elevator` rule type fields
+        + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
+    + Specific `event` rule type fields
+        + `name` (required, string) ... Rule name.
+        + `triggerType` (required, string) ... Type of event on which action should be performed.
+        + `action` (required, string) ... Operation that should be performed.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
+        + `sourceDoors` (required, array) ... List of doors considered as event source.
+        + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
+        
+    + Headers
     
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    +`delay` (conditional required, string) Time to wait before open/close door
-    
+            Link: <https://panel-id.pdk.io/api/persons/231453/rules?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 3
+        
     + Body
     
             {
-                "totalCount": "1",
                 "items": [
                     {
-                        "id": "1",
-                        "name": "John Smith",
-                        "rules": [
+                        "type": "door",
+                        "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
+                        "id": 1,
+                        "allow": true,
+                        "startTime": "12:00",
+                        "stopTime": "23:00",
+                        "recurring": [
+                            "Monday",
+                            "Tuesday"
+                        ],
+                        "singleDate": "2016-02-23",
+                        "doors": [
                             {
-                                "type": "door",
-                                "label": "Door21",
-                                "id": "1",
-                                "allow": "true",
-                                "startTime": "12:00",
-                                "stopTime": "23:00",
-                                "recurring": [
-                                    "Monday",
-                                    "Tuesday"
-                                ],
-                                "singleDate": "2016-02-23",
-                                "label": "Door21",
-                                "doors": [
-                                    {
-                                        "id": "1"
-                                    }
-                                ]
-                            },
+                                "id": 1
+                            }
+                        ]
+                    },
+                    {
+                        "type": "elevator",
+                        "label": "floorGroups: Group3; time: 12:00 - 13:00; readerPort: Group3; doors: Door1, Door2; date: 2016-02-23;",
+                        "id": 2,
+                        "startTime": "12:00",
+                        "stopTime": "23:00",
+                        "recurring": [
+                            "Monday",
+                            "Tuesday"
+                        ],
+                        "singleDate": "2016-02-23",
+                        "floorGroups": [
                             {
-                                "type": "elevator",
-                                "label":"Group3: Door132",
-                                "id": "2",
-                                "startTime": "12:00",
-                                "stopTime": "23:00",
-                                "recurring": [
-                                    "Monday",
-                                    "Tuesday"
-                                ],
-                                "singleDate": "2016-02-23",
-                                "floorGroups": [
-                                    {
-                                        "id": "1",
-                                        "name": "Group3",
-                                        "floors": [
-                                            {
-                                                "id": "12"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
+                                "id": 1
+                            }
+                        ]
+                    },
+                    {
+                        "type": "event",
+                        "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
+                        "id": 3,
+                        "name": "MyEventRule",
+                        "triggerType": "When allowed",
+                        "action": "Delay Open",
+                        "delay": "0:25:43",
+                        "startTime": "12:00",
+                        "stopTime": "23:00",
+                        "recurring": [
+                            "Monday",
+                            "Tuesday"
+                        ],
+                        "singleDate": "2016-02-23",
+                        "sourceDoors": [
                             {
-                                "type": "event",
-                                "sourceLabel": "Door1",
-                                "targetLabel": "Door2",
-                                "id": "3",
-                                "name": "MyEventRule",
-                                "triggerType": "When allowed",
-                                "action": "Delay Open",
-                                "delay": "0:25:43",
-                                "startTime": "12:00",
-                                "stopTime": "23:00",
-                                "recurring": [
-                                    "Monday",
-                                    "Tuesday"
-                                ],
-                                "singleDate": "2016-02-23",
-                                "sourceDoors": [
-                                    {
-                                        "id": "1"
-                                    }
-                                ],
-                                "targetDoors": [
-                                    {
-                                        "id": "2"
-                                    }
-                                ]
+                                "id": 1
+                            }
+                        ],
+                        "targetDoors": [
+                            {
+                                "id": 2
                             }
                         ]
                     }
@@ -607,32 +572,56 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-## Person Rules  [/persons/{id}/rules]
+## Person Rules  [/persons/{person_id}/rules]
 The functionality is available for [Admin, Manager] roles. Retrieving a Rule is also available for the [Reporter] role.
 
-### Retrieve a Rule for a Person  [GET /persons/{person_id}/rules/{rule_id}]
-+ Parameters
++ Model
 
-    + person_id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    + rule_id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + Common parameters for all rule types
+        + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+        + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+        + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+    + Specific `door` rule type fields
+        + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
+        + `doors` (required, array) ... Doors on which rule should be performed.
+    + Specific `elevator` rule type fields
+        + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
+    + Specific `event` rule type fields
+        + `name` (required, string) ... Rule name.
+        + `triggerType` (required, string) ... Type of event on which action should be performed.
+        + `action` (required, string) ... Operation that should be performed.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+        + `sourceDoors` (required, array) ... List of doors considered as event source.
+        + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
+        
+    + Headers
     
-+ Request (application/json)
-
-+ Response 200 (application/json)
-
-    + `id` (required, number) ... Id of created rule.
-    
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
-    
-    +`singleDate` (conditional required, string) Day when rule should be performed
-
+            Authorization: Bearer {token}    
+            
     + Body
     
+    
             {
-                "id": "1",
-                "label": "Door121",
+                "type": "elevator",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "floorGroups": [
+                    {
+                        "id": 1
+                    }
+                ]
+            }
+            
+            {
                 "type": "door",
-                "allow": "true",
+                "allow": true,
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -642,35 +631,17 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
                 "singleDate": "2016-02-23",
                 "doors": [
                     {
-                        "id": "132"
+                        "id": 132
                     }
                 ]
             }
-+ Response 400 (application/json)            
-+ Response 401 (application/json)
-+ Response 403 (application/json)
-+ Response 404 (application/json)
-+ Response 500 (application/json)
-
-### Add a Rule for a Person  [POST /persons/{id}/rules]
-+ Parameters
-
-    + id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    
-+ Request (application/json)
-
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
-    
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    + Body
-    
+            
             {
+                "type": "event",
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
                 "action": "Delay Open",
                 "delay": "0:25:43",
-                "type": "event",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -680,15 +651,128 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
                 "singleDate": "2016-02-23",
                 "sourceDoors": [
                     {
-                        "id": "1"
+                        "id": 1
                     }
                 ],
                 "targetDoors": [
                     {
-                        "id": "2"
+                        "id": 2
                     }
                 ]
             }
+
+### Retrieve a Rule for a Person  [GET /persons/{person_id}/rules/{rule_id}]
++ Parameters
+
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+    + Common parameters for all rule types
+        + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+        + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+        + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+        + `label` (required, string) ... Text that contents essential information about rule.
+    + Specific `door` rule type fields
+        + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
+        + `doors` (required, array) ... Doors on which rule should be performed.
+    + Specific `elevator` rule type fields
+        + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
+    + Specific `event` rule type fields
+        + `name` (required, string) ... Rule name.
+        + `triggerType` (required, string) ... Type of event on which action should be performed.
+        + `action` (required, string) ... Operation that should be performed.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+        + `sourceDoors` (required, array) ... List of doors considered as event source.
+        + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
+            
+    + Body
+    
+    
+            {
+                "type": "elevator",
+                "label": "floorGroups: Group3; time: 12:00 - 13:00; readerPort: Group3; doors: Door1, Door2; date: 2016-02-23;",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "floorGroups": [
+                    {
+                        "id": 1
+                    }
+                ]
+            }
+            
+            {
+                "type": "door",
+                "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
+                "allow": true,
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "doors": [
+                    {
+                        "id": 132
+                    }
+                ]
+            }
+            
+            {
+                "type": "event",
+                "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
+                "name": "MyEventRule",
+                "triggerType": "When allowed",
+                "action": "Delay Open",
+                "delay": "0:25:43",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "sourceDoors": [
+                    {
+                        "id": 1
+                    }
+                ],
+                "targetDoors": [
+                    {
+                        "id": 2
+                    }
+                ]
+            }
+            
++ Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Add a Rule for a Person  [POST /persons/{person_id}/rules]
++ Parameters
+
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    
++ Request (application/json)
+
+    [Person Rules][]
 
 + Response 200 (application/json)
 
@@ -697,7 +781,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
     + Body
     
             {
-                "id":"1"
+                "id": 1
             }
             
 + Response 400 (application/json)            
@@ -710,35 +794,14 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 
 + Parameters
 
-    + person_id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    + rule_id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
 
-+ Request
++ Request (application/json)
 
-    + Headers
-    
-            Authorization: Bearer {token}
-            
-    + Body
-    
-            {
-                "allow": "true",
-                "type": "elevator",
-                "startTime": "12:00",
-                "stopTime": "23:00",
-                "recurring": [
-                    "Monday",
-                    "Tuesday"
-                ],
-                "singleDate": "2016-02-23",
-                "floorGroups": [
-                    {
-                        "id": "1"
-                    }
-                ]
-            }
+    [Person Rules][]
 
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
@@ -748,8 +811,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 ### Delete a Rule for a Person [DELETE /persons/{person_id}/rules/{rule_id}]
 + Parameters
 
-    + person_id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    + rule_id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -757,21 +820,22 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
     
             Authorization: Bearer {token}
 
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-## Person Groups [/persons/{id}/groups]
+## Person Groups [/persons/{person_id}/groups]
 The functionality is available for [Admin, Manager] roles. [Reporter] role has access for retrieving operations only.
-### Retrieve all Groups for a Person [GET /persons/{id}/groups?page={page}&per-page={per_page}&sort={sort_order}]
+### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (by default 0).
-    + per_page (optional, number, `10`) ... Count of items per page (by default 10).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be "asc" or "desc" (by default asc).
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
 
 + Request
 
@@ -781,14 +845,18 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
 
 + Response 200 (application/json)
 
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/persons/32143/groups?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
+
     + Body
     
             {
-                "totalCount": "1",
                 "items": [
                     {
-                        "id": "1",
-                        "name": "Floor 1"
+                        "id": 1,
+                        "name": "group1"
                     }
                 ]
             }
@@ -797,22 +865,25 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
 
 + Response 401 (application/json)
 
-+ Response 403 (application/json)
-
 + Response 500 (application/json)
 
 ### Retrieve a Group for a Person  [GET /persons/{person_id}/groups/{group_id}]
 + Parameters
-    + person_id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    + group_id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
-+ Request (application/json)
 
+    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + group_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+            
 + Response 200 (application/json)
 
     + Body
     
             {
-                "id": "1",
                 "name": "group1"
             }
 + Response 400 (application/json)            
@@ -820,8 +891,8 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Add a Group for a Person [POST /persons/{id}/groups]
-+ Request
+### Add a Group for a Person [POST /persons/{person_id}/groups]
++ Request (application/json)
 
     + Headers
     
@@ -830,10 +901,10 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
     + Body
         
             {
-                "id": "1"
+                "id": 1
             }
             
-+ Response 204 (application/json)
++ Response 204
 
 + Response 400 (application/json)
 
@@ -850,7 +921,7 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
     
             Authorization: Bearer {token}
     
-+ Response 204 (application/json)
++ Response 204
 
 + Response 400 (application/json)
 
@@ -860,17 +931,48 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
 
 + Response 500 (application/json)    
 
+# Group Images
+Service that accepts images in base64 fromat and returns relative path to it.
+## Person Image [/image]
+The functionality is available for [Admin, Manager] roles.  
+
+### Retrieve image URL [POST]
+
++ Request (multipart/form-data)
+
++ Response 200 (application/json)
+
+    + `imageUrl` (required, string) ... Relative URL to Person's image.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+    
+    + Body
+    
+            {
+                "imageUrl": "/usersImage/143215"
+            }
+
++ Response 400 (application/json)
+
++ Response 401 (application/json)
+
++ Response 403 (application/json)
+
++ Response 500 (application/json)
+
 # Group Groups
 A group entity represents a set of shared rules that apply to people that are members of the group.
 
-## Groups Collection [/groups?page={page}&per-page={per_page}&sort={sort_order}]
+## Groups Collection [/groups?page={page}&per_page={per_page}&sort={sort_order}]
 The functionality is available for [Admin, Manager, Reporter] roles.
 ### Retrieve All Groups [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (by default 0).
-    + per_page (optional, number, `10`) ... Count of items per page (by default 10).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be "asc" or "desc" (by default asc).
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
     
 + Request
 
@@ -880,38 +982,62 @@ The functionality is available for [Admin, Manager, Reporter] roles.
     
 + Response 200 (application/json)
 
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/groups?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
+            
     + Body
     
             {
-                "totalCount" : "1",
                 "items": [
                     {
-                        "id": "1",
+                        "id": 1,
                         "name": "group1"
                     }
                 ]
             }
-            
+
++ Response 400 (application/json)            
 + Response 401 (application/json)
 + Response 500 (application/json)
 
-## Group [/groups/{id}]
+## Group [/groups/{group_id}]
 #### A distinct group entity.
 The functionality is available for [Admin, Manager] roles. Retrieving a Group is also available for the [Reporter] role.
 + Parameters
-    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+
+    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+
++ Model 
+
+    + `name` (required, string) Group name
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+            
+    + Body
+    
+            {
+                "name": "group1"
+            }
 
 ### Retrieve a Group [GET]
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
     
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Group id.
     + `name` (required, string) ...  Group name.
 
     + Body
     
             {
-                "id": "1",
                 "name": "group1"
             }
 
@@ -923,25 +1049,18 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Group is
 
 ### Create a Group [POST /groups]
 
-+ Request
++ Request (application/json)
 
-    +`name` (required, string) Group name
-    + Headers
-    
-            Authorization: Bearer {token}
-    + Body
-    
-            {
-                "name": "group1"
-            }
+    [Group][]
 
 + Response 200 (application/json)
 
     + `id` (required, number) ... Id of created group.
+    
     + Body
     
             {
-                "id": "1"
+                "id": 1
             }
             
 + Response 400 (application/json)            
@@ -949,69 +1068,44 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Group is
 + Response 403 (application/json)
 + Response 422 (application/json)
 
-    + Body
-    
-            {
-                "code": 106,
-                "message": "Group already exists"
-            }
+    [Persons Collection][]
             
 + Response 500 (application/json)
 
 ### Update a Group [PUT]
 
-+ Parameters
++ Request (application/json)
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    [Group][]
 
-+ Request
-
-    +`name` (required, string) Group name
-    + Headers
-    
-            Authorization: Bearer {token}
-    + Body
-    
-            {
-                "name": "group1"
-            }
-
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
 + Response 422 (application/json)
 
-    + Body
-    
-            {
-                "code": 106,
-                "message": "Group already exists"
-            }
+    [Persons Collection][]
             
 + Response 500 (application/json)
 
 
 ### Delete a Group [DELETE]
-+ Parameters
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
-    
 + Request
 
     + Headers
     
             Authorization: Bearer {token}
 
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-## Group Rules Collection [/groups/{id}/rules?page={page}&per-page={per_page}&sort={sort_order}]
+## Group Rules Collection [/groups/{group_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
 
 #### Managing rules for a group.
 
@@ -1020,9 +1114,10 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 ### Retrieve Rules Collection for a Group [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (by default 0).
-    + per_page (optional, number, `10`) ... Count of items per page (by default 10).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be "asc" or "desc" (by default asc).
+    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
     
 + Request
 
@@ -1032,54 +1127,166 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 
 + Response 200 (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
+    + Common parameters for all rule types
+        + `id` (required, string) ... Numeric rule `id`.
+        + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+        + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+        + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+        + `label` (required, string) ... Text that contents essential information about rule.
+    + Specific `door` rule type fields
+        + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
+        + `doors` (required, array) ... Doors on which rule should be performed.
+    + Specific `elevator` rule type fields
+        + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
+    + Specific `event` rule type fields
+        + `name` (required, string) ... Rule name.
+        + `triggerType` (required, string) ... Type of event on which action should be performed.
+        + `action` (required, string) ... Operation that should be performed.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+        + `sourceDoors` (required, array) ... List of doors considered as event source.
+        + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
+
+    + Headers
     
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    +`delay` (conditional required, string) Time to wait before open/close door
-    
+            Link: <https://panel-id.pdk.io/api/groups/432332/rules?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 3
+        
     + Body
-            
+    
             {
-                "totalCount" : "1",
                 "items": [
                     {
-                        "id": "1",
-                        "name": "Group1",
-                        "rules": [
+                        "type": "door",
+                        "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
+                        "id": 1,
+                        "allow": true,
+                        "startTime": "12:00",
+                        "stopTime": "23:00",
+                        "recurring": [
+                            "Monday",
+                            "Tuesday"
+                        ],
+                        "singleDate": "2016-02-23",
+                        "doors": [
                             {
-                                "id": "1",
-                                "type":"door",
-                                "label":""
+                                "id": 1
+                            }
+                        ]
+                    },
+                    {
+                        "type": "elevator",
+                        "label": "floorGroups: Group3; time: 12:00 - 13:00; readerPort: Group3; doors: Door1, Door2; date: 2016-02-23;",
+                        "id": 2,
+                        "startTime": "12:00",
+                        "stopTime": "23:00",
+                        "recurring": [
+                            "Monday",
+                            "Tuesday"
+                        ],
+                        "singleDate": "2016-02-23",
+                        "floorGroups": [
+                            {
+                                "id": 1
+                            }
+                        ]
+                    },
+                    {
+                        "type": "event",
+                        "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
+                        "id": 3,
+                        "name": "MyEventRule",
+                        "triggerType": "When allowed",
+                        "action": "Delay Open",
+                        "delay": "0:25:43",
+                        "startTime": "12:00",
+                        "stopTime": "23:00",
+                        "recurring": [
+                            "Monday",
+                            "Tuesday"
+                        ],
+                        "singleDate": "2016-02-23",
+                        "sourceDoors": [
+                            {
+                                "id": 1
+                            }
+                        ],
+                        "targetDoors": [
+                            {
+                                "id": 2
                             }
                         ]
                     }
                 ]
             }
++ Response 400 (application/json)
 + Response 401 (application/json)
++ Response 404 (application/json)
 + Response 500 (application/json)
 
-## Group Rules [/groups/{id}/rules]
+## Group Rules [/groups/{group_id}/rules]
 
-The functionality is available for [Admin, Manager] roles.
+The functionality is available for [Admin, Manager] roles. Retrieving a Rule is also available for the [Reporter] role.
 
-### Add Rule for a Group  [POST /groups/{id}/rules]
-
+### Retrieve a Rule for a Group  [GET /groups/{group_id}/rules/{rule_id}]
 + Parameters
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
     
-+ Request (application/json)
++ Request
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
+    + Headers
     
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+    + Common parameters for all rule types
+        + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+        + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+        + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+        + `label` (required, string) ... Text that contents essential information about rule.
+    + Specific `door` rule type fields
+        + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
+        + `doors` (required, array) ... Doors on which rule should be performed.
+    + Specific `elevator` rule type fields
+        + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
+    + Specific `event` rule type fields
+        + `name` (required, string) ... Rule name.
+        + `triggerType` (required, string) ... Type of event on which action should be performed.
+        + `action` (required, string) ... Operation that should be performed.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+        + `sourceDoors` (required, array) ... List of doors considered as event source.
+        + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
+        
+
     + Body
     
             {
-                "type": "door",
-                "allow": "true",
+                "type": "elevator",
+                "label": "floorGroups: Group3; time: 12:00 - 13:00; readerPort: Group3; doors: Door1, Door2; date: 2016-02-23;",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "floorGroups": [
+                    {
+                        "id": 1
+                    }
+                ]
+            }
+            
+            {
+                "type": "door",
+                "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
+                "allow": true,
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -1089,10 +1296,52 @@ The functionality is available for [Admin, Manager] roles.
                 "singleDate": "2016-02-23",
                 "doors": [
                     {
-                        "id": "1"
+                        "id": 132
                     }
                 ]
             }
+            
+            {
+                "type": "event",
+                "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
+                "name": "MyEventRule",
+                "triggerType": "When allowed",
+                "action": "Delay Open",
+                "delay": "0:25:43",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "sourceDoors": [
+                    {
+                        "id": 1
+                    }
+                ],
+                "targetDoors": [
+                    {
+                        "id": 2
+                    }
+                ]
+            }
+            
++ Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Add Rule for a Group  [POST /groups/{group_id}/rules]
+
++ Parameters
+
+    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    
++ Request (application/json)
+
+    [Person Rules][]
 
 + Response 200 (application/json)
 
@@ -1101,7 +1350,7 @@ The functionality is available for [Admin, Manager] roles.
     + Body
     
             {
-                "id": "1"
+                "id": 1
             }
             
 + Response 400 (application/json)            
@@ -1114,33 +1363,14 @@ The functionality is available for [Admin, Manager] roles.
 
 + Parameters
 
-    + group_id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
-    + rule_id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
 
-+ Request
++ Request (application/json)
 
-    + Headers
-    
-            Authorization: Bearer {token}
-    + Body
-    
-            {
-                "type": "elevator",
-                "startTime": "12:00",
-                "stopTime": "23:00",
-                "recurring": [
-                    "Monday",
-                    "Tuesday"
-                ],
-                "singleDate": "2016-02-23",
-                "floorGroups": [
-                    {
-                        "id": "1"
-                    }
-                ]
-            }
+    [Person Rules][]
 
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
@@ -1150,8 +1380,8 @@ The functionality is available for [Admin, Manager] roles.
 ### Delete a Rule for a Group [DELETE /groups/{group_id}/rules/{rule_id}]
 + Parameters
 
-    + group_id (required, string, `1`) ... Alphanumeric `id` of the Group to perform the action on.
-    + rule_id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1159,7 +1389,7 @@ The functionality is available for [Admin, Manager] roles.
     
             Authorization: Bearer {token}
 
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
@@ -1170,16 +1400,16 @@ The functionality is available for [Admin, Manager] roles.
 
 #### List of event rules that apply to system-wide events, which are events not generated by a known person.
 
-## System Events Collection [/system-events?page={page}&per-page={per_page}&sort={sort_order}]
+## System Events Collection [/system_events?page={page}&per_page={per_page}&sort={sort_order}]
 
 The functionality is available for [Admin, Manager, Reporter] roles.
 
 ### Retrieve System Events Collection [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (by default 0).
-    + per_page (optional, number, `10`) ... Count of items per page (by default 10).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be "asc" or "desc" (by default asc).
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
     
 + Request
 
@@ -1189,19 +1419,32 @@ The functionality is available for [Admin, Manager, Reporter] roles.
     
 + Response 200 (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
+    + `id`  (required, number) .. Numeric event `id`.
+    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+    + `label` (required, string) ... Text that contents essential information about rule.
+    + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+    + `name` (required, string) ... Rule name.
+    + `triggerType` (required, string) ... Type of event on which action should be performed.
+    + `action` (required, string) ... Operation that should be performed.
+    + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+    + `sourceDoors` (required, array) ... List of doors considered as event source.
+    + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
+
+    + Headers
     
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    +`delay` (conditional required, string) Time to wait before open/close door
+            Link: <https://panel-id.pdk.io/api/system_events?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
     
     + Body
     
             {
-                "totalCount" : "1",
                 "items": [
                     {
-                        "id": "1",
+                        "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
+                        "id": 3,
                         "name": "MyEventRule",
                         "triggerType": "When allowed",
                         "action": "Delay Open",
@@ -1213,30 +1456,78 @@ The functionality is available for [Admin, Manager, Reporter] roles.
                             "Tuesday"
                         ],
                         "singleDate": "2016-02-23",
-                        "label": "",
                         "sourceDoors": [
                             {
-                                "id": "1"
+                                "id": 1
                             }
                         ],
                         "targetDoors": [
                             {
-                                "id": "2"
+                                "id": 2
                             }
                         ]
                     }
                 ]
             }
-            
+
++ Response 400 (application/json)            
 + Response 401 (application/json)
 + Response 500 (application/json)
 
-## System Events [/system-events]
+## System Events [/system_events]
 
 The functionality is available for [Admin] roles. Retrieving a System Event is also available for the [Manager, Reporter] roles.
 
-### Retrieve a System Event [GET /system-events/{id}]
++ Model
 
+    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+    + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+    + `name` (required, string) ... Rule name.
+    + `triggerType` (required, string) ... Type of event on which action should be performed.
+    + `action` (required, string) ... Operation that should be performed.
+    + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+    + `sourceDoors` (required, array) ... List of doors considered as event source.
+    + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
+    + Body
+    
+            {
+                "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
+                "name": "MyEventRule",
+                "triggerType": "When allowed",
+                "action": "Delay Open",
+                "delay": "0:25:43",
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "sourceDoors": [
+                    {
+                        "id": 1
+                    }
+                ],
+                "targetDoors": [
+                    {
+                        "id": 2
+                    }
+                ]
+            }
+
+### Retrieve a System Event Rule [GET /system_events/{rule_id}]
++ Parameters
+
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    
 + Request
 
     + Headers
@@ -1245,17 +1536,22 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
     
 + Response 200 (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
-    
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    +`delay` (conditional required, string) Time to wait before open/close door
+    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+    + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+    + `name` (required, string) ... Rule name.
+    + `triggerType` (required, string) ... Type of event on which action should be performed.
+    + `action` (required, string) ... Operation that should be performed.
+    + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+    + `sourceDoors` (required, array) ... List of doors considered as event source.
+    + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
     
     + Body
     
-            
             {
-                "id": "1",
+                "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
                 "action": "Delay Open",
@@ -1267,61 +1563,27 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
                     "Tuesday"
                 ],
                 "singleDate": "2016-02-23",
-                "label": "",
                 "sourceDoors": [
                     {
-                        "id": "1"
+                        "id": 1
                     }
                 ],
                 "targetDoors": [
                     {
-                        "id": "2"
+                        "id": 2
                     }
                 ]
             }
-            
++ Response 400 (application/json)            
 + Response 401 (application/json)
++ Response 404 (application/json)
 + Response 500 (application/json)
 
-### Add a System Event Rule  [POST /system-events]
+### Add a System Event Rule  [POST /system_events]
 
 + Request (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
-    
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    +`delay` (conditional required, string) Time to wait before open/close door
-
-    + Headers
-    
-            Authorization: Bearer {token}
-
-    + Body
-    
-            {
-                "name": "MyEventRule",
-                "triggerType": "When allowed",
-                "action": "Delay Open",
-                "delay": "0:25:43",
-                "startTime": "12:00",
-                "stopTime": "23:00",
-                "recurring": [
-                    "Monday",
-                    "Tuesday"
-                ],
-                "singleDate": "2016-02-23",
-                "sourceDoors": [
-                    {
-                        "id": "1"
-                    }
-                ],
-                "targetDoors": [
-                    {
-                        "id": "2"
-                    }
-                ]
-            }
+    [System Events][]
 
 + Response 200 (application/json)
 
@@ -1330,7 +1592,7 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
     + Body
     
             {
-                "id": "1"
+                "id": 1
             }
             
 + Response 400 (application/json)            
@@ -1339,60 +1601,27 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Update a System Event Rule [PUT /system-events/{id}]
+### Update a System Event Rule [PUT /system_events/{rule_id}]
 
 + Parameters
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
 
-+ Request
++ Request (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
-    
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    +`delay` (conditional required, string) Time to wait before open/close door
+    [System Events][]
 
-    + Headers
-    
-            Authorization: Bearer {token}
-    + Body
-    
-            {
-                "name": "MyEventRule",
-                "triggerType": "When allowed",
-                "action": "Delay Open",
-                "delay": "0:25:43",
-                "startTime": "12:00",
-                "stopTime": "23:00",
-                "recurring": [
-                    "Monday",
-                    "Tuesday"
-                ],
-                "singleDate": "2016-02-23",
-                "sourceDoors": [
-                    {
-                        "id": "1"
-                    }
-                ],
-                "targetDoors": [
-                    {
-                        "id": "2"
-                    }
-                ]
-            }
-
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Delete a System Event Rule [DELETE /system-events/{id}]
+### Delete a System Event Rule [DELETE /system_events/{rule_id}]
 + Parameters
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1400,7 +1629,7 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
     
             Authorization: Bearer {token}
 
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
@@ -1410,14 +1639,14 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
 # Group Auto Open
 List of access rules that represent the times that doors should be propped open.
 
-## Auto Open Rules Collection [/auto-open?page={page}&per-page={per_page}&sort={sort_order}]
+## Auto Open Rules Collection [/auto_open?page={page}&per_page={per_page}&sort={sort_order}]
 The functionality is available for [Admin, Manager, Reporter] roles.
 ### Retrieve Auto Open Rules Collection [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (by default 0).
-    + per_page (optional, number, `10`) ... Count of items per page (by default 10).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be "asc" or "desc" (by default asc).
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
     
 + Request
 
@@ -1427,20 +1656,29 @@ The functionality is available for [Admin, Manager, Reporter] roles.
     
 + Response 200 (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
+    + `id` (required, number) ... Numeric `id` of a rule.
+    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+    + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+    + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
+    + `doors` (required, array) ... Doors on which rule should be performed.
+    + `label` (required, string) ... Text that contents essential information about rule.
+
+    + Headers
     
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    +`delay` (conditional required, string) Time to wait before open/close door
+            Link: <https://panel-id.pdk.io/api/auto_open?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
             
     + Body
     
             {
-                "totalCount" : "1",
                 "items": [
                     {
-                        "id": "1",
-                        "allow": "true",
+                        "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
+                        "id": 1,
+                        "allow": true,
                         "startTime": "12:00",
                         "stopTime": "23:00",
                         "recurring": [
@@ -1448,22 +1686,60 @@ The functionality is available for [Admin, Manager, Reporter] roles.
                             "Tuesday"
                         ],
                         "singleDate": "2016-02-23",
-                        "label": "",
                         "doors": [
                             {
-                                "id": "1"
+                                "id": 1
                             }
                         ]
                     }
                 ]
             }
-            
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 500 (application/json)
 
-## Auto Open Rules [/auto-open]
+## Auto Open Rules [/auto_open]
 The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is also available for the [Manager, Reporter] roles.
-### Retrieve an Auto Open Rule [GET /auto-open/{id}]
+
++ Model
+
+    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+    + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+    + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
+    + `doors` (required, array) ... Doors on which rule should be performed.
+    + `label` (required, string) ... Text that contents essential information about rule.
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
+    + Body
+    
+            {
+                "type": "door",
+                "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
+                "allow": true,
+                "startTime": "12:00",
+                "stopTime": "23:00",
+                "recurring": [
+                    "Monday",
+                    "Tuesday"
+                ],
+                "singleDate": "2016-02-23",
+                "doors": [
+                    {
+                        "id": 132
+                    }
+                ]
+            }
+            
+### Retrieve an Auto Open Rule [GET /auto_open/{rule_id}]
++ Parameters
+
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Auto Open Rule to perform the action on.
 
 + Request
 
@@ -1473,17 +1749,20 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
     
 + Response 200 (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
-    
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    +`delay` (conditional required, string) Time to wait before open/close door
+    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+    + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+    + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
+    + `doors` (required, array) ... Doors on which rule should be performed.
+    + `label` (required, string) ... Text that contents essential information about rule.
             
     + Body
     
             {
-                "id": "1",
-                "allow": "true",
+                "allow": true,
+                "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -1491,43 +1770,23 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
                     "Tuesday"
                 ],
                 "singleDate": "2016-02-23",
-                "label": "",
                 "doors": [
                     {
-                        "id": "1"
+                        "id": 1
                     }
                 ]
             }
 
-            
++ Response 400 (application/json)            
 + Response 401 (application/json)
++ Response 404 (application/json)
 + Response 500 (application/json)
 
 ### Add an Auto Open Rule  [POST]
 
 + Request (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
-    
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    + Body
-    
-            {
-                "allow": "true",
-                "startTime": "12:00",
-                "stopTime": "23:00",
-                "recurring": [
-                    "Monday",
-                    "Tuesday"
-                ],
-                "singleDate": "2016-02-23",
-                "doors": [
-                    {
-                        "id": "1"
-                    }
-                ]
-            }
+    [Auto Open Rules][]
 
 + Response 200 (application/json)
 
@@ -1544,53 +1803,27 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Update an Auto Open Rule [PUT /auto-open/{id}]
+### Update an Auto Open Rule [PUT /auto_open/{rule_id}]
 
 + Parameters
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
 
-+ Request
++ Request (application/json)
 
-    +`recurring` (conditional required, array) List of days of a week when rule should be performed
-    
-    +`singleDate` (conditional required, string) Day when rule should be performed
-    
-    +`delay` (conditional required, string) Time to wait before open/close door
+    [Auto Open Rules][]
 
-    + Headers
-    
-            Authorization: Bearer {token}
-            
-    + Body
-    
-            {
-                "allow": "true",
-                "startTime": "12:00",
-                "stopTime": "23:00",
-                "recurring": [
-                    "Monday",
-                    "Tuesday"
-                ],
-                "singleDate": "2016-02-23",
-                "doors": [
-                    {
-                        "id": "1"
-                    }
-                ]
-            }
-
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Delete an Auto Open Rule [DELETE /auto-open/{id}]
+### Delete an Auto Open Rule [DELETE /auto_open/{rule_id}]
 + Parameters
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1598,7 +1831,7 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
     
             Authorization: Bearer {token}
 
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
@@ -1607,14 +1840,14 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
 
 # Group Floor Groups
 Associates a reader input and a group of floor outputs. This group is then referenced from an elevator rule on a person or group to activate all the floor buttons in the elevator car where input reader is installed.
-## Floor Groups Collection [/floor-groups?page={page}&per-page={per_page}&sort={sort_order}]
+## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort_order}]
 The functionality is available for [Admin] roles.
 ### Retrieve Floor Groups Collection [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (by default 0).
-    + per_page (optional, number, `10`) ... Count of items per page (by default 10).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be "asc" or "desc" (by default asc).
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
     
 + Request
 
@@ -1624,32 +1857,69 @@ The functionality is available for [Admin] roles.
     
 + Response 200 (application/json)
 
+    + `id` (required, number) ... Numeric group `id`.
+    + `label` (required, string) ... Text that contents essential information about rule.
+    + `name` (required, string) ... Floor Group name.
+    + `readerPort` (required, number) ... Reader device `id`.
+    + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
+
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/floor_groups?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
+        
     + Body
     
             {
-                "totalCount" : "1",
                 "items": [
                     {
-                        "id": "1",
-                        "label": " ",
+                        "id": 1,
+                        "label": "name: FloorGroup1; readerPort: Door23; doors: Door1;",
                         "name": "FloorGroup1",
-                        "readerPort": "1",
+                        "readerPort": 1,
                         "floors": [
                             {
-                                "id": "1"
+                                "id": 1
                             }
                         ]
                     }
                 ]
             }
-            
++ Response 400 (application/json)
 + Response 401 (application/json)
++ Response 403 (application/json)
 + Response 500 (application/json)
 
-## Floor Groups [/floor-groups]
+## Floor Groups [/floor_groups]
 The functionality is available for [Admin] roles.
 
-### Retrieve a Floor Group [GET /floor-groups/{id}]
++ Model
+
+    + `name` (required, string) ... Floor Group name.
+    + `readerPort` (required, number) ... Reader device `id`.
+    + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+        
+    + Body
+    
+            {
+                "name": "FloorGroup1",
+                "readerPort": 1,
+                "floors": [
+                    {
+                        "id": 1
+                    }
+                ]
+            }
+
+
+### Retrieve a Floor Group [GET /floor_groups/{group_id}]
++ Parameters
+
+    + group_id (required, string, `1`) ... Alphanumeric `id` of the Floor Group to perform the action on.
     
 + Request
 
@@ -1659,48 +1929,43 @@ The functionality is available for [Admin] roles.
     
 + Response 200 (application/json)
 
+    + `label` (required, string) ... Text that contents essential information about rule.
+    + `name` (required, string) ... Floor Group name.
+    + `readerPort` (required, number) ... Reader device `id`.
+    + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
+        
     + Body
     
             {
-                "id": "1",
-                "label": "",
                 "name": "FloorGroup1",
-                "readerPort": "1",
+                "readerPort": 1,
                 "floors": [
                     {
-                        "id": "1"
+                        "id": 1
                     }
                 ]
             }
 
-            
++ Response 400 (application/json)            
 + Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
 + Response 500 (application/json)
 
 ### Add a Floor Group  [POST]
 
 + Request (application/json)
 
-    + Body
-    
-            {
-                "name": "FloorGroup1",
-                "readerPortId": "1",
-                "floors": [
-                    {
-                        "id": "1"
-                    }
-                ]
-            }
+    [Floor Groups][]
 
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Id of created elevator.
+    + `id` (required, number) ... Id of created Floor Group.
     
     + Body
     
             {
-                "id": "1"
+                "id": 1
             }
             
 + Response 400 (application/json)            
@@ -1709,41 +1974,27 @@ The functionality is available for [Admin] roles.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Update a Floor Group [PUT /floor-groups/{id}]
+### Update a Floor Group [PUT /floor_groups/{group_id}]
 
 + Parameters
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Elevator to perform the action on.
+    + group_id (required, string, `1`) ... Alphanumeric `id` of the Floor Group to perform the action on.
 
-+ Request
++ Request (application/json)
 
-    + Headers
-    
-            Authorization: Bearer {token}
-            
-    + Body
-    
-            {
-                "name": "Elevator1",
-                "readerPort": "1",
-                "floors": [
-                    {
-                        "id": "1"
-                    }
-                ]
-            }
+    [Floor Groups][]
 
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Delete a Floor Group [DELETE /floor-groups/{id}]
+### Delete a Floor Group [DELETE /floor_groups/{group_id}]
 + Parameters
 
-    + id (required, string, `1`) ... Alphanumeric `id` of the Elevator to perform the action on.
+    + group_id (required, number, `1`) ... Alphanumeric `id` of the Floor Group to perform the action on.
     
 + Request
 
@@ -1751,7 +2002,7 @@ The functionality is available for [Admin] roles.
     
             Authorization: Bearer {token}
 
-+ Response 204 (application/json)
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
