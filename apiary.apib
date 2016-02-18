@@ -87,13 +87,17 @@ Content type is set to `application/json` for all API calls
 Roles that application users can have:
 * `Reporter` has read only access for Persons, Groups System Events, Auto Open entities.
 * `Manager` in addition to `Reporter` permissions has write access for Persons and Groups entities.
-* `Admin` in addition to `Manager` permissions has write access for Partitions entities.
+* `Admin` in addition to `Manager` permissions has write access for Partitions and rest entities.
 * `Integrator` in addition to `Admin` permissions can change hardware configuration.
 * `Sysop` in addition to `Admin` permissions can change hardware configuration.
 
 # Group Search
 
 ## TODO Here will be search endpoint description
+
+# Group Partitions
+
+## TODO Here will be partitions endpoint description
 
 # Group Persons
 A person entity represents the attributes of a person that will be interacting with the access control system.
@@ -1985,6 +1989,51 @@ The functionality is available for [Admin] roles.
 # Group Devices
 
 ## TODO Here will be devices endpoint description
+
+### Retrieve all Devices [GET /devices?page={page}&per_page={per_page}&sort={sort_order}]
++ Parameters
+
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Person's id.
+    + `name` (required, string) ...  Person's name.
+    + `enabled` (optional, boolean) ... Person's account mode. True by default.
+    + `activeDate` (optional, string) ...  Person's account active date in JavaScript built-in format. Null by default. 
+    + `expDate` (optional, string) ... Person's account expiration date in JavaScript built-in format. Null by default.
+    + `imageUrl` (optional, string) ... Person's account image URL. Null by default.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/persons?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
+    
+    + Body
+    
+            {
+                "items": [
+                    {
+                        "id": 10,
+                        "name": "Ted Froëdington",
+                        "enabled": true,
+                        "activeDate": "2016-03-23T18:25:43.511Z",
+                        "expDate": "2016-04-23T18:25:43.511Z",
+                        "imageUrl":"/usersImages/32224"
+                    }
+                ]
+            }
++ Response 401 (application/json)
++ Response 401 (application/json)            
++ Response 500 (application/json)
 
 # Group Connections
 
