@@ -211,18 +211,16 @@ The functionality is available for [Admin, Manager, Reporter] roles.
     
     + Body
     
-            {
-                "items": [
-                    {
-                        "id": 10,
-                        "name": "Ted Froëdington",
-                        "enabled": true,
-                        "activeDate": "2016-03-23T18:25:43.511Z",
-                        "expDate": "2016-04-23T18:25:43.511Z",
-                        "imageUrl":"/usersImages/32224"
-                    }
-                ]
-            }
+            [
+                {
+                    "id": 10,
+                    "name": "Ted Froëdington",
+                    "enabled": true,
+                    "activeDate": "2016-03-23T18:25:43.511Z",
+                    "expDate": "2016-04-23T18:25:43.511Z",
+                    "imageUrl": "/usersImages/32224"
+                }
+            ]
 + Response 401 (application/json)
 + Response 500 (application/json)
         
@@ -430,15 +428,13 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
     
     + Body
     
-            {
-                "items": [
-                    {
-                        "id": 1,
-                        "description": "myCard",
-                        "cardNumber":"12321"
-                    }
-                ]
-            }
+            [
+                {
+                    "id": 1,
+                    "description": "myCard",
+                    "cardNumber":"12321"
+                }
+            ]
 
 + Response 400 (application/json)
 
@@ -576,68 +572,67 @@ The functionality is available for [Admin, Manager, Reporter] roles.
         
     + Body
     
-            {
-                "items": [
-                    {
-                        "type": "door",
-                        "id": 1,
-                        "allow": true,
-                        "startTime": "12:00",
-                        "stopTime": "23:00",
-                        "recurring": [
-                            "Monday",
-                            "Tuesday"
-                        ],
-                        "singleDate": "2016-02-23",
-                        "doors": [
-                            {
-                                "id": 1
-                            }
-                        ]
-                    },
-                    {
-                        "type": "elevator",
-                        "id": 2,
-                        "startTime": "12:00",
-                        "stopTime": "23:00",
-                        "recurring": [
-                            "Monday",
-                            "Tuesday"
-                        ],
-                        "singleDate": "2016-02-23",
-                        "floorGroups": [
-                            {
-                                "id": 1
-                            }
-                        ]
-                    },
-                    {
-                        "type": "event",
-                        "id": 3,
-                        "name": "MyEventRule",
-                        "triggerType": "When allowed",
-                        "action": "Delay Open",
-                        "delay": "0:25:43",
-                        "startTime": "12:00",
-                        "stopTime": "23:00",
-                        "recurring": [
-                            "Monday",
-                            "Tuesday"
-                        ],
-                        "singleDate": "2016-02-23",
-                        "sourceDoors": [
-                            {
-                                "id": 1
-                            }
-                        ],
-                        "targetDoors": [
-                            {
-                                "id": 2
-                            }
-                        ]
-                    }
-                ]
-            }
+            [
+                {
+                    "type": "door",
+                    "id": 1,
+                    "allow": true,
+                    "startTime": "12:00",
+                    "stopTime": "23:00",
+                    "recurring": [
+                        "Monday",
+                        "Tuesday"
+                    ],
+                    "singleDate": "2016-02-23",
+                    "doors": [
+                        {
+                            "id": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "elevator",
+                    "id": 2,
+                    "startTime": "12:00",
+                    "stopTime": "23:00",
+                    "recurring": [
+                        "Monday",
+                        "Tuesday"
+                    ],
+                    "singleDate": "2016-02-23",
+                    "floorGroups": [
+                        {
+                            "id": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "event",
+                    "id": 3,
+                    "name": "MyEventRule",
+                    "triggerType": "When allowed",
+                    "action": "Delay Open",
+                    "delay": "0:25:43",
+                    "startTime": "12:00",
+                    "stopTime": "23:00",
+                    "recurring": [
+                        "Monday",
+                        "Tuesday"
+                    ],
+                    "singleDate": "2016-02-23",
+                    "sourceDoors": [
+                        {
+                            "id": 1
+                        }
+                    ],
+                    "targetDoors": [
+                        {
+                            "id": 2
+                        }
+                    ]
+                }
+            ]
+
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 404 (application/json)
@@ -919,14 +914,12 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
 
     + Body
     
-            {
-                "items": [
-                    {
-                        "id": 1,
-                        "name": "group1"
-                    }
-                ]
-            }
+            [
+                {
+                    "id": 1,
+                    "name": "group1"
+                }
+            ]
 
 + Response 400 (application/json)
 
@@ -1056,14 +1049,12 @@ The functionality is available for [Admin, Manager, Reporter] roles.
             
     + Body
     
-            {
-                "items": [
-                    {
-                        "id": 1,
-                        "name": "group1"
-                    }
-                ]
-            }
+            [
+                {
+                    "id": 1,
+                    "name": "group1"
+                }
+            ]
 
 + Response 400 (application/json)            
 + Response 401 (application/json)
@@ -1218,68 +1209,66 @@ The functionality is available for [Admin, Manager, Reporter] roles.
         
     + Body
     
-            {
-                "items": [
-                    {
-                        "type": "door",
-                        "id": 1,
-                        "allow": true,
-                        "startTime": "12:00",
-                        "stopTime": "23:00",
-                        "recurring": [
-                            "Monday",
-                            "Tuesday"
-                        ],
-                        "singleDate": "2016-02-23",
-                        "doors": [
-                            {
-                                "id": 1
-                            }
-                        ]
-                    },
-                    {
-                        "type": "elevator",
-                        "id": 2,
-                        "startTime": "12:00",
-                        "stopTime": "23:00",
-                        "recurring": [
-                            "Monday",
-                            "Tuesday"
-                        ],
-                        "singleDate": "2016-02-23",
-                        "floorGroups": [
-                            {
-                                "id": 1
-                            }
-                        ]
-                    },
-                    {
-                        "type": "event",
-                        "id": 3,
-                        "name": "MyEventRule",
-                        "triggerType": "When allowed",
-                        "action": "Delay Open",
-                        "delay": "0:25:43",
-                        "startTime": "12:00",
-                        "stopTime": "23:00",
-                        "recurring": [
-                            "Monday",
-                            "Tuesday"
-                        ],
-                        "singleDate": "2016-02-23",
-                        "sourceDoors": [
-                            {
-                                "id": 1
-                            }
-                        ],
-                        "targetDoors": [
-                            {
-                                "id": 2
-                            }
-                        ]
-                    }
-                ]
-            }
+            [
+                {
+                    "type": "door",
+                    "id": 1,
+                    "allow": true,
+                    "startTime": "12:00",
+                    "stopTime": "23:00",
+                    "recurring": [
+                        "Monday",
+                        "Tuesday"
+                    ],
+                    "singleDate": "2016-02-23",
+                    "doors": [
+                        {
+                            "id": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "elevator",
+                    "id": 2,
+                    "startTime": "12:00",
+                    "stopTime": "23:00",
+                    "recurring": [
+                        "Monday",
+                        "Tuesday"
+                    ],
+                    "singleDate": "2016-02-23",
+                    "floorGroups": [
+                        {
+                            "id": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "event",
+                    "id": 3,
+                    "name": "MyEventRule",
+                    "triggerType": "When allowed",
+                    "action": "Delay Open",
+                    "delay": "0:25:43",
+                    "startTime": "12:00",
+                    "stopTime": "23:00",
+                    "recurring": [
+                        "Monday",
+                        "Tuesday"
+                    ],
+                    "singleDate": "2016-02-23",
+                    "sourceDoors": [
+                        {
+                            "id": 1
+                        }
+                    ],
+                    "targetDoors": [
+                        {
+                            "id": 2
+                        }
+                    ]
+                }
+            ]
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 404 (application/json)
@@ -1495,34 +1484,32 @@ The functionality is available for [Admin, Manager, Reporter] roles.
     
     + Body
     
-            {
-                "items": [
-                    {
-                        "id": 3,
-                        "name": "MyEventRule",
-                        "triggerType": "When allowed",
-                        "action": "Delay Open",
-                        "delay": "0:25:43",
-                        "startTime": "12:00",
-                        "stopTime": "23:00",
-                        "recurring": [
-                            "Monday",
-                            "Tuesday"
-                        ],
-                        "singleDate": "2016-02-23",
-                        "sourceDoors": [
-                            {
-                                "id": 1
-                            }
-                        ],
-                        "targetDoors": [
-                            {
-                                "id": 2
-                            }
-                        ]
-                    }
-                ]
-            }
+            [
+                {
+                    "id": 3,
+                    "name": "MyEventRule",
+                    "triggerType": "When allowed",
+                    "action": "Delay Open",
+                    "delay": "0:25:43",
+                    "startTime": "12:00",
+                    "stopTime": "23:00",
+                    "recurring": [
+                        "Monday",
+                        "Tuesday"
+                    ],
+                    "singleDate": "2016-02-23",
+                    "sourceDoors": [
+                        {
+                            "id": 1
+                        }
+                    ],
+                    "targetDoors": [
+                        {
+                            "id": 2
+                        }
+                    ]
+                }
+            ]
 
 + Response 400 (application/json)            
 + Response 401 (application/json)
@@ -1724,26 +1711,25 @@ The functionality is available for [Admin, Manager, Reporter] roles.
             
     + Body
     
-            {
-                "items": [
-                    {
-                        "id": 1,
-                        "allow": true,
-                        "startTime": "12:00",
-                        "stopTime": "23:00",
-                        "recurring": [
-                            "Monday",
-                            "Tuesday"
-                        ],
-                        "singleDate": "2016-02-23",
-                        "doors": [
-                            {
-                                "id": 1
-                            }
-                        ]
-                    }
-                ]
-            }
+            [
+                {
+                    "id": 1,
+                    "allow": true,
+                    "startTime": "12:00",
+                    "stopTime": "23:00",
+                    "recurring": [
+                        "Monday",
+                        "Tuesday"
+                    ],
+                    "singleDate": "2016-02-23",
+                    "doors": [
+                        {
+                            "id": 1
+                        }
+                    ]
+                }
+            ]
+            
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 500 (application/json)
@@ -1915,20 +1901,18 @@ The functionality is available for [Admin] roles.
         
     + Body
     
-            {
-                "items": [
-                    {
-                        "id": 1,
-                        "name": "FloorGroup1",
-                        "readerPort": 1,
-                        "floors": [
-                            {
-                                "id": 1
-                            }
-                        ]
-                    }
-                ]
-            }
+            [
+                {
+                    "id": 1,
+                    "name": "FloorGroup1",
+                    "readerPort": 1,
+                    "floors": [
+                        {
+                            "id": 1
+                        }
+                    ]
+                }
+            ]
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
@@ -2092,25 +2076,24 @@ The functionality is available for [Admin] roles.
     
     + Body
     
-            {
-                "items": [
-                    {
-                        "id": 10,
-                        "description": "Ted Froëdington",
-                        "connection": 1,
-                        "port": 1,
-                        "ca64": "0013A200400A393B",
-                        "relay": true,
-                        "dps": true,
-                        "propAlarm": true,
-                        "propDelay": 30,
-                        "rex": true,
-                        "forcedAlarm": true,
-                        "useCam": true,
-                        "camUrl": "http://USERNAME:PASSWORD@IPADDRESS:PORT/camera"
-                    }
-                ]
-            }
+            [
+                {
+                    "id": 10,
+                    "description": "Ted Froëdington",
+                    "connection": 1,
+                    "port": 1,
+                    "ca64": "0013A200400A393B",
+                    "relay": true,
+                    "dps": true,
+                    "propAlarm": true,
+                    "propDelay": 30,
+                    "rex": true,
+                    "forcedAlarm": true,
+                    "useCam": true,
+                    "camUrl": "http://USERNAME:PASSWORD@IPADDRESS:PORT/camera"
+                }
+            ]
+
 + Response 401 (application/json)
 + Response 403 (application/json)            
 + Response 500 (application/json)
