@@ -563,8 +563,8 @@ The functionality is available for [Admin, Manager, Reporter] roles.
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed.
-        + `action` (required, string) ... Operation that should be performed.
+        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `delatOpen`, `delayClose` or `open/close` values.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -661,8 +661,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed.
-        + `action` (required, string) ... Operation that should be performed.
+        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -759,8 +759,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed.
-        + `action` (required, string) ... Operation that should be performed.
+        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1205,8 +1205,8 @@ The functionality is available for [Admin, Manager, Reporter] roles.
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed.
-        + `action` (required, string) ... Operation that should be performed.
+        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1316,8 +1316,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed.
-        + `action` (required, string) ... Operation that should be performed.
+        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1482,8 +1482,8 @@ The functionality is available for [Admin, Manager, Reporter] roles.
     + `recurring` (optional, array) ... Days of week when a rule should be performed. 
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
-    + `triggerType` (required, string) ... Type of event on which action should be performed.
-    + `action` (required, string) ... Operation that should be performed.
+    + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+    + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
     + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1540,8 +1540,8 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
     + `recurring` (optional, array) ... Days of week when a rule should be performed. 
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
-    + `triggerType` (required, string) ... Type of event on which action should be performed.
-    + `action` (required, string) ... Operation that should be performed.
+    + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+    + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
     + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1595,8 +1595,8 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
     + `recurring` (optional, array) ... Days of week when a rule should be performed. 
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
-    + `triggerType` (required, string) ... Type of event on which action should be performed.
-    + `action` (required, string) ... Operation that should be performed.
+    + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+    + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
     + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
