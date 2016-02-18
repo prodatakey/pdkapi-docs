@@ -157,7 +157,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
                 ]
             }
 + Response 401 (application/json)
-+ Response 401 (application/json)            
 + Response 500 (application/json)
         
 ## Person [/persons/{person_id}]
@@ -2005,12 +2004,19 @@ The functionality is available for [Admin] roles.
     
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Person's id.
-    + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, boolean) ... Person's account mode. True by default.
-    + `activeDate` (optional, string) ...  Person's account active date in JavaScript built-in format. Null by default. 
-    + `expDate` (optional, string) ... Person's account expiration date in JavaScript built-in format. Null by default.
-    + `imageUrl` (optional, string) ... Person's account image URL. Null by default.
+    + `id` (required, number) ... Device id.
+    + `name` (required, string) ...  Device name.
+    + `connection` (required, number) ... Connection type id.
+    + `port` (required, number) ... Board port number.
+    + `ca64` (required, string) ... Wireless address.
+    + `relay` (required, boolean) ... Flag indicates if this device is a high-power relay.
+    + `dps` (required, boolean) ... Flag indicates if door Open/Close events shoul be logged.
+    + `propAlarm` (required, boolean) ... Enables alarm if a door left open more then `propDelay` seconds.
+    + `propDelay` (required, number) ... Amount of time before PropAlarm is triggered.
+    + `rex` (required, boolean) ... Enables loggin of user's request to leave from secured side of the door.
+    + `forcedAlarm` (required, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without Rex being triggered or a card read at the door.
+    + `useCam` (required, boolean) ... Flag indicates if camera integration is enabled.
+    + `camUrl` (required, string) ... URL of an IP camera .
     
     + Headers
     
@@ -2024,15 +2030,22 @@ The functionality is available for [Admin] roles.
                     {
                         "id": 10,
                         "name": "Ted Froëdington",
-                        "enabled": true,
-                        "activeDate": "2016-03-23T18:25:43.511Z",
-                        "expDate": "2016-04-23T18:25:43.511Z",
-                        "imageUrl":"/usersImages/32224"
+                        "connection": 1,
+                        "port": 1,
+                        "ca64": "0013A200400A393B",
+                        "relay": true,
+                        "dps": true,
+                        "propAlarm": true,
+                        "propDelay": 30,
+                        "rex": true,
+                        "forcedAlarm": true,
+                        "useCam": true,
+                        "camUrl": "http://USERNAME:PASSWORD@IPADDRESS:PORT/camera"
                     }
                 ]
             }
 + Response 401 (application/json)
-+ Response 401 (application/json)            
++ Response 403 (application/json)            
 + Response 500 (application/json)
 
 # Group Connections
