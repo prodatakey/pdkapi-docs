@@ -154,7 +154,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
         
 ## Person [/persons/{person_id}]
 
-##### Performes operations with a single person.
 The functionality is available for [Admin, Manager] roles. Retrieving a Person is also available for the [Reporter] role.
 
 + Model
@@ -455,7 +454,9 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 + Response 500 (application/json)
 
 ## Person Rules Collection [/persons/{person_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
-#### Managing rules for a person.
+
+#### List of access rules, event rules and elevator rules that apply to this Person.
+
 The functionality is available for [Admin, Manager, Reporter] roles.
 
 ### Retrieve Rules Collection for a Person [GET]
@@ -995,7 +996,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 + Response 500 (application/json)
 
 ## Group [/groups/{group_id}]
-#### A distinct group entity.
 The functionality is available for [Admin, Manager] roles. Retrieving a Group is also available for the [Reporter] role.
 + Parameters
 
@@ -1098,9 +1098,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Group is
 + Response 500 (application/json)
 
 ## Group Rules Collection [/groups/{group_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
-
-#### Managing rules for a group.
-
+#### List of access rules, event rules and elevator rules that apply to this Group.
 The functionality is available for [Admin, Manager, Reporter] roles.
 
 ### Retrieve Rules Collection for a Group [GET]
@@ -1617,7 +1615,7 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
 + Response 500 (application/json)
 
 # Group Auto Open
-List of access rules that represent the times that doors should be propped open.
+#### List of access rules that represent the times that doors should be propped open.
 
 ## Auto Open Rules Collection [/auto_open?page={page}&per_page={per_page}&sort={sort_order}]
 The functionality is available for [Admin, Manager, Reporter] roles.
@@ -1813,7 +1811,7 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
 + Response 500 (application/json)
 
 # Group Floor Groups
-Associates a reader input and a group of floor outputs. This group is then referenced from an elevator rule on a person or group to activate all the floor buttons in the elevator car where input reader is installed.
+#### Associates a reader input and a group of floor outputs. This group is then referenced from an elevator rule on a person or group to activate all the floor buttons in the elevator car where input reader is installed.
 ## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort_order}]
 The functionality is available for [Admin] roles.
 ### Retrieve Floor Groups Collection [GET]
