@@ -91,7 +91,7 @@ Roles permissions have hierarchical structure. List of possible roles given belo
 * `Sysop` in addition to `Admin` permissions can change hardware configuration.
 
 # Group Search
-
+The functionality is available for all roles. Searching by partitions is unavailable for the [Manager, Reporter] roles.
 ### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
 + Parameters
 
@@ -139,7 +139,7 @@ These attributes include the person's name, a list of their credentials, rules t
 
 ## Persons Collection [/persons?page={page}&per_page={per_page}&sort={sort_order}]
 
-The functionality is available for [Admin, Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
 + Model
 
     + Body
@@ -193,7 +193,7 @@ The functionality is available for [Admin, Manager, Reporter] roles.
         
 ## Person [/persons/{person_id}]
 
-The functionality is available for [Admin, Manager] roles. Retrieving a Person is also available for the [Reporter] role.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Person is also available for the [Reporter] role.
 
 + Model
 
@@ -350,7 +350,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Person i
 
 ## Person Card [/persons/{person_id}/cards]
 
-The functionality is available for [Admin, Manager] roles.  Retrieving Cards is also available for the [Reporter] role.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  Retrieving Cards is also available for the [Reporter] role.
 
 + Model
 
@@ -494,7 +494,7 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 
 #### List of access rules, event rules and elevator rules that apply to this Person.
 
-The functionality is available for [Admin, Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
 
 ### Retrieve Rules Collection for a Person [GET]
 + Parameters
@@ -606,7 +606,7 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 + Response 500 (application/json)
 
 ## Person Rules  [/persons/{person_id}/rules]
-The functionality is available for [Admin, Manager] roles. Retrieving a Rule is also available for the [Reporter] role.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Rule is also available for the [Reporter] role.
 
 + Model
 
@@ -857,7 +857,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 + Response 500 (application/json)
 
 ## Person Groups [/persons/{person_id}/groups]
-The functionality is available for [Admin, Manager] roles. [Reporter] role has access for retrieving operations only.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [Reporter] role has access for retrieving operations only.
 ### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
@@ -961,7 +961,7 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
 # Group Images
 Service that accepts images in base64 fromat and returns relative path to it.
 ## Person Image [/image]
-The functionality is available for [Admin, Manager] roles.  
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  
 
 ### Retrieve image URL [POST]
 
@@ -993,7 +993,7 @@ The functionality is available for [Admin, Manager] roles.
 A group entity represents a set of shared rules that apply to people that are members of the group.
 
 ## Groups Collection [/groups?page={page}&per_page={per_page}&sort={sort_order}]
-The functionality is available for [Admin, Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
 ### Retrieve All Groups [GET]
 + Parameters
 
@@ -1028,7 +1028,7 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 + Response 500 (application/json)
 
 ## Group [/groups/{group_id}]
-The functionality is available for [Admin, Manager] roles. Retrieving a Group is also available for the [Reporter] role.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Group is also available for the [Reporter] role.
 + Parameters
 
     + group_id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
@@ -1131,7 +1131,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Group is
 
 ## Group Rules Collection [/groups/{group_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
 #### List of access rules, event rules and elevator rules that apply to this Group.
-The functionality is available for [Admin, Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
 
 ### Retrieve Rules Collection for a Group [GET]
 + Parameters
@@ -1243,7 +1243,7 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 
 ## Group Rules [/groups/{group_id}/rules]
 
-The functionality is available for [Admin, Manager] roles. Retrieving a Rule is also available for the [Reporter] role.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Rule is also available for the [Reporter] role.
 
 ### Retrieve a Rule for a Group  [GET /groups/{group_id}/rules/{rule_id}]
 + Parameters
@@ -1414,7 +1414,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 
 ## System Events Collection [/system_events?page={page}&per_page={per_page}&sort={sort_order}]
 
-The functionality is available for [Admin, Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin] roles.
 
 ### Retrieve System Events Collection [GET]
 + Parameters
@@ -1484,7 +1484,7 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 
 ## System Events [/system_events]
 
-The functionality is available for [Admin] roles. Retrieving a System Event is also available for the [Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
@@ -1646,7 +1646,7 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
 #### List of access rules that represent the times that doors should be propped open.
 
 ## Auto Open Rules Collection [/auto_open?page={page}&per_page={per_page}&sort={sort_order}]
-The functionality is available for [Admin, Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin] roles.
 ### Retrieve Auto Open Rules Collection [GET]
 + Parameters
 
@@ -1702,7 +1702,7 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 + Response 500 (application/json)
 
 ## Auto Open Rules [/auto_open]
-The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is also available for the [Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
@@ -1840,7 +1840,7 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
 # Group Floor Groups
 #### Associates a reader input and a group of floor outputs. This group is then referenced from an elevator rule on a person or group to activate all the floor buttons in the elevator car where input reader is installed.
 ## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort_order}]
-The functionality is available for [Admin] roles.
+The functionality is available for [Sysop, Integrator, Admin] roles.
 ### Retrieve Floor Groups Collection [GET]
 + Parameters
 
@@ -1886,7 +1886,7 @@ The functionality is available for [Admin] roles.
 + Response 500 (application/json)
 
 ## Floor Groups [/floor_groups]
-The functionality is available for [Admin] roles.
+The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
