@@ -14,7 +14,7 @@ The API conforms to many of the tenets of the REST style architecture and fully 
 
 This drives certain uniform architectural attributes of the API.
 
-# Authentication
+# Authenticationabel
 
 Authenticating to this stateless API is handled by including an HTTP Authentication header in each request.
 Before making any requests to the panel's API andpoint you will need a Bearer token.
@@ -481,7 +481,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
         + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
         + `recurring` (optional, array) ... Days of week when a rule should be performed. 
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
-        + `label` (required, string) ... Text that contents essential information about rule.
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
         + `doors` (required, array) ... Doors on which rule should be performed.
@@ -506,7 +505,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
                 "items": [
                     {
                         "type": "door",
-                        "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
                         "id": 1,
                         "allow": true,
                         "startTime": "12:00",
@@ -524,7 +522,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
                     },
                     {
                         "type": "elevator",
-                        "label": "floorGroups: Group3; time: 12:00 - 13:00; readerPort: Group3; doors: Door1, Door2; date: 2016-02-23;",
                         "id": 2,
                         "startTime": "12:00",
                         "stopTime": "23:00",
@@ -541,7 +538,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
                     },
                     {
                         "type": "event",
-                        "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
                         "id": 3,
                         "name": "MyEventRule",
                         "triggerType": "When allowed",
@@ -681,7 +677,6 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
         + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
         + `recurring` (optional, array) ... Days of week when a rule should be performed. 
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
-        + `label` (required, string) ... Text that contents essential information about rule.
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
         + `doors` (required, array) ... Doors on which rule should be performed.
@@ -700,7 +695,6 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
     
             {
                 "type": "elevator",
-                "label": "floorGroups: Group3; time: 12:00 - 13:00; readerPort: Group3; doors: Door1, Door2; date: 2016-02-23;",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -717,7 +711,6 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
             
             {
                 "type": "door",
-                "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
                 "allow": true,
                 "startTime": "12:00",
                 "stopTime": "23:00",
@@ -735,7 +728,6 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
             
             {
                 "type": "event",
-                "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
                 "action": "Delay Open",
@@ -1134,7 +1126,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
         + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
         + `recurring` (optional, array) ... Days of week when a rule should be performed. 
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
-        + `label` (required, string) ... Text that contents essential information about rule.
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
         + `doors` (required, array) ... Doors on which rule should be performed.
@@ -1159,7 +1150,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
                 "items": [
                     {
                         "type": "door",
-                        "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
                         "id": 1,
                         "allow": true,
                         "startTime": "12:00",
@@ -1177,7 +1167,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
                     },
                     {
                         "type": "elevator",
-                        "label": "floorGroups: Group3; time: 12:00 - 13:00; readerPort: Group3; doors: Door1, Door2; date: 2016-02-23;",
                         "id": 2,
                         "startTime": "12:00",
                         "stopTime": "23:00",
@@ -1194,7 +1183,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
                     },
                     {
                         "type": "event",
-                        "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
                         "id": 3,
                         "name": "MyEventRule",
                         "triggerType": "When allowed",
@@ -1249,7 +1237,6 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
         + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
         + `recurring` (optional, array) ... Days of week when a rule should be performed. 
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
-        + `label` (required, string) ... Text that contents essential information about rule.
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
         + `doors` (required, array) ... Doors on which rule should be performed.
@@ -1268,7 +1255,6 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
     
             {
                 "type": "elevator",
-                "label": "floorGroups: Group3; time: 12:00 - 13:00; readerPort: Group3; doors: Door1, Door2; date: 2016-02-23;",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -1285,7 +1271,6 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
             
             {
                 "type": "door",
-                "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
                 "allow": true,
                 "startTime": "12:00",
                 "stopTime": "23:00",
@@ -1303,7 +1288,6 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
             
             {
                 "type": "event",
-                "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
                 "action": "Delay Open",
@@ -1421,7 +1405,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 
     + `id`  (required, number) .. Numeric event `id`.
     + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
-    + `label` (required, string) ... Text that contents essential information about rule.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array) ... Days of week when a rule should be performed. 
@@ -1443,7 +1426,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
             {
                 "items": [
                     {
-                        "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
                         "id": 3,
                         "name": "MyEventRule",
                         "triggerType": "When allowed",
@@ -1499,7 +1481,6 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
     + Body
     
             {
-                "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
                 "action": "Delay Open",
@@ -1551,7 +1532,6 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
     + Body
     
             {
-                "label": "name: MyEventRule; time: 12:00 - 13:00; sourceDoors: Door21; targetDoors: Door22; days: Monday, Tuesday; trigger: When allowed; action: Delay Open; delay: 0:25:43",
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
                 "action": "Delay Open",
@@ -1664,7 +1644,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array) ... Doors on which rule should be performed.
-    + `label` (required, string) ... Text that contents essential information about rule.
 
     + Headers
     
@@ -1676,7 +1655,6 @@ The functionality is available for [Admin, Manager, Reporter] roles.
             {
                 "items": [
                     {
-                        "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
                         "id": 1,
                         "allow": true,
                         "startTime": "12:00",
@@ -1710,7 +1688,6 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array) ... Doors on which rule should be performed.
-    + `label` (required, string) ... Text that contents essential information about rule.
 
     + Headers
     
@@ -1720,7 +1697,6 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
     
             {
                 "type": "door",
-                "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
                 "allow": true,
                 "startTime": "12:00",
                 "stopTime": "23:00",
@@ -1756,13 +1732,11 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array) ... Doors on which rule should be performed.
-    + `label` (required, string) ... Text that contents essential information about rule.
             
     + Body
     
             {
                 "allow": true,
-                "label": "allow: true; time: 12:00 - 13:00; doors: Door21; days: Monday, Tuesday;",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -1858,7 +1832,6 @@ The functionality is available for [Admin] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Numeric group `id`.
-    + `label` (required, string) ... Text that contents essential information about rule.
     + `name` (required, string) ... Floor Group name.
     + `readerPort` (required, number) ... Reader device `id`.
     + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
@@ -1874,7 +1847,6 @@ The functionality is available for [Admin] roles.
                 "items": [
                     {
                         "id": 1,
-                        "label": "name: FloorGroup1; readerPort: Door23; doors: Door1;",
                         "name": "FloorGroup1",
                         "readerPort": 1,
                         "floors": [
@@ -1929,7 +1901,6 @@ The functionality is available for [Admin] roles.
     
 + Response 200 (application/json)
 
-    + `label` (required, string) ... Text that contents essential information about rule.
     + `name` (required, string) ... Floor Group name.
     + `readerPort` (required, number) ... Reader device `id`.
     + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
