@@ -93,7 +93,74 @@ Roles that application users can have:
 
 # Group Search
 
-## TODO Here will be search endpoint description
+### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
++ Parameters
+
+    + query_string (optional, string) ... Url-encoded query string.
+    + page (optional, number, `0`) ... Number of page (`0` by default).
+    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
+    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `people` (required, array) ... Array of Persons with card numbers. Person entity description could be found further.
+    + `groups` (required, array) ... Array of Groups. Group entity description could be found further.
+    + `floorGroups` (required, array) ... Array of Floor Groups. Floor Group entity description could be found further.
+    + `partitions` (required, array) ... Array of Partitions with card numbers. Partition entity description could be found further.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/persons?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
+    
+    + Body
+    
+            {
+                "people": [
+                    {
+                        "id": 10,
+                        "name": "Ted Froëdington",
+                        "enabled": true,
+                        "activeDate": "2016-03-23T18:25:43.511Z",
+                        "expDate": "2016-04-23T18:25:43.511Z",
+                        "imageUrl":"/usersImages/32224",
+                        "cardNumber": ""
+                    }
+                ],
+                "groups": [
+                    {
+                        "id": 1,
+                        "name": "group1"
+                    }
+                ],
+                "floorGroups": [
+                    {
+                        "id": 1,
+                        "name": "FloorGroup1",
+                        "readerPort": 1,
+                        "floors": [
+                            {
+                                "id": 1
+                            }
+                        ]
+                    }
+                ],
+                "partitions": [
+                    {
+                        "id": 10,
+                        "description": "Organization1"
+                    }
+                ]
+            }
++ Response 400 (application/json)            
++ Response 401 (application/json)
++ Response 500 (application/json)
 
 # Group Partitions
 
@@ -2005,7 +2072,7 @@ The functionality is available for [Admin] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Device id.
-    + `name` (required, string) ...  Device name.
+    + `description` (required, string) ...  Device name.
     + `connection` (required, number) ... Connection type id.
     + `port` (required, number) ... Board port number.
     + `ca64` (required, string) ... Wireless address.
@@ -2029,7 +2096,7 @@ The functionality is available for [Admin] roles.
                 "items": [
                     {
                         "id": 10,
-                        "name": "Ted Froëdington",
+                        "description": "Ted Froëdington",
                         "connection": 1,
                         "port": 1,
                         "ca64": "0013A200400A393B",
