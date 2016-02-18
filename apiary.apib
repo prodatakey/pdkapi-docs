@@ -527,7 +527,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
         + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `delatOpen`, `delayClose` or `open/close` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -578,7 +579,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                     "id": 3,
                     "name": "MyEventRule",
                     "triggerType": "When allowed",
-                    "action": "Delay Open",
+                    "action": "delayOpen",
+                    "emailTemplate": "testTemplate",
                     "delay": "0:25:43",
                     "startTime": "12:00",
                     "stopTime": "23:00",
@@ -623,8 +625,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-        + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `whenAllowed`, `whenDenied(Explicit)`, `whenDenied(NoRules)`, `always(ValidCard)`, `onMultiswipeAllow(2Swipe)`, `onMultiswipeAllow(3Swipe)` or `onMultiswipeAllow(4Swipe)` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -673,8 +676,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "type": "event",
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
-                "action": "Delay Open",
+                "action": "delayOpen",
                 "delay": "0:25:43",
+                "emailTemplate": "testTemplate",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -721,8 +725,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-        + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `whenAllowed`, `whenDenied(Explicit)`, `whenDenied(NoRules)`, `always(ValidCard)`, `onMultiswipeAllow(2Swipe)`, `onMultiswipeAllow(3Swipe)` or `onMultiswipeAllow(4Swipe)` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -767,8 +772,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "type": "event",
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
-                "action": "Delay Open",
+                "action": "delayOpen",
                 "delay": "0:25:43",
+                "emailTemplate": "testTemplate",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -1163,8 +1169,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-        + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `whenAllowed`, `whenDenied(Explicit)`, `whenDenied(NoRules)`, `always(ValidCard)`, `onMultiswipeAllow(2Swipe)`, `onMultiswipeAllow(3Swipe)` or `onMultiswipeAllow(4Swipe)` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1215,8 +1222,10 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                     "id": 3,
                     "name": "MyEventRule",
                     "triggerType": "When allowed",
-                    "action": "Delay Open",
+                    "action": "delayOpen",
+                    "emailTemplate": "",
                     "delay": "0:25:43",
+                    "emailTemplate": "testTemplate",
                     "startTime": "12:00",
                     "stopTime": "23:00",
                     "recurring": [
@@ -1272,8 +1281,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-        + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `whenAllowed`, `whenDenied(Explicit)`, `whenDenied(NoRules)`, `always(ValidCard)`, `onMultiswipeAllow(2Swipe)`, `onMultiswipeAllow(3Swipe)` or `onMultiswipeAllow(4Swipe)` values.
+        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1318,8 +1328,10 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "type": "event",
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
-                "action": "Delay Open",
+                "action": "delayOpen",
+                "emailTemplate": "",
                 "delay": "0:25:43",
+                "emailTemplate": "testTemplate",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -1439,7 +1451,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
     + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-    + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+    + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+    + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
     + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1456,8 +1469,9 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                     "id": 3,
                     "name": "MyEventRule",
                     "triggerType": "When allowed",
-                    "action": "Delay Open",
+                    "action": "delayOpen",
                     "delay": "0:25:43",
+                    "emailTemplate": "testTemplate",
                     "startTime": "12:00",
                     "stopTime": "23:00",
                     "recurring": [
@@ -1495,7 +1509,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
     + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-    + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+    + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+    + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
     + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1509,8 +1524,9 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             {
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
-                "action": "Delay Open",
+                "action": "delayOpen",
                 "delay": "0:25:43",
+                "emailTemplate": "testTemplate",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
@@ -1550,7 +1566,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
     + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-    + `action` (required, string) ... Operation that should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
+    + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+    + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
     + `targetDoors` (required, array) ... List of doors which action should be performed on. Target doors list can be equal to source doors list.
@@ -1560,7 +1577,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             {
                 "name": "MyEventRule",
                 "triggerType": "When allowed",
-                "action": "Delay Open",
+                "action": "delayOpen",
+                "emailTemplate": "testTemplate",
                 "delay": "0:25:43",
                 "startTime": "12:00",
                 "stopTime": "23:00",
