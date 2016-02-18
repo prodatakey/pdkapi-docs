@@ -109,55 +109,23 @@ Roles that application users can have:
     
 + Response 200 (application/json)
 
-    + `people` (required, array) ... Array of Persons with card numbers. Person entity description could be found further.
-    + `groups` (required, array) ... Array of Groups. Group entity description could be found further.
-    + `floorGroups` (required, array) ... Array of Floor Groups. Floor Group entity description could be found further.
-    + `partitions` (required, array) ... Array of Partitions with card numbers. Partition entity description could be found further.
+    + `id` (required, number) ... Numeric `id` of entity.
+    + `type` (required, number) ... Type of entity. Could be one of `person`, `group`, `floorGroup`, `partitions`.
+    + `name` (required, string) ... Entity name or description.
     
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/persons?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/search?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
             X-Total-Count: 1
     
     + Body
     
             {
-                "people": [
-                    {
-                        "id": 10,
-                        "name": "Ted Froëdington",
-                        "enabled": true,
-                        "activeDate": "2016-03-23T18:25:43.511Z",
-                        "expDate": "2016-04-23T18:25:43.511Z",
-                        "imageUrl":"/usersImages/32224",
-                        "cardNumber": ""
-                    }
-                ],
-                "groups": [
-                    {
-                        "id": 1,
-                        "name": "group1"
-                    }
-                ],
-                "floorGroups": [
-                    {
-                        "id": 1,
-                        "name": "FloorGroup1",
-                        "readerPort": 1,
-                        "floors": [
-                            {
-                                "id": 1
-                            }
-                        ]
-                    }
-                ],
-                "partitions": [
-                    {
-                        "id": 10,
-                        "description": "Organization1"
-                    }
-                ]
+                "id": 10,
+                "type": "person",
+                "name": "Ted Froëdington"
             }
+
 + Response 400 (application/json)            
 + Response 401 (application/json)
 + Response 500 (application/json)
@@ -254,7 +222,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Person i
 ### Retrieve a Person [GET]
 + Parameters
 
-    + person_id (required, string, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, string, `1`) ... Numeric `id` of the Person to perform the action on.
     
 + Request
 
@@ -324,7 +292,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Person i
 ### Update a Person [PUT]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
     
 + Request (application/json)
 
@@ -367,7 +335,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Person i
 ### Delete a Person [DELETE]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
 
 + Response 204
 
@@ -404,7 +372,7 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 ### Retrieve all Cards [GET /persons/{person_id}/cards?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
     + page (optional, number, `0`) ... Number of page (`0` by default).
     + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
     + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
@@ -417,7 +385,7 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 
 + Response 200 (application/json)
 
-    + `id` (required, number, `1`) ... Alphanumeric `id` of the Card.
+    + `id` (required, number, `1`) ... Numeric `id` of the Card.
     + `description` (optional, string) ... Card description (max length 255).
     + `cardNumber` (required, number) ... Card number. 
 
@@ -449,7 +417,7 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 ### Retrieve a Card [GET /persons/{person_id}/cards/{card_id}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
 
 + Request
 
@@ -482,7 +450,7 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 ### Create a Card [POST]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
     
 + Request (application/json)
 
@@ -503,7 +471,7 @@ The functionality is available for [Admin, Manager] roles.  Retrieving Cards is 
 ### Delete a Card [DELETE /persons/{person_id}/card/{card_id}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
 
 + Request
 
@@ -532,7 +500,7 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 ### Retrieve Rules Collection for a Person [GET]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
     + page (optional, number, `0`) ... Number of page (`0` by default).
     + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
     + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
@@ -730,8 +698,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 ### Retrieve a Rule for a Person  [GET /persons/{person_id}/rules/{rule_id}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -830,7 +798,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 ### Add a Rule for a Person  [POST /persons/{person_id}/rules]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
     
 + Request (application/json)
 
@@ -856,8 +824,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
 
 + Request (application/json)
 
@@ -873,8 +841,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 ### Delete a Rule for a Person [DELETE /persons/{person_id}/rules/{rule_id}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -894,7 +862,7 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
 ### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
     + page (optional, number, `0`) ... Number of page (`0` by default).
     + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
     + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
@@ -930,8 +898,8 @@ The functionality is available for [Admin, Manager] roles. [Reporter] role has a
 ### Retrieve a Group for a Person  [GET /persons/{person_id}/groups/{group_id}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Alphanumeric `id` of the Person to perform the action on.
-    + group_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + group_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1064,7 +1032,7 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 The functionality is available for [Admin, Manager] roles. Retrieving a Group is also available for the [Reporter] role.
 + Parameters
 
-    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + group_id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
 
 + Model 
 
@@ -1169,7 +1137,7 @@ The functionality is available for [Admin, Manager, Reporter] roles.
 ### Retrieve Rules Collection for a Group [GET]
 + Parameters
 
-    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + group_id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
     + page (optional, number, `0`) ... Number of page (`0` by default).
     + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
     + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
@@ -1281,8 +1249,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 ### Retrieve a Rule for a Group  [GET /groups/{group_id}/rules/{rule_id}]
 + Parameters
 
-    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + group_id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1382,7 +1350,7 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 
 + Parameters
 
-    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
+    + group_id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
     
 + Request (application/json)
 
@@ -1408,8 +1376,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 
 + Parameters
 
-    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + group_id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
 
 + Request (application/json)
 
@@ -1425,8 +1393,8 @@ The functionality is available for [Admin, Manager] roles. Retrieving a Rule is 
 ### Delete a Rule for a Group [DELETE /groups/{group_id}/rules/{rule_id}]
 + Parameters
 
-    + group_id (required, number, `1`) ... Alphanumeric `id` of the Group to perform the action on.
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + group_id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1566,7 +1534,7 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
 ### Retrieve a System Event Rule [GET /system_events/{rule_id}]
 + Parameters
 
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1644,7 +1612,7 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
 
 + Parameters
 
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
 
 + Request (application/json)
 
@@ -1660,7 +1628,7 @@ The functionality is available for [Admin] roles. Retrieving a System Event is a
 ### Delete a System Event Rule [DELETE /system_events/{rule_id}]
 + Parameters
 
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1773,7 +1741,7 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
 ### Retrieve an Auto Open Rule [GET /auto_open/{rule_id}]
 + Parameters
 
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Auto Open Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Auto Open Rule to perform the action on.
 
 + Request
 
@@ -1839,7 +1807,7 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
 
 + Parameters
 
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
 
 + Request (application/json)
 
@@ -1855,7 +1823,7 @@ The functionality is available for [Admin] roles. Retrieving a Auto Open Rule is
 ### Delete an Auto Open Rule [DELETE /auto_open/{rule_id}]
 + Parameters
 
-    + rule_id (required, number, `1`) ... Alphanumeric `id` of the Rule to perform the action on.
+    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1947,7 +1915,7 @@ The functionality is available for [Admin] roles.
 ### Retrieve a Floor Group [GET /floor_groups/{group_id}]
 + Parameters
 
-    + group_id (required, string, `1`) ... Alphanumeric `id` of the Floor Group to perform the action on.
+    + group_id (required, string, `1`) ... Numeric `id` of the Floor Group to perform the action on.
     
 + Request
 
@@ -2005,7 +1973,7 @@ The functionality is available for [Admin] roles.
 
 + Parameters
 
-    + group_id (required, string, `1`) ... Alphanumeric `id` of the Floor Group to perform the action on.
+    + group_id (required, string, `1`) ... Numeric `id` of the Floor Group to perform the action on.
 
 + Request (application/json)
 
@@ -2021,7 +1989,7 @@ The functionality is available for [Admin] roles.
 ### Delete a Floor Group [DELETE /floor_groups/{group_id}]
 + Parameters
 
-    + group_id (required, number, `1`) ... Alphanumeric `id` of the Floor Group to perform the action on.
+    + group_id (required, number, `1`) ... Numeric `id` of the Floor Group to perform the action on.
     
 + Request
 
