@@ -1688,11 +1688,39 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             +`event`
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
-    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
-    + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-    + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+    + `triggerType` (required, enum[string])
+        Type of event on which action should be performed. 
+        + Members
+            + `onDoorOpen`
+            + `onDoorClose`
+            + `onDoorPropped`
+            + `onDoorForced`
+            + `onPropCleared`
+            + `allPropCleared`
+            + `onRexOpen`
+            + `onRexClose`
+            + `onCardSwipe`
+            + `onCardNotFound`
+            + `onComLoss`
+            + `onComLossCleared`
+    + `action` (required, enum[string])
+        Operation that should be performed.
+        + Members
+            + `sendEmail`
+            + `doNotDisturb`
+            + `forceToggle`
+            + `forceOpen`
+            + `forceClose`
+            + `open`
+            + `close`
+            + `lockdownOn`
+            + `lockdownOff`
+            + `delayOpen`
+            + `delayClose`
+            + `open/close`
     + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
@@ -1713,15 +1741,15 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 {
                     "id": 3,
                     "name": "MyEventRule",
-                    "triggerType": "When allowed",
+                    "triggerType": "onDoorClose",
                     "action": "delayOpen",
                     "delay": "0:25:43",
                     "emailTemplate": "testTemplate",
                     "startTime": "12:00",
                     "stopTime": "23:00",
                     "recurring": [
-                        "Monday",
-                        "Tuesday"
+                        "Mon",
+                        "Tue"
                     ],
                     "singleDate": "2016-02-23",
                     "sourceDoors": [
@@ -1748,14 +1776,47 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
-    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+    + `type` (required, enum[string])
+        Type of a given rule.
+        + Members
+            +`door`
+            +`elevator`
+            +`event`
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
-    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
-    + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-    + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+    + `triggerType` (required, enum[string])
+        Type of event on which action should be performed. 
+        + Members
+            + `onDoorOpen`
+            + `onDoorClose`
+            + `onDoorPropped`
+            + `onDoorForced`
+            + `onPropCleared`
+            + `allPropCleared`
+            + `onRexOpen`
+            + `onRexClose`
+            + `onCardSwipe`
+            + `onCardNotFound`
+            + `onComLoss`
+            + `onComLossCleared`
+    + `action` (required, enum[string])
+        Operation that should be performed.
+        + Members
+            + `sendEmail`
+            + `doNotDisturb`
+            + `forceToggle`
+            + `forceOpen`
+            + `forceClose`
+            + `open`
+            + `close`
+            + `lockdownOn`
+            + `lockdownOff`
+            + `delayOpen`
+            + `delayClose`
+            + `open/close`
     + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
@@ -1773,15 +1834,15 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     
             {
                 "name": "MyEventRule",
-                "triggerType": "When allowed",
+                "triggerType": "onDoorClose",
                 "action": "delayOpen",
                 "delay": "0:25:43",
                 "emailTemplate": "testTemplate",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "sourceDoors": [
