@@ -97,7 +97,7 @@ The functionality is available for all roles. Searching by partitions is unavail
 
     + query_string (optional, string) ... Url-encoded query string.
     + page (optional, number) 
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -167,7 +167,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Parameters
 
     + page (optional, number) 
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -248,19 +248,19 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 ### Retrieve a Person [GET]
 + Parameters
 
-    + person_id (required, string, `1`) ... Numeric `id` of the Person to perform the action on.
+    + person_id (required, string) ... Numeric `id` of the Person to perform the action on.
     
 + Request
 
     + Headers
     
             Authorization: Bearer {token}
-    
+
 + Response 200 (application/json)
 
     + `name` (required, string) ...  Person's name.
     + `enabled` (optional, boolean)
-        Person's account enabled flag. 
+        Person's account enabled flag.
         + Default: `true`
     + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format.
     + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
@@ -277,13 +277,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
             }
 
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 404 (application/json)
-
 + Response 500 (application/json)
 
 ### Create a Person [POST /persons]
@@ -291,7 +287,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Request (application/json)
 
     [Person][]
-
             
 + Response 200 (application/json)
 
@@ -304,13 +299,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
             }
 
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 404 (application/json)
-
 + Response 422 (application/json)
 
     [Persons Collection][]
@@ -320,12 +311,14 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 ### Update a Person [PUT]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
     
 + Request (application/json)
 
     + `name` (required, string) ...  Person's name.
-    + `enabled` (required, boolean) ... Person's account mode. True by default.
+    + `enabled` (required, boolean)
+        Person's account mode.
+        + Default: `true`
     + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. 
     + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
     + `photoUrl` (optional, string) ... Person's account photo URL.
@@ -345,15 +338,10 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
             }
             
 + Response 204
-
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 404 (application/json)
-
 + Response 422 (application/json)
 
     [Persons Collection][]
@@ -363,18 +351,13 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 ### Delete a Person [DELETE]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
 
 + Response 204
-
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 404 (application/json)
-
 + Response 500 (application/json)
 
 ## Person Card [/persons/{person_id}/cards]
@@ -383,8 +366,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
 + Model
 
-    + `description` (optional, string) ... Card description (max length 255).
-    + `cardNumber` (required, number) ... Card number. 
+    + `cardNumber` (required, string) ... Card number.
+    + `description` (optional, string) ... Card description (max length `255` chars).
     
     + Headers
     
@@ -393,8 +376,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
     + Body
     
             {
-                "description": "Card description",
-                "cardNumber": "123"
+                "cardNumber": "123",
+                "description": "Card description"
             }
 
 ### Retrieve all Cards [GET /persons/{person_id}/cards?page={page}&per_page={per_page}&sort={sort_order}]
@@ -403,7 +386,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
     + person_id (required, number) 
         Numeric `id` of the Person to perform the action on.
     + page (optional, number)
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -423,9 +406,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
 + Response 200 (application/json)
 
-    + `id` (required, number, `1`) ... Numeric `id` of the Card.
-    + `description` (optional, string) ... Card description (max length 255).
-    + `cardNumber` (required, number) ... Card number. 
+    + `id` (required, number) ... Numeric `id` of the Card.
+    + `cardNumber` (required, string) ... Card number.
+    + `description` (optional, string) ... Card description (max length `255` chars).
 
     + Headers
     
@@ -437,25 +420,21 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
             [
                 {
                     "id": 1,
-                    "description": "myCard",
-                    "cardNumber":"12321"
+                    "cardNumber":"12321",
+                    "description": "myCard"
                 }
             ]
 
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 404 (application/json)
-
 + Response 500 (application/json)
 
 ### Retrieve a Card [GET /persons/{person_id}/cards/{card_id}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
 
 + Request
 
@@ -465,51 +444,42 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
 + Response 200 (application/json)
 
-    + `description` (optional, string) ... Card description (max length 255).
-    + `cardNumber` (required, number) ... Card number. 
+    + `cardNumber` (required, string) ... Card number.
+    + `description` (optional, string) ... Card description (max length `255` chars).
     
     + Body
     
             {
-                "description": "Card description",
-                "cardNumber": "123"
+                "cardNumber": "123",
+                "description": "Card description"
             }
 
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 404 (application/json)
-
 + Response 500 (application/json)
 
 ### Create a Card [POST]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
     
 + Request (application/json)
 
     [Person Card][]
 
 + Response 204
-
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 404 (application/json)
-
 + Response 500 (application/json)
 
 ### Delete a Card [DELETE /persons/{person_id}/card/{card_id}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
 
 + Request
 
@@ -518,15 +488,10 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
             Authorization: Bearer {token}
 
 + Response 204
-
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 404 (application/json)
-
 + Response 500 (application/json)
 
 ## Person Rules Collection [/persons/{person_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
@@ -541,7 +506,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     + person_id (required, number)
         Numeric `id` of the Person to perform the action on.
     + page (optional, number)
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -563,10 +528,15 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 
     + Common parameters for all rule types
         + `id` (required, number) ... Numeric rule `id`.
-        + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+        + `type` (required, enum[string])
+            Type of a given rule.
+            + Members
+                +`door`
+                +`elevator`
+                +`event`
         + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
         + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
-        + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+        + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
@@ -575,8 +545,36 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+        + `triggerType` (required, enum[string])
+            Type of event on which action should be performed.
+            + Members
+                + `onDoorOpen`
+                + `onDoorClose`
+                + `onDoorPropped`
+                + `onDoorForced`
+                + `onPropCleared`
+                + `allPropCleared`
+                + `onRexOpen`
+                + `onRexClose`
+                + `onCardSwipe`
+                + `onCardNotFound`
+        + `action` (required, string)
+            Operation that should be performed.
+            + Members
+                + `sendEmail`
+                + `doNotDisturb`
+                + `forceToggle`
+                + `forceOpen`
+                + `forceClose`
+                + `open`
+                + `close`
+                + `lockdownOn`
+                + `lockdownOff`
+                + `onComLoss`
+                + `onComLossCleared`
+                + `delayOpen`
+                + `delayClose`
+                + `open/close`
         + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
@@ -617,8 +615,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                     "startTime": "12:00",
                     "stopTime": "23:00",
                     "recurring": [
-                        "Monday",
-                        "Tuesday"
+                        "Mon",
+                        "Tue"
                     ],
                     "singleDate": "2016-02-23",
                     "floorGroups": [
@@ -638,8 +636,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                     "startTime": "12:00",
                     "stopTime": "23:00",
                     "recurring": [
-                        "Monday",
-                        "Tuesday"
+                        "Mon",
+                        "Tue"
                     ],
                     "singleDate": "2016-02-23",
                     "sourceDoors": [
@@ -667,10 +665,15 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Model
 
     + Common parameters for all rule types
-        + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+        + `type` (required, enum[string])
+            Type of a given rule.
+            + Members
+                +`door`
+                +`elevator`
+                +`event`
         + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
         + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
-        + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+        + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
@@ -679,10 +682,38 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `whenAllowed`, `whenDenied(Explicit)`, `whenDenied(NoRules)`, `always(ValidCard)`, `onMultiswipeAllow(2Swipe)`, `onMultiswipeAllow(3Swipe)` or `onMultiswipeAllow(4Swipe)` values.
-        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+        + `triggerType` (required, enum[string])
+            Type of event on which action should be performed.
+            + Members
+                + `onDoorOpen`
+                + `onDoorClose`
+                + `onDoorPropped`
+                + `onDoorForced`
+                + `onPropCleared`
+                + `allPropCleared`
+                + `onRexOpen`
+                + `onRexClose`
+                + `onCardSwipe`
+                + `onCardNotFound`
+        + `action` (required, string)
+            Operation that should be performed.
+            + Members
+                + `sendEmail`
+                + `doNotDisturb`
+                + `forceToggle`
+                + `forceOpen`
+                + `forceClose`
+                + `open`
+                + `close`
+                + `lockdownOn`
+                + `lockdownOff`
+                + `onComLoss`
+                + `onComLossCleared`
+                + `delayOpen`
+                + `delayClose`
+                + `open/close`
         + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
-        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
             + Members
@@ -702,8 +733,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "floorGroups": [
@@ -719,8 +750,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "doors": [
@@ -740,8 +771,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "sourceDoors": [
@@ -755,8 +786,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 ### Retrieve a Rule for a Person  [GET /persons/{person_id}/rules/{rule_id}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
-    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    + rule_id (required, number) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -766,11 +797,15 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Response 200 (application/json)
 
-    + Common parameters for all rule types
-        + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+    + `type` (required, enum[string])
+            Type of a given rule.
+            + Members
+                +`door`
+                +`elevator`
+                +`event`
         + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
         + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
-        + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+        + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
@@ -779,10 +814,38 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
-        + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `whenAllowed`, `whenDenied(Explicit)`, `whenDenied(NoRules)`, `always(ValidCard)`, `onMultiswipeAllow(2Swipe)`, `onMultiswipeAllow(3Swipe)` or `onMultiswipeAllow(4Swipe)` values.
-        + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+        + `triggerType` (required, enum[string])
+            Type of event on which action should be performed.
+            + Members
+                + `onDoorOpen`
+                + `onDoorClose`
+                + `onDoorPropped`
+                + `onDoorForced`
+                + `onPropCleared`
+                + `allPropCleared`
+                + `onRexOpen`
+                + `onRexClose`
+                + `onCardSwipe`
+                + `onCardNotFound`
+        + `action` (required, string)
+            Operation that should be performed.
+            + Members
+                + `sendEmail`
+                + `doNotDisturb`
+                + `forceToggle`
+                + `forceOpen`
+                + `forceClose`
+                + `open`
+                + `close`
+                + `lockdownOn`
+                + `lockdownOff`
+                + `onComLoss`
+                + `onComLossCleared`
+                + `delayOpen`
+                + `delayClose`
+                + `open/close`
         + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
-        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
             + Members
@@ -792,14 +855,13 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
             
     + Body
     
-    
             {
                 "type": "elevator",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "floorGroups": [
@@ -815,8 +877,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "doors": [
@@ -836,8 +898,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "sourceDoors": [
@@ -853,7 +915,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 ]
             }
             
-+ Response 400 (application/json)            
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
@@ -862,7 +924,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 ### Add a Rule for a Person  [POST /persons/{person_id}/rules]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
     
 + Request (application/json)
 
@@ -878,7 +940,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "id": 1
             }
             
-+ Response 400 (application/json)            
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
@@ -888,8 +950,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
-    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    + rule_id (required, number) ... Numeric `id` of the Rule to perform the action on.
 
 + Request (application/json)
 
@@ -905,8 +967,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 ### Delete a Rule for a Person [DELETE /persons/{person_id}/rules/{rule_id}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
-    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    + rule_id (required, number) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -922,14 +984,17 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 500 (application/json)
 
 ## Person Groups [/persons/{person_id}/groups]
+
 The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [Reporter] role has access for retrieving operations only.
+
 ### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort_order}]
+
 + Parameters
 
-    + person_id (required, number, `1`)
+    + person_id (required, number)
         Numeric `id` of the Person to perform the action on.
     + page (optional, number)
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -964,16 +1029,15 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
             ]
 
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 500 (application/json)
 
 ### Retrieve a Group for a Person  [GET /persons/{person_id}/groups/{group_id}]
+
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
-    + group_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    + group_id (required, number) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -988,12 +1052,14 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
             {
                 "name": "group1"
             }
-+ Response 400 (application/json)            
+
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 404 (application/json)
 + Response 500 (application/json)
 
 ### Add a Group for a Person [POST /persons/{person_id}/groups]
+
 + Request (application/json)
 
     + Headers
@@ -1007,16 +1073,13 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
             }
             
 + Response 204
-
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 500 (application/json)
 
 ### Remove a Person from a Group [DELETE /persons/{person_id}/groups/{group_id}]
+
 + Request
 
     + Headers
@@ -1024,18 +1087,17 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
             Authorization: Bearer {token}
     
 + Response 204
-
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 500 (application/json)    
 
 # Group Images
+
 Service that accepts images in base64 fromat and returns relative path to it.
+
 ## Image Uploading [/image]
+
 The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  
 
 ### Upload an image [POST]
@@ -1057,23 +1119,24 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.
             }
 
 + Response 400 (application/json)
-
 + Response 401 (application/json)
-
 + Response 403 (application/json)
-
 + Response 500 (application/json)
 
 # Group Groups
+
 A group entity represents a set of shared rules that apply to people that are members of the group.
 
 ## Groups Collection [/groups?page={page}&per_page={per_page}&sort={sort_order}]
+
 The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
+
 ### Retrieve All Groups [GET]
+
 + Parameters
 
     + page (optional, number)
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -1107,19 +1170,21 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 }
             ]
 
-+ Response 400 (application/json)            
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 500 (application/json)
 
 ## Group [/groups/{group_id}]
+
 The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Group is also available for the [Reporter] role.
+
 + Parameters
 
-    + group_id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
+    + group_id (required, number) ... Numeric `id` of the Group to perform the action on.
 
 + Model 
 
-    + `name` (required, string) Group name
+    + `name` (required, string) ... Group name
     
     + Headers
     
@@ -1214,7 +1279,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 500 (application/json)
 
 ## Group Rules Collection [/groups/{group_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
+
 #### List of access rules, event rules and elevator rules that apply to this Group.
+
 The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
 
 ### Retrieve Rules Collection for a Group [GET]
@@ -1223,7 +1290,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     + group_id (required, number)
         Numeric `id` of the Group to perform the action on.
     + page (optional, number)
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -1524,7 +1591,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Parameters
 
     + page (optional, number)
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -1785,7 +1852,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Parameters
 
     + page (optional, number)
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -1988,7 +2055,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Parameters
 
     + page (optional, number)
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
@@ -2163,7 +2230,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Parameters
 
     + page (optional, number)
-        Number of page to return, started from `0` (`0` by default).
+        Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
