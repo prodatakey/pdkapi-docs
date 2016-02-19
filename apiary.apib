@@ -1861,7 +1861,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 ### Retrieve a System Event Rule [GET /system_events/{rule_id}]
 + Parameters
 
-    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
+    + rule_id (required, number) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1871,14 +1871,47 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     
 + Response 200 (application/json)
 
-    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
+    + `type` (required, enum[string])
+        Type of a given rule.
+        + Members
+            +`door`
+            +`elevator`
+            +`event`
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
-    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
-    + `triggerType` (required, string) ... Type of event on which action should be performed. Could be one of `onDoorOpen`, `onDoorClose`, `onDoorPropped`, `onDoorForced`, `onPropCleared`, `allPropCleared`, `onRexOpen`, `onRexClose`, `onCardSwipe` or `onCardNotFound` values.
-    + `action` (required, string) ... Operation that should be performed. Could be one of `sendEmail`, `doNotDisturb`, `forceToggle`, `forceOpen`, `forceClose`, `open`, `close`, `lockdownOn`, `lockdownOff`, `onComLoss`, `onComLossCleared`, `delayOpen`, `delayClose` or `open/close` values.
+    + `triggerType` (required, enum[string])
+        Type of event on which action should be performed. 
+        + Members
+            + `onDoorOpen`
+            + `onDoorClose`
+            + `onDoorPropped`
+            + `onDoorForced`
+            + `onPropCleared`
+            + `allPropCleared`
+            + `onRexOpen`
+            + `onRexClose`
+            + `onCardSwipe`
+            + `onCardNotFound`
+            + `onComLoss`
+            + `onComLossCleared`
+    + `action` (required, enum[string])
+        Operation that should be performed.
+        + Members
+            + `sendEmail`
+            + `doNotDisturb`
+            + `forceToggle`
+            + `forceOpen`
+            + `forceClose`
+            + `open`
+            + `close`
+            + `lockdownOn`
+            + `lockdownOff`
+            + `delayOpen`
+            + `delayClose`
+            + `open/close`
     + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
@@ -1892,15 +1925,15 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     
             {
                 "name": "MyEventRule",
-                "triggerType": "When allowed",
+                "triggerType": "onDoorClose",
                 "action": "delayOpen",
                 "emailTemplate": "testTemplate",
                 "delay": "0:25:43",
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "sourceDoors": [
@@ -1915,7 +1948,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                     }
                 ]
             }
-+ Response 400 (application/json)            
+
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 404 (application/json)
 + Response 500 (application/json)
@@ -1936,7 +1970,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 "id": 1
             }
             
-+ Response 400 (application/json)            
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
@@ -1946,7 +1980,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Parameters
 
-    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
+    + rule_id (required, number) ... Numeric `id` of the Rule to perform the action on.
 
 + Request (application/json)
 
@@ -1962,7 +1996,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 ### Delete a System Event Rule [DELETE /system_events/{rule_id}]
 + Parameters
 
-    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
+    + rule_id (required, number) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -1978,11 +2012,15 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 500 (application/json)
 
 # Group Auto Open
+
 #### List of access rules that represent the times that doors should be propped open.
 
 ## Auto Open Rules Collection [/auto_open?page={page}&per_page={per_page}&sort={sort_order}]
+
 The functionality is available for [Sysop, Integrator, Admin] roles.
+
 ### Retrieve Auto Open Rules Collection [GET]
+
 + Parameters
 
     + page (optional, number)
@@ -2007,10 +2045,9 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Numeric `id` of a rule.
-    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
-    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array) ... Doors on which rule should be performed.
@@ -2029,8 +2066,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                     "startTime": "12:00",
                     "stopTime": "23:00",
                     "recurring": [
-                        "Monday",
-                        "Tuesday"
+                        "Mon",
+                        "Tue"
                     ],
                     "singleDate": "2016-02-23",
                     "doors": [
@@ -2046,14 +2083,14 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 500 (application/json)
 
 ## Auto Open Rules [/auto_open]
+
 The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
-    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
-    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array) ... Doors on which rule should be performed.
@@ -2070,8 +2107,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "doors": [
@@ -2082,9 +2119,10 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             }
             
 ### Retrieve an Auto Open Rule [GET /auto_open/{rule_id}]
+
 + Parameters
 
-    + rule_id (required, number, `1`) ... Numeric `id` of the Auto Open Rule to perform the action on.
+    + rule_id (required, number) ... Numeric `id` of the Auto Open Rule to perform the action on.
 
 + Request
 
@@ -2094,10 +2132,9 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     
 + Response 200 (application/json)
 
-    + `type` (required, string) ... Type of a given rule. Values could be `door`, `elevator`, `event`.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
-    + `recurring` (optional, array) ... Days of week when a rule should be performed. 
+    + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array) ... Doors on which rule should be performed.
@@ -2109,8 +2146,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "recurring": [
-                    "Monday",
-                    "Tuesday"
+                    "Mon",
+                    "Tue"
                 ],
                 "singleDate": "2016-02-23",
                 "doors": [
@@ -2133,14 +2170,15 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Id of created rule.
+    + `id` (required, number) ... Number `id` of created rule.
 
     + Body
     
             {
                 "id": "1"
             }
-+ Response 400 (application/json)            
+
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
@@ -2150,7 +2188,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Parameters
 
-    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
+    + rule_id (required, number) ... Numeric `id` of the Rule to perform the action on.
 
 + Request (application/json)
 
@@ -2164,9 +2202,10 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 500 (application/json)
 
 ### Delete an Auto Open Rule [DELETE /auto_open/{rule_id}]
+
 + Parameters
 
-    + rule_id (required, number, `1`) ... Numeric `id` of the Rule to perform the action on.
+    + rule_id (required, number) ... Numeric `id` of the Rule to perform the action on.
     
 + Request
 
@@ -2182,10 +2221,15 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 500 (application/json)
 
 # Group Floor Groups
+
 #### Associates a reader input and a group of floor outputs. This group is then referenced from an elevator rule on a person or group to activate all the floor buttons in the elevator car where input reader is installed.
+
 ## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort_order}]
+
 The functionality is available for [Sysop, Integrator, Admin] roles.
+
 ### Retrieve Floor Groups Collection [GET]
+
 + Parameters
 
     + page (optional, number)
@@ -2233,12 +2277,14 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                     ]
                 }
             ]
+
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 500 (application/json)
 
 ## Floor Groups [/floor_groups]
+
 The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
@@ -2265,9 +2311,10 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 
 ### Retrieve a Floor Group [GET /floor_groups/{group_id}]
+
 + Parameters
 
-    + group_id (required, string, `1`) ... Numeric `id` of the Floor Group to perform the action on.
+    + group_id (required, string) ... Numeric `id` of the Floor Group to perform the action on.
     
 + Request
 
@@ -2293,7 +2340,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 ]
             }
 
-+ Response 400 (application/json)            
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
@@ -2307,7 +2354,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Id of created Floor Group.
+    + `id` (required, number) ... Number `id` of created Floor Group.
     
     + Body
     
@@ -2315,7 +2362,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 "id": 1
             }
             
-+ Response 400 (application/json)            
++ Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
@@ -2325,7 +2372,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Parameters
 
-    + group_id (required, string, `1`) ... Numeric `id` of the Floor Group to perform the action on.
+    + group_id (required, string) ... Numeric `id` of the Floor Group to perform the action on.
 
 + Request (application/json)
 
@@ -2339,9 +2386,10 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 500 (application/json)
 
 ### Delete a Floor Group [DELETE /floor_groups/{group_id}]
+
 + Parameters
 
-    + group_id (required, number, `1`) ... Numeric `id` of the Floor Group to perform the action on.
+    + group_id (required, number) ... Numeric `id` of the Floor Group to perform the action on.
     
 + Request
 
@@ -2361,6 +2409,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 ## TODO Here will be devices endpoint description
 
 ### Retrieve all Devices [GET /devices?page={page}&per_page={per_page}&sort={sort_order}]
+
 + Parameters
 
     + page (optional, number)
@@ -2395,8 +2444,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `propDelay` (required, number) ... Amount of time before PropAlarm is triggered.
     + `rex` (required, boolean) ... Enables loggin of user's request to leave from secured side of the door.
     + `forcedAlarm` (required, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without Rex being triggered or a card read at the door.
-    + `useCam` (required, boolean) ... Flag indicates if camera integration is enabled.
-    + `camUrl` (required, string) ... URL of an IP camera .
     
     + Headers
     
@@ -2417,9 +2464,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                     "propAlarm": true,
                     "propDelay": 30,
                     "rex": true,
-                    "forcedAlarm": true,
-                    "useCam": true,
-                    "camUrl": "http://USERNAME:PASSWORD@IPADDRESS:PORT/camera"
+                    "forcedAlarm": true
                 }
             ]
 
