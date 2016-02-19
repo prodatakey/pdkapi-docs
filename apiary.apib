@@ -96,9 +96,18 @@ The functionality is available for all roles. Searching by partitions is unavail
 + Parameters
 
     + query_string (optional, string) ... Url-encoded query string.
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + page (optional, number) 
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
     
 + Request
 
@@ -157,9 +166,18 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 ### Retrieve all Persons [GET /persons?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + page (optional, number) 
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
 
 + Request
 
@@ -376,10 +394,20 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 ### Retrieve all Cards [GET /persons/{person_id}/cards?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + person_id (required, number) 
+        Numeric `id` of the Person to perform the action on.
+    + page (optional, number)
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
 
 + Request
 
@@ -504,10 +532,20 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 ### Retrieve Rules Collection for a Person [GET]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + person_id (required, number)
+        Numeric `id` of the Person to perform the action on.
+    + page (optional, number)
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
 
 + Request
 
@@ -882,10 +920,20 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 ### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
-    + person_id (required, number, `1`) ... Numeric `id` of the Person to perform the action on.
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + person_id (required, number, `1`)
+        Numeric `id` of the Person to perform the action on.
+    + page (optional, number)
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
 
 + Request
 
@@ -1018,9 +1066,18 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 ### Retrieve All Groups [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + page (optional, number)
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
     
 + Request
 
@@ -1157,10 +1214,20 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 ### Retrieve Rules Collection for a Group [GET]
 + Parameters
 
-    + group_id (required, number, `1`) ... Numeric `id` of the Group to perform the action on.
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + group_id (required, number)
+        Numeric `id` of the Group to perform the action on.
+    + page (optional, number)
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
     
 + Request
 
@@ -1450,9 +1517,18 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 ### Retrieve System Events Collection [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + page (optional, number)
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
     
 + Request
 
@@ -1702,9 +1778,18 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 ### Retrieve Auto Open Rules Collection [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + page (optional, number)
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
     
 + Request
 
@@ -1896,9 +1981,18 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 ### Retrieve Floor Groups Collection [GET]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + page (optional, number)
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
     
 + Request
 
@@ -2062,9 +2156,18 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 ### Retrieve all Devices [GET /devices?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
 
-    + page (optional, number, `0`) ... Number of page (`0` by default).
-    + per_page (optional, number, `10`) ... Count of items per page (`10` by default).
-    + sort_order (optional, string, `asc`) ... Sorting order. Can be `asc` or `desc` (`asc` by default).
+    + page (optional, number)
+        Number of page to return, started from `0` (`0` by default).
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
 
 + Request
 
