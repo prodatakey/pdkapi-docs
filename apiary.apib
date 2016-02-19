@@ -189,10 +189,12 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 
     + `id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, boolean) ... Person's account mode. True by default.
-    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. Null by default. 
-    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format. Null by default.
-    + `photoUrl` (optional, string) ... Person's account photo URL. Null by default.
+    + `enabled` (optional, boolean)
+        Person's account enabled flag. 
+        + Default: `true`
+    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. 
+    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
+    + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
     
@@ -222,10 +224,12 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
     + `person_id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, boolean) ... Person's account mode. True by default.
-    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. Null by default. 
-    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format. Null by default.
-    + `photoUrl` (optional, string) ... Person's account photo URL. Null by default.
+    + `enabled` (optional, boolean)
+        Person's account enabled flag. 
+        + Default: `true`
+    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. 
+    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
+    + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
     
@@ -255,10 +259,12 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 200 (application/json)
 
     + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, boolean) ... Person's account mode. True by default.
-    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. Null by default. 
-    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format. Null by default.
-    + `photoUrl` (optional, string) ... Person's account photo URL. Null by default.
+    + `enabled` (optional, boolean)
+        Person's account enabled flag. 
+        + Default: `true`
+    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format.
+    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
+    + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Body
     
@@ -320,9 +326,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
     + `name` (required, string) ...  Person's name.
     + `enabled` (required, boolean) ... Person's account mode. True by default.
-    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. Null by default. 
-    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format. Null by default.
-    + `photoUrl` (optional, string) ... Person's account photo URL. Null by default.
+    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. 
+    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
+    + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
     
