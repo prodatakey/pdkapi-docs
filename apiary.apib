@@ -91,7 +91,7 @@ Roles permissions have hierarchical structure. List of possible roles given belo
 * `Sysop` in addition to `Admin` permissions can change hardware configuration.
 
 # Group Search
-The functionality is available for all roles. Searching by partitions is unavailable for the [Manager, Reporter] roles.
+The functionality is available for all roles.
 ### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
 + Parameters
 
@@ -123,7 +123,6 @@ The functionality is available for all roles. Searching by partitions is unavail
             + `person`
             + `group`
             + `floorGroup`
-            + `partitions`
     + `name` (required, string) ... Entity name or description.
     
     + Headers
@@ -133,19 +132,17 @@ The functionality is available for all roles. Searching by partitions is unavail
     
     + Body
     
-            {
-                "id": 10,
-                "type": "person",
-                "name": "Ted Froëdington"
-            }
+            [
+                {
+                    "id": 10,
+                    "type": "person",
+                    "name": "Ted Froëdington"
+                }
+            ]
 
 + Response 400 (application/json)            
 + Response 401 (application/json)
 + Response 500 (application/json)
-
-# Group Partitions
-
-## TODO Here will be partitions endpoint description
 
 # Group Persons
 A person entity represents the attributes of a person that will be interacting with the access control system.
@@ -189,11 +186,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 
     + `id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, boolean)
-        Person's account enabled flag. 
-        + Default: `true`
-    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. 
-    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -207,9 +199,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 {
                     "id": 10,
                     "name": "Ted Froëdington",
-                    "enabled": true,
-                    "activeDate": "2016-03-23",
-                    "expDate": "2016-04-23",
                     "photoUrl": "http://example.com/usersImages/32224.jpg"
                 }
             ]
@@ -224,11 +213,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
     + `person_id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, boolean)
-        Person's account enabled flag. 
-        + Default: `true`
-    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. 
-    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -239,9 +223,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     
             {
                 "name": "Ted Froëdington",
-                "enabled": true,
-                "activeDate": "2016-03-23",
-                "expDate": "2016-04-23",
                 "photoUrl": "http://example.com/usersImages/32224.jpg"
             }
 
@@ -259,11 +240,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 200 (application/json)
 
     + `name` (required, string) ...  Person's name.
-    + `enabled` (optional, boolean)
-        Person's account enabled flag.
-        + Default: `true`
-    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format.
-    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Body
@@ -271,9 +247,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
             {
                 "id": 1,
                 "name": "Ted Froëdington",
-                "enabled": true,
-                "activeDate": "2016-03-23",
-                "expDate": "2016-04-23",
                 "photoUrl": "http://example.com/usersImages/32224.jpg"
             }
 
@@ -317,11 +290,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Request (application/json)
 
     + `name` (required, string) ...  Person's name.
-    + `enabled` (required, boolean)
-        Person's account mode.
-        + Default: `true`
-    + `activeDate` (optional, string) ...  Person's account activation date  in `YYYY-MM-DD` format. 
-    + `expDate` (optional, string) ... Person's account expiration date  in `YYYY-MM-DD` format.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -332,9 +300,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     
             {
                 "name": "Ted Froëdington",
-                "enabled": true,
-                "activeDate": "2016-03-23",
-                "expDate": "2016-04-23",
                 "photoUrl": "http://example.com/usersImages/32224.jpg"
             }
             
@@ -572,8 +537,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 + `close`
                 + `lockdownOn`
                 + `lockdownOff`
-                + `onComLoss`
-                + `onComLossCleared`
                 + `delayOpen`
                 + `delayClose`
                 + `open/close`
@@ -709,8 +672,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `close`
                 + `lockdownOn`
                 + `lockdownOff`
-                + `onComLoss`
-                + `onComLossCleared`
                 + `delayOpen`
                 + `delayClose`
                 + `open/close`
@@ -841,8 +802,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `close`
                 + `lockdownOn`
                 + `lockdownOff`
-                + `onComLoss`
-                + `onComLossCleared`
                 + `delayOpen`
                 + `delayClose`
                 + `open/close`
@@ -1359,8 +1318,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 + `close`
                 + `lockdownOn`
                 + `lockdownOff`
-                + `onComLoss`
-                + `onComLossCleared`
                 + `delayOpen`
                 + `delayClose`
                 + `open/close`
@@ -1506,8 +1463,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `close`
                 + `lockdownOn`
                 + `lockdownOff`
-                + `onComLoss`
-                + `onComLossCleared`
                 + `delayOpen`
                 + `delayClose`
                 + `open/close`
@@ -1712,8 +1667,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             + `onRexClose`
             + `onCardSwipe`
             + `onCardNotFound`
-            + `onComLoss`
-            + `onComLossCleared`
     + `action` (required, enum[string])
         Operation that should be performed.
         + Members
@@ -1808,8 +1761,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             + `onRexClose`
             + `onCardSwipe`
             + `onCardNotFound`
-            + `onComLoss`
-            + `onComLossCleared`
     + `action` (required, enum[string])
         Operation that should be performed.
         + Members
@@ -1903,8 +1854,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             + `onRexClose`
             + `onCardSwipe`
             + `onCardNotFound`
-            + `onComLoss`
-            + `onComLossCleared`
     + `action` (required, enum[string])
         Operation that should be performed.
         + Members
