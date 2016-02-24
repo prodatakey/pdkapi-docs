@@ -2411,7 +2411,7 @@ The functionality is available for [Sysop, Integrator] roles.
     + `id` (required, number) ... Device id.
     + `name` (required, string) ...  Device name.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
-    + `port` (required, number) ... Board port number.
+    + `port` (required, number) ... Board port number. An integer from `1` to `32`.
     + `wirelessAddress` (required, string) ... Wireless address.
     + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay.
     + `propAlarm` (required, boolean) ... Enables alarm if a door left open more then `propDelay` seconds.
@@ -2456,7 +2456,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
     + `name` (required, string) ...  Device name.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
-    + `port` (required, number) ... Board port number.
+    + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (required, string) ... Wireless address.
     + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay.
     + `propAlarm` (required, boolean) ... Enables alarm if a door left open more then `propDelay` seconds.
@@ -2501,7 +2501,7 @@ The functionality is available for [Sysop, Integrator] roles.
     + `id` (required, number) ... Device id.
     + `name` (required, string) ...  Device name.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
-    + `port` (required, number) ... Board port number.
+    + `port` (required, number) ... Board port number. An integer from `1` to `32`.
     + `wirelessAddress` (required, string) ... Wireless address.
     + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay.
     + `propAlarm` (required, boolean) ... Enables alarm if a door left open more then `propDelay` seconds.
@@ -2540,7 +2540,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Number `id` of created Floor Group.
+    + `id` (required, number) ... Number `id` of created Device.
     
     + Body
     
@@ -2548,6 +2548,42 @@ The functionality is available for [Sysop, Integrator] roles.
                 "id": 1
             }
             
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update a Device [PUT /devices/{device_id}]
+
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+
++ Request (application/json)
+
+    [Devices][]
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Delete a Device [DELETE /devices/{device_id}]
+
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
