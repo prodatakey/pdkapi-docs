@@ -211,7 +211,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Model
 
-    + `name` (required, string) ...  Person's name.
+    + `name` (required, string) ...  Person's name. Must be unique.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -1154,7 +1154,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Model 
 
-    + `name` (required, string) ... Group name
+    + `name` (required, string) ... Group name. Must be unique.
     
     + Headers
     
@@ -2404,13 +2404,13 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `description` (required, string) ...  Device name.
     + `connection` (required, number) ... Connection type id.
     + `port` (required, number) ... Board port number.
-    + `ca64` (required, string) ... Wireless address.
-    + `relay` (required, boolean) ... Flag indicates if this device is a high-power relay.
-    + `dps` (required, boolean) ... Flag indicates if door Open/Close events shoul be logged.
+    + `wirelessAddress` (required, string) ... Wireless address.
+    + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay.
     + `propAlarm` (required, boolean) ... Enables alarm if a door left open more then `propDelay` seconds.
     + `propDelay` (required, number) ... Amount of time before PropAlarm is triggered.
-    + `rex` (required, boolean) ... Enables loggin of user's request to leave from secured side of the door.
-    + `forcedAlarm` (required, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without Rex being triggered or a card read at the door.
+    + `dps` (required, boolean) ... Enables Door Position Sense (DPS) feature on a door.
+    + `rex` (required, boolean) ... Enables Request to Exit (REX) feature on a door.
+    + `forcedAlarm` (required, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door.
     
     + Headers
     
