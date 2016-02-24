@@ -211,7 +211,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Model
 
-    + `person_id` (required, number) ... Person's id.
     + `name` (required, string) ...  Person's name.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
@@ -1065,15 +1064,21 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.
 
 ### Upload an image [POST]
 
-+ Request (multipart/form-data)
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer {token}
+            
+    + Body
+    
+            {
+                "base64": "TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24="
+            }
 
 + Response 200 (application/json)
 
     + `imageUrl` (required, string) ... URL to the uploaded image.
-    
-    + Headers
-    
-            Authorization: Bearer {token}
     
     + Body
     
