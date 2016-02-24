@@ -2532,6 +2532,28 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
+### Add a Device [POST]
+
++ Request (application/json)
+
+    [Devices][]
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Number `id` of created Floor Group.
+    
+    + Body
+    
+            {
+                "id": 1
+            }
+            
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
 # Group Connections
 
 ## TODO Here will be connections endpoint description
