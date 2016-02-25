@@ -87,8 +87,8 @@ Roles permissions have hierarchical structure. List of possible roles given belo
 * `Reporter` has read only access for Persons, Groups entities.
 * `Manager` in addition to `Reporter` permissions has write access for Persons and Groups entities.
 * `Admin` in addition to `Manager` permissions has write access for Persons, Groups, System Events, Auto Open Rules, Floor Groups entities.
-* `Integrator` in addition to `Admin` permissions can change hardware configuration.
-* `Sysop` in addition to `Admin` permissions can change hardware configuration.
+* `Integrator` in addition to `Admin` permissions can change hardware configuration (Devices, Connections, Config and Websocket API commands).
+* `Sysop` in addition to `Admin` permissions can change hardware configuration (Devices, Connections, Config and Websocket API commands).
 
 # Group Search
 The functionality is available for all roles.
@@ -517,35 +517,40 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
-                + `onDoorOpen`
-                + `onDoorClose`
-                + `onDoorPropped`
-                + `onDoorForced`
-                + `onPropCleared`
-                + `allPropCleared`
-                + `onRexOpen`
-                + `onRexClose`
-                + `onCardSwipe`
-                + `onCardNotFound`
+                + `whenAllowed`
+                + `whenDeniedExplicit`
+                + `whenDeniedNoRules`
+                + `always`
+                + `onMultiSwipeAllow2Swipe`
+                + `onMultiSwipeAllow3Swipe`
+                + `onMultiSwipeAllow4Swipe`
         + `action` (required, string)
             Operation that should be performed.
             + Members
                 + `sendEmail`
+                    Does need an `emailTemplate` to be specified.
                 + `doNotDisturb`
                 + `forceToggle`
                 + `forceOpen`
                 + `forceClose`
                 + `open`
+                    Does need a `target` to be specified.
                 + `close`
+                    Does need a `target` to be specified.
                 + `lockdownOn`
+                    Does need a `target` to be specified.
                 + `lockdownOff`
+                    Does need a `target` to be specified.
                 + `delayOpen`
+                    Does need a `target` and a `delay` to be specified.
                 + `delayClose`
-                + `open/close`
-        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
+                    Does need a `target` and a `delay` to be specified.
+                + `openClose`
+                    Does need a `target` and a `delay` to be specified.
+        + `emailTemplate` (required, string) ... Template for email.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
-        + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
+        + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
             + Members
                 + `source`
                 + `selected`
@@ -596,7 +601,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                     "type": "event",
                     "id": 3,
                     "name": "MyEventRule",
-                    "triggerType": "onDoorClose",
+                    "triggerType": "whenAllowed",
                     "action": "delayOpen",
                     "emailTemplate": "testTemplate",
                     "delay": "0:25:43",
@@ -652,35 +657,40 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
-                + `onDoorOpen`
-                + `onDoorClose`
-                + `onDoorPropped`
-                + `onDoorForced`
-                + `onPropCleared`
-                + `allPropCleared`
-                + `onRexOpen`
-                + `onRexClose`
-                + `onCardSwipe`
-                + `onCardNotFound`
+                + `whenAllowed`
+                + `whenDeniedExplicit`
+                + `whenDeniedNoRules`
+                + `always`
+                + `onMultiSwipeAllow2Swipe`
+                + `onMultiSwipeAllow3Swipe`
+                + `onMultiSwipeAllow4Swipe`
         + `action` (required, string)
             Operation that should be performed.
             + Members
                 + `sendEmail`
+                    Does need an `emailTemplate` to be specified.
                 + `doNotDisturb`
                 + `forceToggle`
                 + `forceOpen`
                 + `forceClose`
                 + `open`
+                    Does need a `target` to be specified.
                 + `close`
+                    Does need a `target` to be specified.
                 + `lockdownOn`
+                    Does need a `target` to be specified.
                 + `lockdownOff`
+                    Does need a `target` to be specified.
                 + `delayOpen`
+                    Does need a `target` and a `delay` to be specified.
                 + `delayClose`
-                + `open/close`
-        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
+                    Does need a `target` and a `delay` to be specified.
+                + `openClose`
+                    Does need a `target` and a `delay` to be specified.
+        + `emailTemplate` (required, string) ... Template for email.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
-        + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
+        + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
             + Members
                 + `source`
                 + `selected`
@@ -729,7 +739,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
             {
                 "type": "event",
                 "name": "MyEventRule",
-                "triggerType": "onDoorClose",
+                "triggerType": "whenAllowed",
                 "action": "delayOpen",
                 "delay": "0:25:43",
                 "emailTemplate": "testTemplate",
@@ -784,35 +794,40 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
-                + `onDoorOpen`
-                + `onDoorClose`
-                + `onDoorPropped`
-                + `onDoorForced`
-                + `onPropCleared`
-                + `allPropCleared`
-                + `onRexOpen`
-                + `onRexClose`
-                + `onCardSwipe`
-                + `onCardNotFound`
+                + `whenAllowed`
+                + `whenDeniedExplicit`
+                + `whenDeniedNoRules`
+                + `always`
+                + `onMultiSwipeAllow2Swipe`
+                + `onMultiSwipeAllow3Swipe`
+                + `onMultiSwipeAllow4Swipe`
         + `action` (required, string)
             Operation that should be performed.
             + Members
                 + `sendEmail`
+                    Does need an `emailTemplate` to be specified.
                 + `doNotDisturb`
                 + `forceToggle`
                 + `forceOpen`
                 + `forceClose`
                 + `open`
+                    Does need a `target` to be specified.
                 + `close`
+                    Does need a `target` to be specified.
                 + `lockdownOn`
+                    Does need a `target` to be specified.
                 + `lockdownOff`
+                    Does need a `target` to be specified.
                 + `delayOpen`
+                    Does need a `target` and a `delay` to be specified.
                 + `delayClose`
-                + `open/close`
-        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
+                    Does need a `target` and a `delay` to be specified.
+                + `openClose`
+                    Does need a `target` and a `delay` to be specified.
+        + `emailTemplate` (required, string) ... Template for email.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
-        + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
+        + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
             + Members
                 + `source`
                 + `selected`
@@ -857,7 +872,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
             {
                 "type": "event",
                 "name": "MyEventRule",
-                "triggerType": "onDoorClose",
+                "triggerType": "whenAllowed",
                 "action": "delayOpen",
                 "delay": "0:25:43",
                 "emailTemplate": "testTemplate",
@@ -1308,35 +1323,40 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
-                + `onDoorOpen`
-                + `onDoorClose`
-                + `onDoorPropped`
-                + `onDoorForced`
-                + `onPropCleared`
-                + `allPropCleared`
-                + `onRexOpen`
-                + `onRexClose`
-                + `onCardSwipe`
-                + `onCardNotFound`
+                + `whenAllowed`
+                + `whenDeniedExplicit`
+                + `whenDeniedNoRules`
+                + `always`
+                + `onMultiSwipeAllow2Swipe`
+                + `onMultiSwipeAllow3Swipe`
+                + `onMultiSwipeAllow4Swipe`
         + `action` (required, string)
             Operation that should be performed.
             + Members
                 + `sendEmail`
+                    Does need an `emailTemplate` to be specified.
                 + `doNotDisturb`
                 + `forceToggle`
                 + `forceOpen`
                 + `forceClose`
                 + `open`
+                    Does need a `target` to be specified.
                 + `close`
+                    Does need a `target` to be specified.
                 + `lockdownOn`
+                    Does need a `target` to be specified.
                 + `lockdownOff`
+                    Does need a `target` to be specified.
                 + `delayOpen`
+                    Does need a `target` and a `delay` to be specified.
                 + `delayClose`
-                + `open/close`
-        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
-        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+                    Does need a `target` and a `delay` to be specified.
+                + `openClose`
+                    Does need a `target` and a `delay` to be specified.
+        + `emailTemplate` (required, string) ... Template for email.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
-        + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
+        + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
             + Members
                 + `source`
                 + `selected`
@@ -1387,7 +1407,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                     "type": "event",
                     "id": 3,
                     "name": "MyEventRule",
-                    "triggerType": "onDoorClose",
+                    "triggerType": "whenAllowed",
                     "action": "delayOpen",
                     "emailTemplate": "",
                     "delay": "0:25:43",
@@ -1453,35 +1473,40 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
-                + `onDoorOpen`
-                + `onDoorClose`
-                + `onDoorPropped`
-                + `onDoorForced`
-                + `onPropCleared`
-                + `allPropCleared`
-                + `onRexOpen`
-                + `onRexClose`
-                + `onCardSwipe`
-                + `onCardNotFound`
+                + `whenAllowed`
+                + `whenDeniedExplicit`
+                + `whenDeniedNoRules`
+                + `always`
+                + `onMultiSwipeAllow2Swipe`
+                + `onMultiSwipeAllow3Swipe`
+                + `onMultiSwipeAllow4Swipe`
         + `action` (required, string)
             Operation that should be performed.
             + Members
                 + `sendEmail`
+                    Does need an `emailTemplate` to be specified.
                 + `doNotDisturb`
                 + `forceToggle`
                 + `forceOpen`
                 + `forceClose`
                 + `open`
+                    Does need a `target` to be specified.
                 + `close`
+                    Does need a `target` to be specified.
                 + `lockdownOn`
+                    Does need a `target` to be specified.
                 + `lockdownOff`
+                    Does need a `target` to be specified.
                 + `delayOpen`
+                    Does need a `target` and a `delay` to be specified.
                 + `delayClose`
-                + `open/close`
-        + `emailTemplate` (required, string) ... Template for email. Used with `sendEmail` action type only.
-        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+                    Does need a `target` and a `delay` to be specified.
+                + `openClose`
+                    Does need a `target` and a `delay` to be specified.
+        + `emailTemplate` (required, string) ... Template for email.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
-        + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
+        + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
             + Members
                 + `source`
                 + `selected`
@@ -1528,7 +1553,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "id": 1,
                 "type": "event",
                 "name": "MyEventRule",
-                "triggerType": "onDoorClose",
+                "triggerType": "whenAllowed",
                 "action": "delayOpen",
                 "emailTemplate": "",
                 "delay": "0:25:43",
