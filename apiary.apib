@@ -333,7 +333,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
 + Model
 
-    + `cardNumber` (required, string) ... Card number. Must be unique among all persons.
+    + `cardNumber` (required, number) ... Card number. Must be unique among all persons.
     + `description` (optional, string) ... Card description (max length `255` chars).
     
     + Headers
@@ -343,7 +343,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
     + Body
     
             {
-                "cardNumber": "123",
+                "cardNumber": 123,
                 "description": "Card description"
             }
 
@@ -374,7 +374,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 200 (application/json)
 
     + `id` (required, number) ... Numeric `id` of the Card.
-    + `cardNumber` (required, string) ... Card number.
+    + `cardNumber` (required, number) ... Card number.
     + `description` (optional, string) ... Card description (max length `255` chars).
 
     + Headers
@@ -387,7 +387,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
             [
                 {
                     "id": 1,
-                    "cardNumber":"12321",
+                    "cardNumber": 12321,
                     "description": "myCard"
                 }
             ]
@@ -412,14 +412,14 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 200 (application/json)
 
     + `id` (required, number) ... Numeric `id` of the Card.
-    + `cardNumber` (required, string) ... Card number.
+    + `cardNumber` (required, number) ... Card number.
     + `description` (optional, string) ... Card description (max length `255` chars).
     
     + Body
     
             {
                 "id": 1,
-                "cardNumber": "123",
+                "cardNumber": 123,
                 "description": "Card description"
             }
 
