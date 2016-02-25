@@ -2438,14 +2438,17 @@ The functionality is available for [Sysop, Integrator] roles.
     + `id` (required, number) ... Device id.
     + `name` (required, string) ...  Device name.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
-    + `port` (required, number) ... Board port number. An integer from `1` to `32`.
-    + `wirelessAddress` (required, string) ... Wireless address.
-    + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay.
-    + `propAlarm` (required, boolean) ... Enables alarm if a door left open more then `propDelay` seconds.
-    + `propDelay` (required, number) ... Amount of time before PropAlarm is triggered.
-    + `dps` (required, boolean) ... Enables Door Position Sense (DPS) feature on a door.
-    + `rex` (required, boolean) ... Enables Request to Exit (REX) feature on a door.
-    + `forcedAlarm` (required, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door.
+    + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
+    + `wirelessAddress` (required, string) ... Wireless address of this device.
+    + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay. If specified `delay`, `dwell`, `dps`, `propAlarm`, `propDelay`, `rex` and `forcedAlarm` fields should be disabled.
+    + `delay` (optional, number) ... Amount of time (in tenths of second) that the relay should delay before actuating.
+    + `dwell` (optional, number) ... Amount of time (in tenths of second) that the relay should stay actuated.
+    + `dps` (optional, boolean) ... Enables Door Position Sense (DPS) feature for this door.
+    + `propAlarm` (optional, boolean) ... Enables alarm if a door left open more then `propDelay` seconds (specified only in case `dps` flag is set).
+    + `propDelay` (optional, number) ... Amount of time before PropAlarm is triggered (specified only in case `propAlarm` flag is set).
+    + `rex` (optional, boolean) ... Enables Request to Exit (REX) feature for this door.
+    + `forcedAlarm` (optional, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door (specified only in case `rex` and `dps` flags are set).
+    + `autoOpenAfterFirstAllow` (optional, boolean) ... Flag indicates enabling Auto Open After First Allow feature for this door.
     
     + Headers
     
@@ -2484,13 +2487,16 @@ The functionality is available for [Sysop, Integrator] roles.
     + `name` (required, string) ...  Device name.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
-    + `wirelessAddress` (required, string) ... Wireless address.
-    + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay.
-    + `propAlarm` (required, boolean) ... Enables alarm if a door left open more then `propDelay` seconds.
-    + `propDelay` (required, number) ... Amount of time before PropAlarm is triggered.
-    + `dps` (required, boolean) ... Enables Door Position Sense (DPS) feature on a door.
-    + `rex` (required, boolean) ... Enables Request to Exit (REX) feature on a door.
-    + `forcedAlarm` (required, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door.
+    + `wirelessAddress` (required, string) ... Wireless address of this device.
+    + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay. If specified `delay`, `dwell`, `dps`, `propAlarm`, `propDelay`, `rex` and `forcedAlarm` fields should be disabled.
+    + `delay` (optional, number) ... Amount of time (in tenths of second) that the relay should delay before actuating.
+    + `dwell` (optional, number) ... Amount of time (in tenths of second) that the relay should stay actuated.
+    + `dps` (optional, boolean) ... Enables Door Position Sense (DPS) feature for this door.
+    + `propAlarm` (optional, boolean) ... Enables alarm if a door left open more then `propDelay` seconds (specified only in case `dps` flag is set).
+    + `propDelay` (optional, number) ... Amount of time before PropAlarm is triggered (specified only in case `propAlarm` flag is set).
+    + `rex` (optional, boolean) ... Enables Request to Exit (REX) feature for this door.
+    + `forcedAlarm` (optional, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door (specified only in case `rex` and `dps` flags are set).
+    + `autoOpenAfterFirstAllow` (optional, boolean) ... Flag indicates enabling Auto Open After First Allow feature for this door.
     
     + Headers
     
@@ -2499,7 +2505,7 @@ The functionality is available for [Sysop, Integrator] roles.
     + Body
     
             {
-                    "description": "Front Door",
+                    "name": "Front Door",
                     "connection": 1,
                     "port": 1,
                     "wirelessAddress": "0013A200400A393B",
@@ -2528,14 +2534,17 @@ The functionality is available for [Sysop, Integrator] roles.
     + `id` (required, number) ... Device id.
     + `name` (required, string) ...  Device name.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
-    + `port` (required, number) ... Board port number. An integer from `1` to `32`.
-    + `wirelessAddress` (required, string) ... Wireless address.
-    + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay.
-    + `propAlarm` (required, boolean) ... Enables alarm if a door left open more then `propDelay` seconds.
-    + `propDelay` (required, number) ... Amount of time before PropAlarm is triggered.
-    + `dps` (required, boolean) ... Enables Door Position Sense (DPS) feature on a door.
-    + `rex` (required, boolean) ... Enables Request to Exit (REX) feature on a door.
-    + `forcedAlarm` (required, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door.
+    + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
+    + `wirelessAddress` (required, string) ... Wireless address of this device.
+    + `highPowerRelay` (required, boolean) ... Flag indicates if this device is a high-power relay. If specified `delay`, `dwell`, `dps`, `propAlarm`, `propDelay`, `rex` and `forcedAlarm` fields should be disabled.
+    + `delay` (optional, number) ... Amount of time (in tenths of second) that the relay should delay before actuating.
+    + `dwell` (optional, number) ... Amount of time (in tenths of second) that the relay should stay actuated.
+    + `dps` (optional, boolean) ... Enables Door Position Sense (DPS) feature for this door.
+    + `propAlarm` (optional, boolean) ... Enables alarm if a door left open more then `propDelay` seconds (specified only in case `dps` flag is set).
+    + `propDelay` (optional, number) ... Amount of time before PropAlarm is triggered (specified only in case `propAlarm` flag is set).
+    + `rex` (optional, boolean) ... Enables Request to Exit (REX) feature for this door.
+    + `forcedAlarm` (optional, boolean) ... Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door (specified only in case `rex` and `dps` flags are set).
+    + `autoOpenAfterFirstAllow` (optional, boolean) ... Flag indicates enabling Auto Open After First Allow feature for this door.
         
     + Body
     
