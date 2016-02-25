@@ -95,7 +95,7 @@ The functionality is available for all roles.
 ### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
 + Parameters
 
-    + query_string (optional, string) ... Url-encoded query string.
+    + query_string (optional, string) ... Url-encoded query string. Search will be done in the following entities: Person (`name` and `cardNumber`), Group (`name`), Floor Group (`name`).
     + page (optional, number) 
         Number of page to return, started from `0`.
         + Default: `0`
@@ -123,7 +123,8 @@ The functionality is available for all roles.
             + `person`
             + `group`
             + `floorGroup`
-    + `name` (required, string) ... Entity name or description.
+    + `name` (required, string) ... Entity name.
+    + `description` (required, string) ... Entity description (will be equal to person's card number in case of search by card number).
     
     + Headers
     
@@ -136,7 +137,8 @@ The functionality is available for all roles.
                 {
                     "id": 10,
                     "type": "person",
-                    "name": "Ted Froëdington"
+                    "name": "Ted Froëdington",
+                    "description": "654321123456"
                 }
             ]
 
@@ -331,7 +333,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
 + Model
 
-    + `cardNumber` (required, string) ... Card number.
+    + `cardNumber` (required, string) ... Card number. Must be unique among all persons.
     + `description` (optional, string) ... Card description (max length `255` chars).
     
     + Headers
@@ -2379,7 +2381,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 # Group Devices
 
-#### A device entity represents the attributes of a board port that is connected with end devices which represent a physical object (door, a reader in an elevator car, etc.). These attributes include the device's name, a connection properties and list of enabled features.
+#### A device entity represents the attributes of a board port that is connected with end devices which represent a physical object (door, a reader in an elevator car, etc.). These attributes include the device's name, a connection properties (port number, wireless address) and list of enabled features.
 
 The functionality is available for [Sysop, Integrator] roles.
 
@@ -2592,16 +2594,78 @@ The functionality is available for [Sysop, Integrator] roles.
 
 # Group Connections
 
-## TODO Here will be connections endpoint description
+#### A connection entity represents the attributes of a connection with board(s) via concrete trasport. These attributes include the connection's name and connection properties (e.g. serial port number in case of USB connected board).
 
-# Group Wireless
+The functionality is available for [Sysop, Integrator] roles.
 
-## TODO Here will be wireless endpoint description
+### Retrieve Devices Collection [GET /connections?page={page}&per_page={per_page}&sort={sort_order}]
+
++ Parameters
+
+    + page (optional, number)
+        Number of page to return, started from `0`.
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort_order (optional, enum[string])
+        Sorting order.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Connection id.
+    + `name` (required, string) ...  Connection name.
+    + `type` (required, enum[string])
+        Connection type.
+        + Members
+            + `wirelessCoordinator`
+            + `ethernet`
+            + `USB`
+    + `ipAddress` (required, string) ... IP address of connection.
+    + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of USB connection.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/persons?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/panels?page=2&per_page=10>; rel="last"
+            X-Total-Count: 1
+    
+    + Body
+    
+            [
+                {
+                    "id": 10,
+                    "name": "Front Door",
+                    "connection": 1,
+                    "port": 1,
+                    "wirelessAddress": "0013A200400A393B",
+                    "highPowerRelay": true,
+                    "propAlarm": true,
+                    "propDelay": 30,
+                    "dps": true,
+                    "rex": true,
+                    "forcedAlarm": true
+                }
+            ]
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 500 (application/json)
 
 # Group Config
 
 ## TODO Here will be config endpoint description
 
-# Group Websocket
+# Group Websocket API
 
 ## TODO Here will be websocket commands description
