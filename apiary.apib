@@ -2630,8 +2630,8 @@ The functionality is available for [Sysop, Integrator] roles.
         + Members
             + `wirelessCoordinator`
             + `ethernet`
-            + `USB`
-    + `ipAddress` (required, string) ... IP address of connection.
+            + `usb`
+    + `address` (optional, string) ... Address of connection. Represents IP address in case of Ethernet connection and wireless address of coordinator in case of Wireless connection. Will be empty in case of USB connection.
     + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of USB connection.
     
     + Headers
@@ -2644,16 +2644,23 @@ The functionality is available for [Sysop, Integrator] roles.
             [
                 {
                     "id": 10,
-                    "name": "Front Door",
-                    "connection": 1,
-                    "port": 1,
-                    "wirelessAddress": "0013A200400A393B",
-                    "highPowerRelay": true,
-                    "propAlarm": true,
-                    "propDelay": 30,
-                    "dps": true,
-                    "rex": true,
-                    "forcedAlarm": true
+                    "name": "Board 1",
+                    "type": "ethernet",
+                    "address": "192.168.1.1",
+                    "port": 10001
+                },
+                {
+                    "id": 11,
+                    "name": "Board 2",
+                    "type": "wirelessCoordinator",
+                    "address": "13A200403E08DD",
+                    "port": 7
+                },
+                {
+                    "id": 12,
+                    "name": "Board 3",
+                    "type": "usb",
+                    "port": 3
                 }
             ]
 
@@ -2662,9 +2669,217 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 403 (application/json)
 + Response 500 (application/json)
 
+## Connections [/connections]
+
+The functionality is available for [Sysop, Integrator] roles.
+
++ Model
+
+    + `name` (required, string) ...  Connection name.
+    + `type` (required, enum[string])
+        Connection type.
+        + Members
+            + `wirelessCoordinator`
+            + `ethernet`
+            + `usb`
+    + `address` (optional, string) ... Address of connection. Represents IP address in case of Ethernet connection and wireless address of coordinator in case of Wireless connection. Will be empty in case of USB connection.
+    + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of USB connection.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+        
+    + Body
+    
+            {
+                    "id": 10,
+                    "name": "Board 1",
+                    "type": "ethernet",
+                    "address": "192.168.1.1",
+                    "port": 10001
+            }
+
+### Retrieve a Connection [GET /connections/{connection_id}]
+
++ Parameters
+
+    + connection_id (required, number) ... Numeric `id` of the Connection to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Connection id.
+    + `name` (required, string) ...  Connection name.
+    + `type` (required, enum[string])
+        Connection type.
+        + Members
+            + `wirelessCoordinator`
+            + `ethernet`
+            + `usb`
+    + `address` (optional, string) ... Address of connection. Represents IP address in case of Ethernet connection and wireless address of coordinator in case of Wireless connection. Will be empty in case of USB connection.
+    + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of USB connection.
+        
+    + Body
+    
+            {
+                    "id": 12,
+                    "name": "Board 3",
+                    "type": "usb",
+                    "port": 3
+            }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Add a Connection [POST]
+
++ Request (application/json)
+
+    [Connections][]
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Number `id` of created Connection.
+    
+    + Body
+    
+            {
+                "id": 1
+            }
+            
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update a Connection [PUT /connections/{connection_id}]
+
++ Parameters
+
+    + connection_id (required, number) ... Numeric `id` of the Connection to perform the action on.
+
++ Request (application/json)
+
+    [Connections][]
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Delete a Connection [DELETE /connections/{connection_id}]
+
++ Parameters
+
+    + connection_id (required, number) ... Numeric `id` of the Connection to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
 # Group Config
 
-## TODO Here will be config endpoint description
+#### A config entity represents system configuration entries.
+
+The functionality is available for [Sysop, Integrator] roles.
+
+## Config [/config]
+
+The functionality is available for [Sysop, Integrator] roles.
+
++ Model
+
+    + `logPurgeDays` (required, number)
+        Number of days to retain access log entries.
+        + Default: `90`
+    + `cardFormat` (required, enum[string])
+        Card format that is used by readers in the system.
+        + Members
+            + `24bit_card_ids`
+            + `26bit_standard`
+            + `40bit_fips`
+            + `combo_40bit_fips_26bit_standard`
+        + Default: `24bit_card_ids`
+    + `ecards` (optional, array[number]) ... An array of 10 numbers that represent Ecards
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+        
+    + Body
+    
+            {
+                    "logPurgeDays": 90,
+                    "cardFormat": "24bit_card_ids",
+                    "connection": [99, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+
+### Retrieve Config [GET /config]
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `logPurgeDays` (required, number)
+        Number of days to retain access log entries.
+        + Default: `90`
+    + `cardFormat` (required, enum[string])
+        Card format that is used by readers in the system.
+        + Members
+            + `24bit_card_ids`
+            + `26bit_standard`
+            + `40bit_fips`
+            + `combo_40bit_fips_26bit_standard`
+        + Default: `24bit_card_ids`
+    + `ecards` (optional, array[number]) ... An array of 10 numbers that represent Ecards
+        
+    + Body
+    
+            {
+                    "logPurgeDays": 90,
+                    "cardFormat": "24bit_card_ids",
+                    "connection": [99, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 500 (application/json)
+
+### Update Config [PUT /config]
+
++ Request (application/json)
+
+    [Config][]
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 500 (application/json)
 
 # Group Websocket API
 
