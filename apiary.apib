@@ -318,6 +318,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 500 (application/json)
 
 ### Delete a Person [DELETE]
+Person removal leads to all Person's Rules removal.
+
 + Parameters
 
     + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
@@ -1259,6 +1261,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 ### Delete a Group [DELETE]
 
 + Request
+Group removal leads to all Group's Rules removal.
 
     + Headers
     
@@ -2388,7 +2391,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 500 (application/json)
 
 ### Delete a Floor Group [DELETE /floor_groups/{group_id}]
-Floor Group removal leads to Elevator Rules removal when the specified group is the only one used in correspond Rule.
+Floor Group removal leads to Elevator Rules removal when the specified Floor Group is the only one used in correspond Rule.
 + Parameters
 
     + group_id (required, number) ... Numeric `id` of the Floor Group to perform the action on.
@@ -2664,7 +2667,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 500 (application/json)
 
 ### Delete a Device [DELETE /devices/{device_id}]
-Device removal leads to Floor Groups and Rules removal when the specified door is the only one used in correspond Floor Group or Rule.
+Device removal leads to Floor Groups and Rules removal when the specified Device is the only one used in correspond Floor Group or Rule.
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -2870,7 +2873,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 500 (application/json)
 
 ### Delete a Connection [DELETE /connections/{connection_id}]
-
+Removal of a Connection used by any Devices is forbidden.
 + Parameters
 
     + connection_id (required, number) ... Numeric `id` of the Connection to perform the action on.
