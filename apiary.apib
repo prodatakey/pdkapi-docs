@@ -1789,7 +1789,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
-    + `name` (required, string) ... Rule name.
+    + `name` (required, string) ... Rule name. It should be unique.
     + `triggerType` (required, enum[string])
         Type of event on which action should be performed. 
         + Members
@@ -2292,7 +2292,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
-    + `name` (required, string) ... Floor Group name.
+    + `name` (required, string) ... Floor Group name. It should be unique.
     + `readerPort` (required, number) ... Reader device `id`.
     + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
     
@@ -2507,7 +2507,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Model
 
-    + `name` (required, string) ...  Device name.
+    + `name` (required, string) ...  Device name. It should be unique.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
@@ -2808,7 +2808,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Connection id.
-    + `name` (required, string) ...  Connection name.
+    + `name` (required, string) ...  Connection name. It should be unique.
     + `type` (required, enum[string])
         Connection type.
         + Members
