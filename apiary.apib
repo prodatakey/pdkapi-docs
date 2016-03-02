@@ -2769,7 +2769,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Model
 
-    + `name` (required, string) ...  Connection name.
+    + `name` (required, string) ...  Connection name. It should be unique.
     + `type` (required, enum[string])
         Connection type.
         + Members
@@ -2808,7 +2808,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Connection id.
-    + `name` (required, string) ...  Connection name. It should be unique.
+    + `name` (required, string) ...  Connection name.
     + `type` (required, enum[string])
         Connection type.
         + Members
