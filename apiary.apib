@@ -97,7 +97,7 @@ The functionality is available for all roles.
 ### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
 + Parameters
 
-    + query_string (optional, string) ... Url-encoded query string. Search will be done in the following entities: Person (`name` and `cardNumber`), Group (`name`), Floor Group (`name`).
+    + query_string (optional, string) ... Url-encoded query string. Search will be done in the following entities: Person (`name` and `cardNumber`), Group (`name`), Floor Group (`name`). Minimum length is `1` character, maximum length is `70` characters.
     + page (optional, number) 
         Number of page to return, started from `0`.
         + Default: `0`
@@ -125,7 +125,7 @@ The functionality is available for all roles.
             + `person`
             + `group`
             + `floorGroup`
-    + `name` (required, string) ... Entity name.
+    + `name` (required, string) ... Entity name. Minimum length is `1` character, maximum length is `70` characters.
     + `description` (required, string) ... Entity description (will be equal to person's card number in case of search by card number).
     
     + Headers
@@ -189,7 +189,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Response 200 (application/json)
 
     + `id` (required, number) ... Person's id.
-    + `name` (required, string) ...  Person's name.
+    + `name` (required, string) ...  Person's name. Minimum length is `1` character, maximum length is `70` characters.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -215,7 +215,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Model
 
-    + `name` (required, string) ...  Person's name. Must be unique.
+    + `name` (required, string) ...  Person's name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -242,7 +242,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Response 200 (application/json)
 
-    + `name` (required, string) ...  Person's name.
+    + `name` (required, string) ...  Person's name. Minimum length is `1` character, maximum length is `70` characters.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Body
@@ -292,7 +292,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     
 + Request (application/json)
 
-    + `name` (required, string) ...  Person's name.
+    + `name` (required, string) ...  Person's name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -338,7 +338,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Model
 
     + `cardNumber` (required, number) ... Card number. Must be unique among all persons.
-    + `description` (optional, string) ... Card description (max length `255` chars).
+    + `description` (optional, string) ... Card description. Minimum length is `1` character, maximum length is `255` characters.
     
     + Headers
     
@@ -379,7 +379,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
     + `id` (required, number) ... Numeric `id` of the Card.
     + `cardNumber` (required, number) ... Card number.
-    + `description` (optional, string) ... Card description (max length `255` chars).
+    + `description` (optional, string) ... Card description.  Maximum length is `255` characters.
 
     + Headers
     
@@ -417,7 +417,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
     + `id` (required, number) ... Numeric `id` of the Card.
     + `cardNumber` (required, number) ... Card number.
-    + `description` (optional, string) ... Card description (max length `255` chars).
+    + `description` (optional, string) ... Card description. Maximum length is `255` characters.
     
     + Body
     
@@ -517,7 +517,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
-        + `name` (required, string) ... Rule name.
+        + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
@@ -657,7 +657,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
-        + `name` (required, string) ... Rule name.
+        + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
@@ -794,7 +794,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
-        + `name` (required, string) ... Rule name.
+        + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
@@ -1178,7 +1178,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Model 
 
-    + `name` (required, string) ... Group name. Must be unique.
+    + `name` (required, string) ... Group name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
     
     + Headers
     
@@ -1200,7 +1200,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     
 + Response 200 (application/json)
 
-    + `name` (required, string) ...  Group name.
+    + `name` (required, string) ...  Group name. Minimum length is `1` character, maximum length is `70` characters.
 
     + Body
     
@@ -1324,7 +1324,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
-        + `name` (required, string) ... Rule name.
+        + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
@@ -1474,7 +1474,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
     + Specific `event` rule type fields
-        + `name` (required, string) ... Rule name.
+        + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
         + `triggerType` (required, enum[string])
             Type of event on which action should be performed.
             + Members
@@ -1695,7 +1695,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
-    + `name` (required, string) ... Rule name.
+    + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
     + `triggerType` (required, enum[string])
         Type of event on which action should be performed. 
         + Members
@@ -1789,7 +1789,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
-    + `name` (required, string) ... Rule name. It should be unique.
+    + `name` (required, string) ... Rule name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `triggerType` (required, enum[string])
         Type of event on which action should be performed. 
         + Members
@@ -1883,7 +1883,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
-    + `name` (required, string) ... Rule name.
+    + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
     + `triggerType` (required, enum[string])
         Type of event on which action should be performed. 
         + Members
@@ -2257,7 +2257,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Numeric group `id`.
-    + `name` (required, string) ... Floor Group name.
+    + `name` (required, string) ... Floor Group name. Minimum length is `1` character, maximum length is `70` characters.
     + `readerPort` (required, number) ... Reader device `id`.
     + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
 
@@ -2292,7 +2292,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
-    + `name` (required, string) ... Floor Group name. It should be unique.
+    + `name` (required, string) ... Floor Group name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `readerPort` (required, number) ... Reader device `id`.
     + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
     
@@ -2328,7 +2328,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Numeric group `id`.
-    + `name` (required, string) ... Floor Group name.
+    + `name` (required, string) ... Floor Group name. Minimum length is `1` character, maximum length is `70` characters.
     + `readerPort` (required, number) ... Reader device `id`.
     + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
         
@@ -2441,7 +2441,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Device id.
-    + `name` (required, string) ...  Device name.
+    + `name` (required, string) ...  Device name. Minimum length is `1` character, maximum length is `70` characters.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
@@ -2507,7 +2507,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Model
 
-    + `name` (required, string) ...  Device name. It should be unique.
+    + `name` (required, string) ...  Device name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
@@ -2573,7 +2573,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Device id.
-    + `name` (required, string) ...  Device name.
+    + `name` (required, string) ...  Device name. Minimum length is `1` character, maximum length is `70` characters.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
@@ -2717,7 +2717,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Connection id.
-    + `name` (required, string) ...  Connection name.
+    + `name` (required, string) ...  Connection name. Minimum length is `1` character, maximum length is `70` characters.
     + `type` (required, enum[string])
         Connection type.
         + Members
@@ -2769,7 +2769,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Model
 
-    + `name` (required, string) ...  Connection name. It should be unique.
+    + `name` (required, string) ...  Connection name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `type` (required, enum[string])
         Connection type.
         + Members
@@ -2808,7 +2808,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Connection id.
-    + `name` (required, string) ...  Connection name.
+    + `name` (required, string) ...  Connection name. Minimum length is `1` character, maximum length is `70` characters.
     + `type` (required, enum[string])
         Connection type.
         + Members
