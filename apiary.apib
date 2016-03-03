@@ -1689,12 +1689,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 200 (application/json)
 
     + `id`  (required, number) .. Numeric event `id`.
-    + `type` (required, enum[string])
-        Type of a given rule.
-        + Members
-            + `door`
-            + `elevator`
-            + `event`
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
@@ -1783,12 +1777,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
-    + `type` (required, enum[string])
-        Type of a given rule.
-        + Members
-            + `door`
-            + `elevator`
-            + `event`
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
@@ -1877,12 +1865,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 200 (application/json)
 
     + `id`  (required, number) .. Numeric event `id`.
-    + `type` (required, enum[string])
-        Type of a given rule.
-        + Members
-            + `door`
-            + `elevator`
-            + `event`
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wen`, `Thu`, `Fri`, `Sat`, `Sun`.
