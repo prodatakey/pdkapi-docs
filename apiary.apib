@@ -20,12 +20,12 @@ Authenticating to this stateless API is handled by including an HTTP Authenticat
 Before making any requests to the panel's API andpoint you will need a Bearer token.
 This token represents your application's permission to access the API as delegated by the user.
 
-For instructions on retrieving a token for communicating with a panel's API, see the [Auth Server API documentation](http://docs.pdkauthapi.apiary.io/).
+For instructions on retrieving a token for communicating with a panel's API, see the [Auth Server API documentation](http://docs.pdkauthapi.apiary.io/). There are quite many libaries that support OpenID Connect protocol which is used for authentication. Please check [this link](https://openid.net/developers/libraries/) to see the list with some of them.
 
 Because the API is stateless, this Bearer token must be included in every request to the API.
 The Authorization header MUST be of the following format:
 
-`Authorization: Bearer {token-value}` 
+`Authorization: Bearer {token-value}`
 
 
 # Resource Operations
@@ -40,7 +40,11 @@ Standard CRUD operations on resources are performed using HTTP verbs.
 # Cache Headers
 
 The current state of a resource is identified by standard HTTP caching mechanisms in the response to a requested resource (e.g. ETag, Last-Modified, cache-control).
-These headers can be used for change detection and intermediate caching. Standard HTTP caching rules are adhered to by the API server, for example .
+These headers can be used for change detection and intermediate caching.
+
+Standard HTTP caching rules are adhered to by the API server.
+
+Most HTTP stacks (including your browser address bar) automatically deal with caching headers in a bandwidth, proxy, and user-friendly way.
 
 # URI Format
 
