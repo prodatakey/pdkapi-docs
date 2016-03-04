@@ -97,7 +97,9 @@ Roles permissions have hierarchical structure. List of possible roles given belo
 
 
 # Group Search
+
 The functionality is available for all roles.
+
 ### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
 + Parameters
 
@@ -202,7 +204,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 }
             ]
 + Response 401 (application/json)
-        
+
 ## Person [/persons/{person_id}]
 
 The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Person is also available for the [Reporter] role.
@@ -335,17 +337,17 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
                 "description": "Card description"
             }
 
+
 ### Retrieve all Cards [GET /persons/{person_id}/cards?page={page}&per_page={per_page}&sort={sort_order}]
+
 + Parameters
 
     + person_id (required, number) 
         Numeric `id` of the Person to perform the action on.
     + page (optional, number)
         Number of page to return, started from `0`.
-        + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
-        + Default: `10`
     + sort_order (optional, enum[string])
         Sorting order.
         + Default: `asc`
@@ -386,6 +388,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 404 (application/json)
 
 ### Retrieve a Card [GET /persons/{person_id}/cards/{card_id}]
+
 + Parameters
 
     + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
@@ -460,10 +463,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
         Numeric `id` of the Person to perform the action on.
     + page (optional, number)
         Number of page to return, started from `0`.
-        + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
-        + Default: `10`
     + sort_order (optional, enum[string])
         Sorting order.
         + Default: `asc`
@@ -742,6 +743,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
             }
 
 ### Retrieve a Rule for a Person  [GET /persons/{person_id}/rules/{rule_id}]
+
 + Parameters
 
     + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
@@ -885,6 +887,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 404 (application/json)
 
 ### Add a Rule for a Person  [POST /persons/{person_id}/rules]
+
 + Parameters
 
     + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
@@ -955,10 +958,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
         Numeric `id` of the Person to perform the action on.
     + page (optional, number)
         Number of page to return, started from `0`.
-        + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
-        + Default: `10`
     + sort_order (optional, enum[string])
         Sorting order.
         + Default: `asc`
@@ -1247,10 +1248,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
         Numeric `id` of the Group to perform the action on.
     + page (optional, number)
         Number of page to return, started from `0`.
-        + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
-        + Default: `10`
     + sort_order (optional, enum[string])
         Sorting order.
         + Default: `asc`
