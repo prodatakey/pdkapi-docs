@@ -2452,9 +2452,6 @@ The functionality is available for [Sysop, Integrator] roles.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
-    + `highPowerRelay` (optional, boolean)
-        Flag indicates if this device is a high-power relay. If specified `delay`, `dwell`, `dps`, `propAlarm`, `propDelay`, `rex` and `forcedAlarm` fields should be disabled.
-        + Default: `false`
     + `delay` (optional, number)
         Amount of time (in tenths of second) that the relay should delay before actuating.
         + Default: `0`
@@ -2494,7 +2491,6 @@ The functionality is available for [Sysop, Integrator] roles.
                     "connection": 1,
                     "port": 1,
                     "wirelessAddress": "0013A200400A393B",
-                    "highPowerRelay": true,
                     "propAlarm": true,
                     "propDelay": 30,
                     "dps": true,
@@ -2517,9 +2513,6 @@ The functionality is available for [Sysop, Integrator] roles.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
-    + `highPowerRelay` (optional, boolean)
-        Flag indicates if this device is a high-power relay. If specified `delay`, `dwell`, `dps`, `propAlarm`, `propDelay`, `rex` and `forcedAlarm` fields should be disabled.
-        + Default: `false`
     + `delay` (optional, number)
         Amount of time (in tenths of second) that the relay should delay before actuating.
         + Default: `0`
@@ -2556,7 +2549,6 @@ The functionality is available for [Sysop, Integrator] roles.
                     "connection": 1,
                     "port": 1,
                     "wirelessAddress": "0013A200400A393B",
-                    "highPowerRelay": true,
                     "propAlarm": true,
                     "propDelay": 30,
                     "dps": true,
@@ -2583,9 +2575,6 @@ The functionality is available for [Sysop, Integrator] roles.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
-    + `highPowerRelay` (optional, boolean)
-        Flag indicates if this device is a high-power relay. If specified `delay`, `dwell`, `dps`, `propAlarm`, `propDelay`, `rex` and `forcedAlarm` fields should be disabled.
-        + Default: `false`
     + `delay` (optional, number)
         Amount of time (in tenths of second) that the relay should delay before actuating.
         + Default: `0`
@@ -2619,7 +2608,6 @@ The functionality is available for [Sysop, Integrator] roles.
                     "connection": 1,
                     "port": 1,
                     "wirelessAddress": "0013A200400A393B",
-                    "highPowerRelay": true,
                     "propAlarm": true,
                     "propDelay": 30,
                     "dps": true,
