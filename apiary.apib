@@ -37,6 +37,7 @@ Standard CRUD operations on resources are performed using HTTP verbs.
 * PUT - Update a resource
 * DELETE - Delete a resource
 
+
 # Cache Headers
 
 The current state of a resource is identified by standard HTTP caching mechanisms in the response to a requested resource (e.g. ETag, Last-Modified, cache-control).
@@ -45,6 +46,7 @@ These headers can be used for change detection and intermediate caching.
 Standard HTTP caching rules are adhered to by the API server.
 
 Most HTTP stacks (including your browser address bar) automatically deal with caching headers in a bandwidth, proxy, and user-friendly way.
+
 
 # URI Format
 
@@ -55,9 +57,11 @@ Resource URIs will generally follow a format similar to those shown below.
 * Related Resource Collection - `https://panel-id.pdk.io/api/{resource-name}/{id}/{related-resource}`
 * Specific Related Resource - `https://panel-id.pdk.io/api/{resource-name}/{id}/{related-resource}/{id}`
 
+
 # Content type
 
-Content type is set to `application/json` for all API calls
+Content type is set to `application/json` for all API calls.
+
 
 # Response Codes
 
@@ -73,20 +77,15 @@ Content type is set to `application/json` for all API calls
 
 ## Error message format
 
+Error messages provide human-readable description. For now only English language is supported, localization support will come in next releases.
+
     {
-        "code" : "106",
-        "message" : "Entity already exists"    
+        "message" : "Human-friendly error message",
+        "errors": {
+            "field": "Human-friendly error message related to certain field (optional)"
+        }
     }
 
-## Error Codes
-* `100` - Unprocessable request
-* `101` - Unauthorized
-* `102` - Access denied
-* `103` - Resourse not found
-* `104` - Unexpected Server error
-* `106` - Entity already exists
-* `107` - Validation error
-* `108` - Invalid nested entity
 
 # Roles
 Roles permissions have hierarchical structure. List of possible roles given below:
@@ -95,6 +94,7 @@ Roles permissions have hierarchical structure. List of possible roles given belo
 * `Admin` in addition to `Manager` permissions has write access for Persons, Groups, System Events, Auto Open Rules, Floor Groups entities.
 * `Integrator` in addition to `Admin` permissions can change hardware configuration (Devices, Connections, Config and Websocket API commands).
 * `Sysop` in addition to `Admin` permissions can change hardware configuration (Devices, Connections, Config and Websocket API commands).
+
 
 # Group Search
 The functionality is available for all roles.
@@ -148,9 +148,8 @@ The functionality is available for all roles.
                 }
             ]
 
-+ Response 400 (application/json)            
++ Response 400 (application/json)
 + Response 401 (application/json)
-+ Response 500 (application/json)
 
 # Group Persons
 A person entity represents the attributes of a person that will be interacting with the access control system.
@@ -159,14 +158,6 @@ These attributes include the person's name, a list of their credentials, rules t
 ## Persons Collection [/persons?page={page}&per_page={per_page}&sort={sort_order}]
 
 The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
-+ Model
-
-    + Body
-    
-            {
-                "code" : "106",
-                "message" : "Entity already exists"
-            }
         
 ### Retrieve all Persons [GET /persons?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
@@ -211,7 +202,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 }
             ]
 + Response 401 (application/json)
-+ Response 500 (application/json)
         
 ## Person [/persons/{person_id}]
 
@@ -261,7 +251,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Create a Person [POST /persons]
 
@@ -284,10 +273,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 403 (application/json)
 + Response 404 (application/json)
 + Response 422 (application/json)
-
-    [Persons Collection][]
-            
-+ Response 500 (application/json)
 
 ### Update a Person [PUT]
 + Parameters
@@ -317,10 +302,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 404 (application/json)
 + Response 422 (application/json)
 
-    [Persons Collection][]
-
-+ Response 500 (application/json)
-
 ### Delete a Person [DELETE]
 Person removal leads to all Person's Rules removal.
 
@@ -333,7 +314,6 @@ Person removal leads to all Person's Rules removal.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ## Person Card [/persons/{person_id}/cards]
 
@@ -404,7 +384,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Retrieve a Card [GET /persons/{person_id}/cards/{card_id}]
 + Parameters
@@ -435,7 +414,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Create a Card [POST]
 + Parameters
@@ -451,7 +429,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Delete a Card [DELETE /persons/{person_id}/card/{card_id}]
 + Parameters
@@ -469,7 +446,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ## Person Rules Collection [/persons/{person_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -637,7 +613,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ## Person Rules  [/persons/{person_id}/rules]
 The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Rule is also available for the [Reporter] role.
@@ -908,7 +883,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Add a Rule for a Person  [POST /persons/{person_id}/rules]
 + Parameters
@@ -933,7 +907,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Update a Rule for a Person [PUT /persons/{person_id}/rules/{rule_id}]
 
@@ -951,7 +924,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Delete a Rule for a Person [DELETE /persons/{person_id}/rules/{rule_id}]
 + Parameters
@@ -970,7 +942,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ## Person Groups [/persons/{person_id}/groups]
 
@@ -1019,7 +990,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 
 + Response 400 (application/json)
 + Response 401 (application/json)
-+ Response 500 (application/json)
 
 ### Retrieve a Group for a Person  [GET /persons/{person_id}/groups/{group_id}]
 
@@ -1046,7 +1016,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Add a Group for a Person [POST /persons/{person_id}/groups]
 
@@ -1066,7 +1035,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
-+ Response 500 (application/json)
 
 ### Remove a Person from a Group [DELETE /persons/{person_id}/groups/{group_id}]
 
@@ -1079,8 +1047,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 + Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
-+ Response 403 (application/json)
-+ Response 500 (application/json)    
++ Response 403 (application/json)   
 
 # Group Images
 
@@ -1119,7 +1086,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
-+ Response 500 (application/json)
 
 # Group Groups
 
@@ -1170,7 +1136,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 
 + Response 400 (application/json)
 + Response 401 (application/json)
-+ Response 500 (application/json)
 
 ## Group [/groups/{group_id}]
 
@@ -1217,7 +1182,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Create a Group [POST /groups]
 
@@ -1240,9 +1204,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 403 (application/json)
 + Response 422 (application/json)
 
-    [Persons Collection][]
-            
-+ Response 500 (application/json)
 
 ### Update a Group [PUT]
 
@@ -1256,10 +1217,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 403 (application/json)
 + Response 404 (application/json)
 + Response 422 (application/json)
-
-    [Persons Collection][]
-            
-+ Response 500 (application/json)
 
 
 ### Delete a Group [DELETE]
@@ -1276,7 +1233,6 @@ Group removal leads to all Group's Rules removal.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ## Group Rules Collection [/groups/{group_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -1440,7 +1396,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ## Group Rules [/groups/{group_id}/rules]
 
@@ -1591,7 +1546,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Add Rule for a Group  [POST /groups/{group_id}/rules]
 
@@ -1617,7 +1571,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Update a Rule for a Group [PUT /groups/{group_id}/rules/{rule_id}]
 
@@ -1635,7 +1588,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Delete a Rule for a Group [DELETE /groups/{group_id}/rules/{rule_id}]
 + Parameters
@@ -1654,7 +1606,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 # Group System Events
 
@@ -1769,7 +1720,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Response 400 (application/json)
 + Response 401 (application/json)
-+ Response 500 (application/json)
 
 ## System Events [/system_events]
 
@@ -1939,7 +1889,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Add a System Event Rule  [POST /system_events]
 
@@ -1961,7 +1910,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Update a System Event Rule [PUT /system_events/{rule_id}]
 
@@ -1978,7 +1926,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Delete a System Event Rule [DELETE /system_events/{rule_id}]
 + Parameters
@@ -1996,7 +1943,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 # Group Auto Open
 
@@ -2067,7 +2013,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             
 + Response 400 (application/json)
 + Response 401 (application/json)
-+ Response 500 (application/json)
 
 ## Auto Open Rules [/auto_open]
 
@@ -2149,7 +2094,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 400 (application/json)            
 + Response 401 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Add an Auto Open Rule  [POST]
 
@@ -2171,7 +2115,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Update an Auto Open Rule [PUT /auto_open/{rule_id}]
 
@@ -2188,7 +2131,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Delete an Auto Open Rule [DELETE /auto_open/{rule_id}]
 
@@ -2207,7 +2149,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 # Group Floor Groups
 
@@ -2270,7 +2211,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
-+ Response 500 (application/json)
 
 ## Floor Groups [/floor_groups]
 
@@ -2335,7 +2275,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Add a Floor Group  [POST]
 
@@ -2357,7 +2296,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Update a Floor Group [PUT /floor_groups/{group_id}]
 
@@ -2374,7 +2312,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Delete a Floor Group [DELETE /floor_groups/{group_id}]
 Floor Group removal leads to Elevator Rules removal when the specified Floor Group is the only one used in correspond Rule.
@@ -2393,7 +2330,6 @@ Floor Group removal leads to Elevator Rules removal when the specified Floor Gro
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 # Group Devices
 
@@ -2485,7 +2421,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
-+ Response 500 (application/json)
 
 ## Devices [/devices]
 
@@ -2611,7 +2546,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Add a Device [POST]
 
@@ -2633,7 +2567,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Update a Device [PUT /devices/{device_id}]
 
@@ -2650,7 +2583,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Delete a Device [DELETE /devices/{device_id}]
 Device removal leads to Floor Groups and Rules removal when the specified Device is the only one used in correspond Floor Group or Rule.
@@ -2669,7 +2601,6 @@ Device removal leads to Floor Groups and Rules removal when the specified Device
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 # Group Connections
 
@@ -2747,7 +2678,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
-+ Response 500 (application/json)
 
 ## Connections [/connections]
 
@@ -2817,7 +2747,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Add a Connection [POST]
 
@@ -2839,7 +2768,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Update a Connection [PUT /connections/{connection_id}]
 
@@ -2856,7 +2784,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 ### Delete a Connection [DELETE /connections/{connection_id}]
 Removal of a Connection used by any Devices is forbidden.
@@ -2875,7 +2802,6 @@ Removal of a Connection used by any Devices is forbidden.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
-+ Response 500 (application/json)
 
 # Group Config
 
@@ -2947,7 +2873,6 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Response 401 (application/json)
 + Response 403 (application/json)
-+ Response 500 (application/json)
 
 ### Update Config [PUT /config]
 
@@ -2959,7 +2884,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
-+ Response 500 (application/json)
 
 # Group Websocket API
 
