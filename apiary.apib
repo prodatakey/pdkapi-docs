@@ -2894,11 +2894,11 @@ The functionality is available for [Sysop, Integrator] roles.
     + `cardFormat` (optional, enum[string])
         Card format that is used by readers in the system.
         + Members
-            + `24bit_card_ids`
-            + `26bit_standard`
-            + `40bit_fips`
-            + `combo_40bit_fips_26bit_standard`
-        + Default: `24bit_card_ids`
+            + `24bitCardIds`
+            + `26bitStandard`
+            + `40bitFips`
+            + `combo40bitFips26bitStandard`
+        + Default: `26bitStandard`
     + `ecards` (optional, array[number]) ... An array of 10 numbers that represent Ecards
     
     + Headers
@@ -2909,7 +2909,7 @@ The functionality is available for [Sysop, Integrator] roles.
     
             {
                     "logPurgeDays": 90,
-                    "cardFormat": "24bit_card_ids",
+                    "cardFormat": "26bitStandard",
                     "connection": [99, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }
 
@@ -2925,15 +2925,13 @@ The functionality is available for [Sysop, Integrator] roles.
 
     + `logPurgeDays` (required, number)
         Number of days to retain access log entries.
-        + Default: `90`
     + `cardFormat` (required, enum[string])
         Card format that is used by readers in the system.
         + Members
-            + `24bit_card_ids`
-            + `26bit_standard`
-            + `40bit_fips`
-            + `combo_40bit_fips_26bit_standard`
-        + Default: `24bit_card_ids`
+            + `24bitCardIds`
+            + `26bitStandard`
+            + `40bitFips`
+            + `combo40bitFips26bitStandard`
     + `ecards` (optional, array[number]) ... An array of 10 numbers that represent Ecards
         
     + Body
