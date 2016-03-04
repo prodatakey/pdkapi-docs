@@ -32,18 +32,16 @@ The Authorization header MUST be of the following format:
 
 Standard CRUD operations on resources are performed using HTTP verbs.
 
-* GET - Retrieve a resource, never modifies data
-* POST - Create a resource or perform other non-data operations (e.g. trigger a system event)
-* PUT - Update a resource
-* DELETE - Delete a resource
+* GET - Retrieve a resource, never modifies data.
+* POST - Create a resource. All required fields must be specified. In case when one of optional parameters is not specified, it's default value will be used.
+* PUT - Update a resource. Requires whole resource body to be specified.
+* DELETE - Delete a resource.
 
 
 # Cache Headers
 
 The current state of a resource is identified by standard HTTP caching mechanisms in the response to a requested resource (e.g. ETag, Last-Modified, cache-control).
 These headers can be used for change detection and intermediate caching.
-
-Standard HTTP caching rules are adhered to by the API server.
 
 Most HTTP stacks (including your browser address bar) automatically deal with caching headers in a bandwidth, proxy, and user-friendly way.
 
@@ -53,10 +51,31 @@ Most HTTP stacks (including your browser address bar) automatically deal with ca
 Resource URIs will generally follow a format similar to those shown below.
 
 * Resource Collection - `https://panel-id.pdk.io/api/{resource-name}`
+Example - `https://panel-id.pdk.io/api/persons`
 * Specific Resource - `https://panel-id.pdk.io/api/{resource-name}/{id}`
+Example - `https://panel-id.pdk.io/api/persons/1`
 * Related Resource Collection - `https://panel-id.pdk.io/api/{resource-name}/{id}/{related-resource}`
+Example - `https://panel-id.pdk.io/api/persons/1/groups`
 * Specific Related Resource - `https://panel-id.pdk.io/api/{resource-name}/{id}/{related-resource}/{id}`
+Example - `https://panel-id.pdk.io/api/persons/1/groups/2`
 
+
+# Pagination
+
+Most of calls that return collections return paginated results in order to decrease panel server load 
+(see `page` and `per_page` url query parameters).
+Response contains link headers with links to first, last, next and prevous pages of results, 
+which are specified in `first`, `last`, `next` and `prev` links accordingly.
+
+For example, calling `GET https://panel-id.pdk.io/api/persons?page=1&per_page=5` will lead for the following headers:
+
+<code>
+Link: \<https://panel-id.pdk.io/api/peoples?per_page=5>; rel="first",<br>
+    \<https://panel-id.pdk.io/api/peoples?per_page=5>; rel="prev",<br>
+    \<https://panel-id.pdk.io/api/peoples?page=2&per_page=5>; rel="next",<br>
+    \<https://accounts.pdk.io/api/search?page=2&per_page=5>; rel="last"<br>
+X-Total-Count: 11
+</code>
 
 # Content type
 
@@ -894,7 +913,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Add a Rule for a Person  [POST /persons/{person_id}/rules]
+### Create a Rule for a Person  [POST /persons/{person_id}/rules]
 
 + Parameters
 
@@ -1026,7 +1045,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 + Response 401 (application/json)
 + Response 404 (application/json)
 
-### Add a Group for a Person [POST /persons/{person_id}/groups]
+### Create a Group for a Person [POST /persons/{person_id}/groups]
 
 + Request (application/json)
 
@@ -1574,7 +1593,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Add Rule for a Group  [POST /groups/{group_id}/rules]
+### Create a Rule for a Group  [POST /groups/{group_id}/rules]
 
 + Parameters
 
@@ -1962,7 +1981,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 404 (application/json)
 
-### Add a System Event Rule  [POST /system_events]
+### Create a System Event Rule  [POST /system_events]
 
 + Request (application/json)
 
@@ -2165,7 +2184,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 + Response 404 (application/json)
 
-### Add an Auto Open Rule  [POST]
+### Create an Auto Open Rule  [POST]
 
 + Request (application/json)
 
@@ -2342,7 +2361,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Add a Floor Group  [POST]
+### Create a Floor Group  [POST]
 
 + Request (application/json)
 
@@ -2613,7 +2632,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Add a Device [POST]
+### Create a Device [POST]
 
 + Request (application/json)
 
@@ -2814,7 +2833,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Add a Connection [POST]
+### Create a Connection [POST]
 
 + Request (application/json)
 
