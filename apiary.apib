@@ -1779,7 +1779,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
-    + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
+    + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
         + Members
             + `source`
             + `selected`
@@ -1876,7 +1876,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array[number]) ... Door `id`s considered as event source.
-    + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
+    + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
         + Members
             + `source`
             + `selected`
@@ -1964,7 +1964,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
-    + `target` (required, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
+    + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
         + Members
             + `source`
             + `selected`
