@@ -528,7 +528,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
                 + `onQuadrupleSwipeAllow`
-        + `action` (required, string)
+        + `action` (required, enum[string])
             Operation that should be performed.
             + Members
                 + `sendEmail`
@@ -678,7 +678,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
                 + `onQuadrupleSwipeAllow`
-        + `action` (required, string)
+        + `action` (required, enum[string])
             Operation that should be performed.
             + Members
                 + `sendEmail`
@@ -803,7 +803,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
                 + `onQuadrupleSwipeAllow`
-        + `action` (required, string)
+        + `action` (required, enum[string])
             Operation that should be performed.
             + Members
                 + `sendEmail`
@@ -1321,7 +1321,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
                 + `onQuadrupleSwipeAllow`
-        + `action` (required, string)
+        + `action` (required, enum[string])
             Operation that should be performed.
             + Members
                 + `sendEmail`
@@ -1480,7 +1480,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
                 + `onQuadrupleSwipeAllow`
-        + `action` (required, string)
+        + `action` (required, enum[string])
             Operation that should be performed.
             + Members
                 + `sendEmail`
@@ -1757,17 +1757,25 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
         Operation that should be performed.
         + Members
             + `sendEmail`
+                Does need an `emailTemplate` to be specified.
             + `doNotDisturb`
             + `forceToggle`
             + `forceOpen`
             + `forceClose`
             + `open`
+                Does need a `target` to be specified.
             + `close`
+                Does need a `target` to be specified.
             + `lockdownOn`
+                Does need a `target` to be specified.
             + `lockdownOff`
+                Does need a `target` to be specified.
             + `delayOpen`
+                Does need a `target` and a `delay` to be specified.
             + `delayClose`
+                Does need a `target` and a `delay` to be specified.
             + `openClose`
+                Does need a `target` and a `delay` to be specified.
     + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
@@ -1846,17 +1854,25 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
         Operation that should be performed.
         + Members
             + `sendEmail`
+                Does need an `emailTemplate` to be specified.
             + `doNotDisturb`
             + `forceToggle`
             + `forceOpen`
             + `forceClose`
             + `open`
+                Does need a `target` to be specified.
             + `close`
+                Does need a `target` to be specified.
             + `lockdownOn`
+                Does need a `target` to be specified.
             + `lockdownOff`
+                Does need a `target` to be specified.
             + `delayOpen`
+                Does need a `target` and a `delay` to be specified.
             + `delayClose`
+                Does need a `target` and a `delay` to be specified.
             + `openClose`
+                Does need a `target` and a `delay` to be specified.
     + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array[number]) ... Door `id`s considered as event source.
@@ -1926,17 +1942,25 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
         Operation that should be performed.
         + Members
             + `sendEmail`
+                Does need an `emailTemplate` to be specified.
             + `doNotDisturb`
             + `forceToggle`
             + `forceOpen`
             + `forceClose`
             + `open`
+                Does need a `target` to be specified.
             + `close`
+                Does need a `target` to be specified.
             + `lockdownOn`
+                Does need a `target` to be specified.
             + `lockdownOff`
+                Does need a `target` to be specified.
             + `delayOpen`
+                Does need a `target` and a `delay` to be specified.
             + `delayClose`
+                Does need a `target` and a `delay` to be specified.
             + `openClose`
+                Does need a `target` and a `delay` to be specified.
     + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
