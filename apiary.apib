@@ -122,7 +122,7 @@ The functionality is available for all roles.
 ### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
 + Parameters
 
-    + query_string (optional, string) ... Url-encoded query string. Search will be done in the following entities: Person (`name` and `cardNumber`), Group (`name`), Floor Group (`name`). Minimum length is `1` character, maximum length is `70` characters.
+    + query_string (optional, string) ... Url-encoded query string. Search will be done in the following entities: Person (`firstName`, `lastName` and `cardNumber`), Group (`name`), Floor Group (`name`). Minimum length is `1` character, maximum length is `70` characters.
     + page (optional, number) 
         Number of page to return, started from `0`.
         + Default: `0`
@@ -150,7 +150,7 @@ The functionality is available for all roles.
             + `person`
             + `group`
             + `floorGroup`
-    + `name` (required, string) ... Entity name. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ... Entity name.
     + `description` (required, string) ... Entity description (will be equal to person's card number in case of search by card number).
     
     + Headers
@@ -174,7 +174,7 @@ The functionality is available for all roles.
 
 # Group Persons
 A person entity represents the attributes of a person that will be interacting with the access control system.
-These attributes include the person's name, a list of their credentials, rules that apply to them, and a list of group memberships, among others. 
+These attributes include the person's first and last names, a list of their credentials, rules that apply to them, and a list of group memberships, among others. 
 
 ## Persons Collection [/persons?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -190,7 +190,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
         Count of items per page. An integer from `1` to `100`.
         + Default: `10`
     + sort_order (optional, enum[string])
-        Sorting order.
+        Sorting order. Persons are sorted by last name, first name values.
         + Default: `asc`
         + Members
             + `asc`
@@ -205,7 +205,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Response 200 (application/json)
 
     + `id` (required, number) ... Person's id.
-    + `name` (required, string) ...  Person's name. Minimum length is `1` character, maximum length is `70` characters.
+    + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
+    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -218,7 +219,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
             [
                 {
                     "id": 10,
-                    "name": "Ted Froëdington",
+                    "firstName": "Ted",
+                    "lastName": "Froëdington",
                     "photoUrl": "http://example.com/usersImages/32224.jpg"
                 }
             ]
@@ -230,7 +232,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Model
 
-    + `name` (required, string) ...  Person's name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
+    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -240,7 +243,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + Body
     
             {
-                "name": "Ted Froëdington",
+                "firstName": "Ted",
+                "lastName": "Froëdington",
                 "photoUrl": "http://example.com/usersImages/32224.jpg"
             }
 
@@ -257,14 +261,16 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Response 200 (application/json)
 
-    + `name` (required, string) ...  Person's name. Minimum length is `1` character, maximum length is `70` characters.
+    + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
+    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Body
     
             {
                 "id": 1,
-                "name": "Ted Froëdington",
+                "firstName": "Ted",
+                "lastName": "Froëdington",
                 "photoUrl": "http://example.com/usersImages/32224.jpg"
             }
 
@@ -302,7 +308,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     
 + Request (application/json)
 
-    + `name` (required, string) ...  Person's name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
+    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -312,7 +319,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + Body
     
             {
-                "name": "Ted Froëdington",
+                "firstName": "Ted",
+                "lastName": "Froëdington",
                 "photoUrl": "http://example.com/usersImages/32224.jpg"
             }
             
@@ -1683,7 +1691,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reported]
 + Response 200 (application/json)
 
     + `id` (required, number) ... Person's id.
-    + `name` (required, string) ...  Person's name. Minimum length is `1` character, maximum length is `70` characters.
+    + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
+    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -1696,7 +1705,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reported]
             [
                 {
                     "id": 10,
-                    "name": "Ted Froëdington",
+                    "firstName": "Ted",
+                    "lastName": "Froëdington",
                     "photoUrl": "http://example.com/usersImages/32224.jpg"
                 }
             ]
@@ -2299,7 +2309,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `id` (required, number) ... Numeric group `id`.
     + `name` (required, string) ... Floor Group name. Minimum length is `1` character, maximum length is `70` characters.
     + `readerPort` (required, number) ... Reader device `id`.
-    + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
+    + `readerPortName` (required, string) ... Reader device `name`.
+    + `floors` (required, array) ... List of doors in current Floor Group.
 
     + Headers
     
@@ -2313,9 +2324,11 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                     "id": 1,
                     "name": "Public Floors",
                     "readerPort": 1,
+                    "readerPortName": "Reader 1",
                     "floors": [
                         {
-                            "id": 1
+                            "id": 1,
+                            "name": "Floor 1"
                         }
                     ]
                 }
@@ -2365,7 +2378,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `id` (required, number) ... Numeric group `id`.
     + `name` (required, string) ... Floor Group name. Minimum length is `1` character, maximum length is `70` characters.
     + `readerPort` (required, number) ... Reader device `id`.
-    + `floors` (required, array) ... List of doors `id`'s in current Floor Group.
+    + `readerPortName` (required, string) ... Reader device `name`.
+    + `floors` (required, array) ... List of doors in current Floor Group.
         
     + Body
     
@@ -2373,10 +2387,12 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 "id": 1,
                 "name": "Public Floors",
                 "readerPort": 1,
+                "readerPortName": "Reader 1",
                 "floors": [
-                    {
-                        "id": 1
-                    }
+                    {
+                        "id": 1,
+                        "name": "Floor 1"
+                    }
                 ]
             }
 
@@ -2452,10 +2468,8 @@ The functionality is available for [Sysop, Integrator] roles.
 
     + page (optional, number)
         Number of page to return, started from `0`.
-        + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
-        + Default: `10`
     + sort_order (optional, enum[string])
         Sorting order.
         + Default: `asc`
@@ -2711,10 +2725,8 @@ The functionality is available for [Sysop, Integrator] roles.
 
     + page (optional, number)
         Number of page to return, started from `0`.
-        + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
-        + Default: `10`
     + sort_order (optional, enum[string])
         Sorting order.
         + Default: `asc`
