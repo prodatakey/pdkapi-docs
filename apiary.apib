@@ -205,8 +205,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Response 200 (application/json)
 
     + `id` (required, number) ... Person's id.
-    + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
-    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
+    + `firstName` (required, string) ...  Person's first name.
+    + `lastName` (required, string) ...  Person's last name.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -261,8 +261,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 + Response 200 (application/json)
 
-    + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
-    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
+    + `firstName` (required, string) ...  Person's first name.
+    + `lastName` (required, string) ...  Person's last name.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Body
@@ -1691,8 +1691,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reported]
 + Response 200 (application/json)
 
     + `id` (required, number) ... Person's id.
-    + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
-    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
+    + `firstName` (required, string) ...  Person's first name.
+    + `lastName` (required, string) ...  Person's last name.
     + `photoUrl` (optional, string) ... Person's account photo URL.
     
     + Headers
@@ -1846,7 +1846,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`. Must be today or later.
-    + `name` (required, string) ... Rule name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ... Rule name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `triggerType` (required, enum[string])
         Type of event on which action should be performed. 
         + Members
