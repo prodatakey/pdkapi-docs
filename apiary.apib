@@ -130,7 +130,7 @@ The functionality is available for all roles.
         Count of items per page. An integer from `1` to `100`.
         + Default: `10`
     + sort_order (optional, enum[string])
-        Sorting order.
+        Sorting order. Entities are sorted by `name` values.
         + Default: `asc`
         + Members
             + `asc`
@@ -190,7 +190,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
         Count of items per page. An integer from `1` to `100`.
         + Default: `10`
     + sort_order (optional, enum[string])
-        Sorting order. Persons are sorted by last name, first name values.
+        Sorting order. Persons are sorted by `lastName`, `firstName` values.
         + Default: `asc`
         + Members
             + `asc`
@@ -376,7 +376,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
     + sort_order (optional, enum[string])
-        Sorting order.
+        Sorting order. Cards are sorted by `cardNumber` values.
         + Default: `asc`
         + Members
             + `asc`
@@ -493,7 +493,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
     + sort_order (optional, enum[string])
-        Sorting order.
+        Sorting order. Rules are sorted by `id` values.
         + Default: `asc`
         + Members
             + `asc`
