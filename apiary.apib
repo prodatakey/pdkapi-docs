@@ -25,7 +25,7 @@ For instructions on retrieving a token for communicating with a panel's API, see
 Because the API is stateless, this Bearer token must be included in every request to the API.
 The Authorization header MUST be of the following format:
 
-`Authorization: Bearer {token-value}`
+0`Authorization: Bearer {token-value}`
 
 
 # Resource Operations
@@ -1205,7 +1205,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     
 + Response 200 (application/json)
 
-    + `name` (required, string) ...  Group name. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ...  Group name.
 
     + Body
     
@@ -2307,7 +2307,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Numeric group `id`.
-    + `name` (required, string) ... Floor Group name. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ... Floor Group name.
     + `readerPort` (required, number) ... Reader device `id`.
     + `readerPortName` (required, string) ... Reader device `name`.
     + `floors` (required, array) ... List of doors in current Floor Group.
@@ -2344,7 +2344,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
-    + `name` (required, string) ... Floor Group name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ... Floor Group name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `readerPort` (required, number) ... Reader device `id`.
     + `floors` (required, array[number]) ... Doors `id`s which belong to this Floor Group.
     
@@ -2376,7 +2376,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Numeric group `id`.
-    + `name` (required, string) ... Floor Group name. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ... Floor Group name.
     + `readerPort` (required, number) ... Reader device `id`.
     + `readerPortName` (required, string) ... Reader device `name`.
     + `floors` (required, array) ... List of doors in current Floor Group.
@@ -2486,7 +2486,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Device id.
-    + `name` (required, string) ...  Device name. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ...  Device name.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
@@ -2547,7 +2547,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Model
 
-    + `name` (required, string) ...  Device name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ...  Device name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
@@ -2609,7 +2609,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Device id.
-    + `name` (required, string) ...  Device name. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ...  Device name.
     + `connection` (required, number) ... `id` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
@@ -2743,7 +2743,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Connection id.
-    + `name` (required, string) ...  Connection name. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ...  Connection name.
     + `type` (required, enum[string])
         Connection type.
         + Members
@@ -2794,7 +2794,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Model
 
-    + `name` (required, string) ...  Connection name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ...  Connection name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `type` (required, enum[string])
         Connection type.
         + Members
@@ -2832,7 +2832,7 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 200 (application/json)
 
     + `id` (required, number) ... Connection id.
-    + `name` (required, string) ...  Connection name. Minimum length is `1` character, maximum length is `70` characters.
+    + `name` (required, string) ...  Connection name.
     + `type` (required, enum[string])
         Connection type.
         + Members
