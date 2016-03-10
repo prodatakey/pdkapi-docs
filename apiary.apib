@@ -516,7 +516,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 + `elevator`
                 + `event`
         + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
         + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + Specific `door` rule type fields
@@ -666,7 +666,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `elevator`
                 + `event`
         + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
         + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + Specific `door` rule type fields
@@ -791,7 +791,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `elevator`
                 + `event`
         + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
         + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + Specific `door` rule type fields
@@ -1309,7 +1309,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 + `elevator`
                 + `event`
         + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
         + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + Specific `door` rule type fields
@@ -1468,7 +1468,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `elevator`
                 + `event`
         + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+        + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
         + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
         + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + Specific `door` rule type fields
@@ -1746,7 +1746,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
     + `id`  (required, number) .. Numeric event `id`.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
@@ -1843,7 +1843,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Model
 
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name. It should be unique. Minimum length is `1` character, maximum length is `70` characters.
@@ -1931,7 +1931,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
     + `id`  (required, number) .. Numeric event `id`.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
@@ -2104,7 +2104,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
     + `id` (required, number) ... Numeric `id` of a rule.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
@@ -2147,7 +2147,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Model
 
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
@@ -2188,7 +2188,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
     + `id` (required, number) ... Numeric `id` of a rule.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
-    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
+    + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
