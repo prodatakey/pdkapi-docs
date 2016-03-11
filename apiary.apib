@@ -122,14 +122,14 @@ The functionality is available for all roles.
 ### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
 + Parameters
 
-    + query_string (optional, string) ... Url-encoded query string. Search will be done in the following entities: Person (`firstName`, `lastName` and `cardNumber`), Group (`name`), Floor Group (`name`). Minimum length is `1` character, maximum length is `70` characters.
+    + q (optional, string) ... Url-encoded query string. Search will be done in the following entities: Person (`firstName`, `lastName` and `cardNumber`), Group (`name`), Floor Group (`name`). Minimum length is `1` character, maximum length is `70` characters.
     + page (optional, number) 
         Number of page to return, started from `0`.
         + Default: `0`
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
         + Default: `10`
-    + sort_order (optional, enum[string])
+    + sort (optional, enum[string])
         Sorting order. Entities are sorted by `name` values.
         + Default: `asc`
         + Members
