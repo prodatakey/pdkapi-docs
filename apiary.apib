@@ -2686,7 +2686,44 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Request (application/json)
 
-    [Devices][]
+    + `name` (required, string) ...  Device name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `connection` (required, number) ... `id` of connection that this device is associated with.
+    + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
+    + `wirelessAddress` (optional, string) ... Wireless address of this device.
+    + `delay` (required, number)
+        Amount of time (in tenths of second) that the relay should delay before actuating.
+    + `dwell` (required, number)
+        Amount of time (in tenths of second) that the relay should stay actuated.
+    + `dps` (required, boolean)
+        Enables Door Position Sense (DPS) feature for this door.
+    + `propAlarm` (required, boolean)
+        Enables alarm if a door left open more than `propDelay` timeout (specified only in case `dps` flag is set).
+    + `propDelay` (required, number)
+        Amount of time (in tenths of second) before PropAlarm is triggered (specified only in case `propAlarm` flag is set).
+    + `rex` (required, boolean)
+        Enables Request to Exit (REX) feature for this door.
+    + `forcedAlarm` (required, boolean)
+        Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door (specified only in case `rex` and `dps` flags are set).
+    + `autoOpenAfterFirstAllow` (required, boolean)
+        Flag indicates enabling Auto Open After First Allow feature for this door.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+        
+    + Body
+    
+            {
+                    "name": "Front Door",
+                    "connection": 1,
+                    "port": 1,
+                    "wirelessAddress": "0013A200400A393B",
+                    "propAlarm": true,
+                    "propDelay": 30,
+                    "dps": true,
+                    "rex": true,
+                    "forcedAlarm": true
+            }
 
 + Response 204
 + Response 400 (application/json)
