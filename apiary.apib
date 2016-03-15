@@ -25,7 +25,7 @@ For instructions on retrieving a token for communicating with a panel's API, see
 Because the API is stateless, this Bearer token must be included in every request to the API.
 The Authorization header MUST be of the following format:
 
-0`Authorization: Bearer {token-value}`
+`Authorization: Bearer {token-value}`
 
 
 # Resource Operations
@@ -2838,7 +2838,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `ethernet`
             + `usb`
     + `address` (optional, string) ... Address of connection. Represents IP address in case of Ethernet connection. Must be empty in case of Wireless or USB connection.
-    + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of Wireless or USB connection.
+    + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of Wireless or USB connection. It is integer in `0`...`65535` range including borders.
     
     + Headers
     
