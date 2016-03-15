@@ -2551,10 +2551,10 @@ The functionality is available for [Sysop, Integrator] roles.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device.
     + `delay` (optional, number)
-        Amount of time (in tenths of second) that the relay should delay before actuating.
+        Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
         + Default: `0`
     + `dwell` (optional, number)
-        Amount of time (in tenths of second) that the relay should stay actuated.
+        Amount of time (in tenths of second) that the relay should stay actuated. It is an integer in `0`...`9999` range including borders.
         + Default: `30`
     + `dps` (optional, boolean)
         Enables Door Position Sense (DPS) feature for this door.
@@ -2563,7 +2563,7 @@ The functionality is available for [Sysop, Integrator] roles.
         Enables alarm if a door left open more than `propDelay` timeout (specified only in case `dps` flag is set).
         + Default: `false`
     + `propDelay` (optional, number)
-        Amount of time (in tenths of second) before PropAlarm is triggered (specified only in case `propAlarm` flag is set).
+        Amount of time (in tenths of second) before PropAlarm is triggered (specified only in case `propAlarm` flag is set). It is an integer in `0`...`9999` range including borders.
         + Default: `0`
     + `rex` (optional, boolean)
         Enables Request to Exit (REX) feature for this door.
@@ -2838,7 +2838,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `ethernet`
             + `usb`
     + `address` (optional, string) ... Address of connection. Represents IP address in case of Ethernet connection. Must be empty in case of Wireless or USB connection.
-    + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of Wireless or USB connection. It is integer in `0`...`65535` range including borders.
+    + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of Wireless or USB connection. It is an integer in `0`...`65535` range including borders.
     
     + Headers
     
