@@ -2613,7 +2613,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
     + `id` (required, number) ... Device id.
     + `name` (required, string) ...  Device name.
-    + `connection` (required, number) ... `id` and `name` of connection that this device is associated with.
+    + `connection` (required, number) ... `id`, `name` and `type` of connection that this device is associated with.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device. Field presents only for devices with `wirelessCoordinator` connection type.
     + `delay` (optional, number)
@@ -2648,7 +2648,8 @@ The functionality is available for [Sysop, Integrator] roles.
                     "name": "Front Door",
                     "connection": {
                         "id": 1,
-                        "name": "connection1"
+                        "name": "connection1",
+                        "type": "wirelessCoordinator"
                     }
                     "port": 1,
                     "wirelessAddress": "0013A200400A393B",
