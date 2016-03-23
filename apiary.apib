@@ -2938,6 +2938,7 @@ The functionality is available for [Sysop, Integrator] roles.
         + Members
             + `24bitCardIds`
             + `26bitStandard`
+            + `34bitAdemco`
             + `40bitFips`
             + `combo40bitFips26bitStandard`
         + Default: `26bitStandard`
@@ -2952,7 +2953,7 @@ The functionality is available for [Sysop, Integrator] roles.
             {
                     "logPurgeDays": 90,
                     "cardFormat": "26bitStandard",
-                    "connection": [99, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    "ecards": [99, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }
 
 ### Retrieve Config [GET /config]
@@ -2972,6 +2973,7 @@ The functionality is available for [Sysop, Integrator] roles.
         + Members
             + `24bitCardIds`
             + `26bitStandard`
+            + `34bitAdemco`
             + `40bitFips`
             + `combo40bitFips26bitStandard`
     + `ecards` (optional, array[number]) ... An array of 10 numbers that represent Ecards
@@ -2981,7 +2983,7 @@ The functionality is available for [Sysop, Integrator] roles.
             {
                     "logPurgeDays": 90,
                     "cardFormat": "24bit_card_ids",
-                    "connection": [99, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    "ecards": [99, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }
 
 + Response 401 (application/json)
