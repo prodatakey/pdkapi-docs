@@ -152,6 +152,7 @@ The functionality is available for all roles.
             + `floorGroup`
     + `name` (required, string) ... Entity name.
     + `description` (required, string) ... Entity description (will be equal to person's card number in case of search by card number).
+    + `image` (required, string) ... Person photo URL. `null` will be returned if Person has no photo or entity is not a Person.
     
     + Headers
     
@@ -165,7 +166,8 @@ The functionality is available for all roles.
                     "id": 10,
                     "type": "person",
                     "name": "Ted Froëdington",
-                    "description": "654321123456"
+                    "description": "654321123456",
+                    "image": "http://url"
                 }
             ]
 
