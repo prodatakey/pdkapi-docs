@@ -235,7 +235,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Model
 
     + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
-    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
+    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.  `firstName` + `lastName` combination should be unique.
     + `photoUrl` (optional, string) ... Person's account photo URL. `photoUrl` value absence or equality to empty string or `null` means that Person has no photo.
     
     + Headers
@@ -311,7 +311,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Request (application/json)
 
     + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
-    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.
+    + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters. `firstName` + `lastName` combination should be unique.
     + `photoUrl` (required, string) ... Person's account photo URL. `photoUrl` value equality to empty string or `null` means that Person has no photo.
     
     + Headers
