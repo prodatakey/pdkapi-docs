@@ -2562,11 +2562,14 @@ The functionality is available for [Sysop, Integrator] roles.
                     "connection": 1,
                     "port": 1,
                     "wirelessAddress": "0013A200400A393B",
+                    "delay": 0,
+                    "dwell": 1,
                     "propAlarm": true,
                     "propDelay": 30,
                     "dps": true,
                     "rex": true,
-                    "forcedAlarm": true
+                    "forcedAlarm": true,
+                    "autoOpenAfterFirstAllow": true
                 }
             ]
 
@@ -2724,7 +2727,56 @@ The functionality is available for [Sysop, Integrator] roles.
 
 + Request (application/json)
 
-    [Devices][]
+    + `name` (required, string) ...  Device name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `connection` (required, number) ... `id` of connection that this device is associated with.
+    + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
+    + `wirelessAddress` (optional, string) ... Wireless address of this device. Should be present only for devices with `wirelessCoordinator` connection type.
+    + `delay` (required, number)
+        Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
+        + Default: `0`
+    + `dwell` (required, number)
+        Amount of time (in tenths of second) that the relay should stay actuated. It is an integer in `0`...`9999` range including borders.
+        + Default: `30`
+    + `dps` (required, boolean)
+        Enables Door Position Sense (DPS) feature for this door.
+        + Default: `false`
+    + `propAlarm` (required, boolean)
+        Enables alarm if a door left open more than `propDelay` timeout (specified only in case `dps` flag is set).
+        + Default: `false`
+    + `propDelay` (required, number)
+        Amount of time (in seconds) before PropAlarm is triggered (specified only in case `propAlarm` flag is set). It is an integer in `0`...`9999` range including borders.
+        + Default: `0`
+    + `rex` (required, boolean)
+        Enables Request to Exit (REX) feature for this door.
+        + Default: `false`
+    + `forcedAlarm` (required, boolean)
+        Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door (specified only in case `rex` and `dps` flags are set).
+        + Default: `false`
+    + `autoOpenAfterFirstAllow` (required, boolean)
+        Flag indicates enabling Auto Open After First Allow feature for this door.
+        + Default: `false`
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+        
+    + Body
+    
+            {
+                    "id": 10,
+                    "name": "Front Door",
+                    "connection": 1,
+                    "port": 1,
+                    "wirelessAddress": "0013A200400A393B",
+                    "delay": 0,
+                    "dwell": 1,
+                    "propAlarm": true,
+                    "propDelay": 30,
+                    "dps": true,
+                    "rex": true,
+                    "forcedAlarm": true,
+                    "autoOpenAfterFirstAllow": true
+            }
 
 + Response 204
 + Response 400 (application/json)
