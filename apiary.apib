@@ -2755,16 +2755,16 @@ The functionality is available for [Sysop, Integrator] roles.
     + `dps` (required, boolean)
         Enables Door Position Sense (DPS) feature for this door.
         + Default: `false`
-    + `propAlarm` (required, boolean)
+    + `propAlarm` (optional, boolean)
         Enables alarm if a door left open more than `propDelay` timeout (specified only in case `dps` flag is set).
         + Default: `false`
-    + `propDelay` (required, number)
+    + `propDelay` (optional, number)
         Amount of time (in seconds) before PropAlarm is triggered (specified only in case `propAlarm` flag is set). It is an integer in `0`...`9999` range including borders.
         + Default: `0`
     + `rex` (required, boolean)
         Enables Request to Exit (REX) feature for this door.
         + Default: `false`
-    + `forcedAlarm` (required, boolean)
+    + `forcedAlarm` (optional, boolean)
         Flag indicates enabling Forced Alarm when the door is opened without REX being triggered or a card read at the door (specified only in case `rex` and `dps` flags are set).
         + Default: `false`
     + `autoOpenAfterFirstAllow` (required, boolean)
