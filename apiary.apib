@@ -266,6 +266,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + `firstName` (required, string) ...  Person's first name.
     + `lastName` (required, string) ...  Person's last name.
     + `photoUrl` (optional, string) ... Person's account photo URL. `null` will be returned if Person has no photo.
+    + `cards` (required, array) ... Cards that belongs to the Person. Empty array will be returned if Person has no cards.
+    + `groups` (required, array) ... Groups that the Person belongs to. Empty array will be returned if Person does not belong to any Group.
     
     + Body
     
@@ -273,7 +275,20 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "id": 1,
                 "firstName": "Ted",
                 "lastName": "Froëdington",
-                "photoUrl": "http://example.com/usersImages/32224.jpg"
+                "photoUrl": "http://example.com/usersImages/32224.jpg",
+                "cards": [
+                    {
+                        "id": 1,
+                        "cardNumber": 12345,
+                        "description": "some text"
+                    }
+                ],
+                "groups": [
+                    {
+                        "id": 1,
+                        "name": "groupName"
+                    }
+                ]
             }
 
 + Response 400 (application/json)
@@ -719,7 +734,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `openClose`
                     Does need a `target` and a `delay` to be specified.
         + `emailTemplate` (optional, string) ... Template for email.
-        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
+        + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only. Should be at least 1 second.
         + `sourceDoors` (required, array[number]) ... Door `id`s considered as event source.
         + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
             + Members
@@ -1914,7 +1929,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             + `openClose`
                 Does need a `target` and a `delay` to be specified.
     + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
-    + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
+    + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types. Should be at least 1 second.
     + `sourceDoors` (required, array[number]) ... Door `id`s considered as event source.
     + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
         + Members
@@ -2591,7 +2606,7 @@ The functionality is available for [Sysop, Integrator] roles.
         Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
         + Default: `0`
     + `dwell` (optional, number)
-        Amount of time (in tenths of second) that the relay should stay actuated. It is an integer in `0`...`9999` range including borders.
+        Amount of time (in tenths of second) that the relay should stay actuated. It is an integer in `1`...`9999` range including borders.
         + Default: `30`
     + `dps` (optional, boolean)
         Enables Door Position Sense (DPS) feature for this door.
@@ -2735,7 +2750,7 @@ The functionality is available for [Sysop, Integrator] roles.
         Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
         + Default: `0`
     + `dwell` (required, number)
-        Amount of time (in tenths of second) that the relay should stay actuated. It is an integer in `0`...`9999` range including borders.
+        Amount of time (in tenths of second) that the relay should stay actuated. It is an integer in `1`...`9999` range including borders.
         + Default: `30`
     + `dps` (required, boolean)
         Enables Door Position Sense (DPS) feature for this door.
