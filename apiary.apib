@@ -2859,7 +2859,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `ethernet`
             + `usb`
     + `ipaddress` (optional, string) ... Address of connection. Represents IP address in case of Ethernet connection.
-    + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of Wireless or USB connection. It is an integer in `0`...`65535` range including borders for Ethernet connections and an integer in `0`...`31` range including borders for other types.
+    + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of Wireless or USB connection. It is an integer in `0`...`65535` range including borders for Ethernet connections and an integer in `0`...`31` range including borders for other types. In case of not `ethernet` type of connection `port` value must be unique.
     
     + Headers
     
