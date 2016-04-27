@@ -1065,7 +1065,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 
 + Parameters
 
-    + id (required, number) ... Id of a group to be assigned to a Person.
+    + groups (required, array) ... Array consisting of Ids of the groups to be assigned to a Person.
 
 + Request (application/json)
 
@@ -1076,7 +1076,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
     + Body
         
             {
-                "id": 1
+                "groups": [1, 2]
             }
             
 + Response 204
