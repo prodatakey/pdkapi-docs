@@ -1065,6 +1065,29 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 
 + Parameters
 
+    + id (required, array) ... Id of the group to be assigned to a Person.
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
+    + Body
+        
+            {
+                "id": 1
+            }
+            
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+### Assign several Groups for a Person [PUT /persons/{person_id}/groups]
+
++ Parameters
+
     + groups (required, array) ... Array consisting of Ids of the groups to be assigned to a Person.
 
 + Request (application/json)
