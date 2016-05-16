@@ -3191,8 +3191,9 @@ The functionality is available for [Sysop, Integrator] roles.
     + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering.
     + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering.
     + `event` (optional, enum[string])
-        Event type.
+        Event type.`null` value indicated that all events should be retrieved.
         + Members
+            + `null`
             + `door.autoopen.on`
             + `door.autoopen.off`
             + `door.input.cardread`
@@ -3212,8 +3213,9 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.multiallowed`
             + `door.request.allowed`
     + `result` (optional, enum[string])
-        Result type.
+        Result type.  `null` value indicated that all results should be retrieved.
         + Members
+            + `null`
             + `door.request.unknown`
             + `door.request.denied`
             + `door.request.multiallowed`
@@ -3231,7 +3233,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.close`
             + `action.open.close`
     + `details` (optional, array[enum[string]])
-        List of details types that should be shown.
+        List of details types that should be shown. Empty array indicates that no details have been chosen.
         + Members
             + `Doors`
             + `Connections`
@@ -3279,8 +3281,9 @@ The functionality is available for [Sysop, Integrator] roles.
     + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering.
     + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering.
     + `event` (required, enum[string])
-        Event type.
+        Event type. `null` value indicated that all events should be retrieved.
         + Members
+            + `null`
             + `door.autoopen.on`
             + `door.autoopen.off`
             + `door.input.cardread`
@@ -3300,8 +3303,9 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.multiallowed`
             + `door.request.allowed`
     + `result` (required, enum[string])
-        Result type.
+        Result type. `null` indicated that all results should be retrieved.
         + Members
+            + `null`
             + `door.request.unknown`
             + `door.request.denied`
             + `door.request.multiallowed`
@@ -3319,14 +3323,14 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.close`
             + `action.open.close`
     + `details` (required, array[enum[string]])
-        List of details types that should be shown.
+        List of details types that should be shown. Empty array indicates that no details have been chosen.
         + Members
             + `Doors`
             + `Connections`
             + `Persons`
             + `Cards`
     + `sort`(required, enum[string])
-        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` by default.
+        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` will be used by default. `null` value means to use default value.
         + Members
             + `asc`
             + `desc`
