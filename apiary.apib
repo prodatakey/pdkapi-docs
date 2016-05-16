@@ -3109,8 +3109,9 @@ The functionality is available for [Sysop, Integrator] roles.
     + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering.
     + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering.
     + `event` (required, enum[string])
-        Event type.
+        Event type. `null` value indicated that all events should be retrieved.
         + Members
+            + `null`
             + `door.autoopen.on`
             + `door.autoopen.off`
             + `door.input.cardread`
@@ -3130,8 +3131,9 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.multiallowed`
             + `door.request.allowed`
     + `result` (required, enum[string])
-        Result type.
+        Result type. `null` value indicated that all results should be retrieved.
         + Members
+            + `null`
             + `door.request.unknown`
             + `door.request.denied`
             + `door.request.multiallowed`
@@ -3156,7 +3158,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `Persons`
             + `Cards`
     + `sort`(required, enum[string])
-        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` by default.
+        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` is used by default.
         + Members
             + `asc`
             + `desc`
@@ -3191,7 +3193,7 @@ The functionality is available for [Sysop, Integrator] roles.
     + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering.
     + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering.
     + `event` (optional, enum[string])
-        Event type.`null` value indicated that all events should be retrieved.
+        Event type. `null` value indicated that all events should be retrieved.
         + Members
             + `null`
             + `door.autoopen.on`
@@ -3213,7 +3215,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.multiallowed`
             + `door.request.allowed`
     + `result` (optional, enum[string])
-        Result type.  `null` value indicated that all results should be retrieved.
+        Result type. `null` value indicated that all results should be retrieved.
         + Members
             + `null`
             + `door.request.unknown`
