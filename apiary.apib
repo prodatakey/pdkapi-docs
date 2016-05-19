@@ -3150,13 +3150,13 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.open`
             + `action.delay.close`
             + `action.open.close`
-    + `details` (required, array[enum[string]])
-        List of details types that should be shown.
+    + `details` (required, object)
+        List of entites types and ids that should be shown.
         + Members
-            + `Doors`
-            + `Connections`
-            + `Persons`
-            + `Cards`
+            + `doors`
+            + `connections`
+            + `persons`
+            + `cards`
     + `sort`(required, enum[string])
         Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` is used by default.
         + Members
@@ -3177,7 +3177,12 @@ The functionality is available for [Sysop, Integrator] roles.
                     "stopDate": "2016-05-22",
                     "event": "door.input.cardread"
                     "result": "door.request.allowed",
-                    "details": ["Doors", "Connections", "Persons", "Cards"],
+                    "details": {
+                        "doors": [1, 2, 3],
+                        "connections": [12, 13],
+                        "persons": [4, 56],
+                        "cards": [8]
+                    },
                     "sort": "asc"
             }
 
@@ -3234,13 +3239,13 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.open`
             + `action.delay.close`
             + `action.open.close`
-    + `details` (optional, array[enum[string]])
-        List of details types that should be shown. Empty array indicates that no details have been chosen.
+    + `details` (required, object)
+        List of entites types and ids that should be shown.
         + Members
-            + `Doors`
-            + `Connections`
-            + `Persons`
-            + `Cards`
+            + `doors`
+            + `connections`
+            + `persons`
+            + `cards`
     + `sort`(optional, enum[string])
         Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` by default.
         + Members
@@ -3260,7 +3265,12 @@ The functionality is available for [Sysop, Integrator] roles.
                     "stopDate": "2016-05-22",
                     "event": "door.input.cardread"
                     "result": "door.request.allowed",
-                    "details": ["Doors", "Connections", "Persons", "Cards"],
+                    "details": {
+                        "doors": [1, 2, 3],
+                        "connections": [12, 13],
+                        "persons": [4, 56],
+                        "cards": [8]
+                    },
                     "sort": "asc"
             }
 
@@ -3324,13 +3334,13 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.open`
             + `action.delay.close`
             + `action.open.close`
-    + `details` (required, array[enum[string]])
-        List of details types that should be shown. Empty array indicates that no details have been chosen.
+   + `details` (required, object)
+        List of entites types and ids that should be shown.
         + Members
-            + `Doors`
-            + `Connections`
-            + `Persons`
-            + `Cards`
+            + `doors`
+            + `connections`
+            + `persons`
+            + `cards`
     + `sort`(required, enum[string])
         Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` will be used by default. `null` value means to use default value.
         + Members
@@ -3346,7 +3356,12 @@ The functionality is available for [Sysop, Integrator] roles.
                     "stopDate": "2016-05-22",
                     "event": "door.input.cardread"
                     "result": "door.request.allowed",
-                    "details": ["Doors", "Connections", "Persons", "Cards"],
+                    "details": {
+                        "doors": [1, 2, 3],
+                        "connections": [12, 13],
+                        "persons": [4, 56],
+                        "cards": [8]
+                    },
                     "sort": "asc"
             }
 
