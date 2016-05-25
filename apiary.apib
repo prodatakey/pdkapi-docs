@@ -3106,8 +3106,18 @@ The functionality is available for [Sysop, Integrator] roles.
 
     + `id` (required, number) ... Report id.
     + `name` (required, string) ... Report name.
-    + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering.
-    + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering.
+    + `period` (required, enum[string])
+        Period type.
+        + Members
+            + `today`
+            + `yesterday`
+            + `thisWeek`
+            + `thisMonth`
+            + `lastWeek`
+            + `lastMonth`
+            + `custom`
+    + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
+    + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
     + `event` (required, enum[string])
         Event type. `null` value indicated that all events should be retrieved.
         + Members
@@ -3151,7 +3161,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.close`
             + `action.open.close`
     + `details` (required, object)
-        List of entites types and ids that should be shown.
+        Object contains list of entities ids that should be shown.
         + Members
             + `doors`
             + `connections`
@@ -3173,8 +3183,7 @@ The functionality is available for [Sysop, Integrator] roles.
             {
                     "id": 1,
                     "name": "Weekly Report",
-                    "startDate": "2016-05-16",
-                    "stopDate": "2016-05-22",
+                    "period": "lastWeek",
                     "event": "door.input.cardread"
                     "result": "door.request.allowed",
                     "details": {
@@ -3195,8 +3204,18 @@ The functionality is available for [Sysop, Integrator] roles.
 + Model
 
     + `name` (required, string) ... Report name.
-    + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering.
-    + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering.
+    + `period` (required, enum[string])
+        Period type.
+        + Members
+            + `today`
+            + `yesterday`
+            + `thisWeek`
+            + `thisMonth`
+            + `lastWeek`
+            + `lastMonth`
+            + `custom`
+    + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
+    + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
     + `event` (optional, enum[string])
         Event type. `null` value indicated that all events should be retrieved.
         + Members
@@ -3261,6 +3280,7 @@ The functionality is available for [Sysop, Integrator] roles.
     
             {
                     "name": "Weekly Report",
+                    "period": "custom",
                     "startDate": "2016-05-16",
                     "stopDate": "2016-05-22",
                     "event": "door.input.cardread"
@@ -3290,8 +3310,18 @@ The functionality is available for [Sysop, Integrator] roles.
 
     + `id` (required, number) ... Report id.
     + `name` (required, string) ... Report name.
-    + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering.
-    + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering.
+    + `period` (required, enum[string])
+        Period type.
+        + Members
+            + `today`
+            + `yesterday`
+            + `thisWeek`
+            + `thisMonth`
+            + `lastWeek`
+            + `lastMonth`
+            + `custom`
+    + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
+    + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
     + `event` (required, enum[string])
         Event type. `null` value indicated that all events should be retrieved.
         + Members
@@ -3334,8 +3364,8 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.open`
             + `action.delay.close`
             + `action.open.close`
-   + `details` (required, object)
-        List of entites types and ids that should be shown.
+    + `details` (required, object)
+        List of entites types and ids that should be shown. `null` could be passed if no filtering by details should be performed.
         + Members
             + `doors`
             + `connections`
@@ -3352,6 +3382,7 @@ The functionality is available for [Sysop, Integrator] roles.
             {
                     "id": 1,
                     "name": "Weekly Report",
+                    "period": "custom",
                     "startDate": "2016-05-16",
                     "stopDate": "2016-05-22",
                     "event": "door.input.cardread"
@@ -3386,6 +3417,108 @@ The functionality is available for [Sysop, Integrator] roles.
                 "id": 1
             }
             
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Update a Report [PUT /reports/{report_id}]
+
++ Request (application/json)
+
+    + `id` (required, number) ... Number `id` of Report to be updated.
+    + `name` (required, string) ... Report name.
+    + `period` (required, enum[string])
+        Period type.
+        + Members
+            + `today`
+            + `yesterday`
+            + `thisWeek`
+            + `thisMonth`
+            + `lastWeek`
+            + `lastMonth`
+            + `custom`
+    + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
+    + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
+    + `event` (required, enum[string])
+        Event type. `null` value indicated that all events should be retrieved.
+        + Members
+            + `null`
+            + `door.autoopen.on`
+            + `door.autoopen.off`
+            + `door.input.cardread`
+            + `door.input.dps.open`
+            + `door.input.dps.close`
+            + `door.input.rex.on`
+            + `door.input.rex.off`
+            + `door.alarm.propped.on`
+            + `door.alarm.propped.off`
+            + `door.alarm.propped.alloff`
+            + `door.alarm.forced`
+            + `endpoint.alarm.comloss.on`
+            + `endpoint.alarm.comloss.off`
+            + `door.request.found`
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+    + `result` (required, enum[string])
+        Result type. `null` value indicated that all results should be retrieved.
+        + Members
+            + `null`
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+            + `action.send.email`
+            + `action.do.not.disturb`
+            + `action.force.toggle`
+            + `action.force.open`
+            + `action.force.close`
+            + `action.open`
+            + `action.close`
+            + `action.lockdown.on`
+            + `action.lockdown.off`
+            + `action.delay.open`
+            + `action.delay.close`
+            + `action.open.close`
+    + `details` (required, object)
+        List of entites types and ids that should be shown. `null` could be passed if no filtering by details should be performed.
+        + Members
+            + `doors`
+            + `connections`
+            + `persons`
+            + `cards`
+    + `sort`(required, enum[string])
+        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` by default.
+        + Members
+            + `asc`
+            + `desc`
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/connections?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/connections?page=2&per_page=10>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            {
+                    "name": "Weekly Report",
+                    "period": "custom",
+                    "startDate": "2016-05-16",
+                    "stopDate": "2016-05-22",
+                    "event": "door.input.cardread"
+                    "result": "door.request.allowed",
+                    "details": {
+                        "doors": [1, 2, 3],
+                        "connections": [12, 13],
+                        "persons": [4, 56],
+                        "cards": [8]
+                    },
+                    "sort": "asc"
+            }
+
++ Response 204
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
