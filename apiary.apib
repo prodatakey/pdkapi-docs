@@ -3544,7 +3544,7 @@ The functionality is available for [Sysop, Integrator] roles.
 
 # Group Filter Audit Log Entries By Report
 
-### Retrieve Reports Collection [GET /reports/generate?page={page}&per_page={per_page}&sort={sort_order}&period={period}&start_date={startDate}&stop_date={stopDate}&event={event}&result={result}&details={details}]
+### Get audit log entries list filtered by report [GET /reports/generate?page={page}&per_page={per_page}&sort={sort_order}&period={period}&start_date={startDate}&stop_date={stopDate}&event={event}&result={result}&details={details}]
 
 + Parameters
 
@@ -3628,75 +3628,32 @@ The functionality is available for [Sysop, Integrator] roles.
     
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Report id.
-    + `name` (required, string) ... Report name.
-    + `period` (required, enum[string])
-        Period type.
-        + Members
-            + `today`
-            + `yesterday`
-            + `thisWeek`
-            + `thisMonth`
-            + `lastWeek`
-            + `lastMonth`
-            + `custom`
-    + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
-    + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
-    + `event` (required, enum[string])
-        Event type. `null` value indicated that all events should be retrieved.
-        + Members
-            + `null`
-            + `door.autoopen.on`
-            + `door.autoopen.off`
-            + `door.input.cardread`
-            + `door.input.dps.open`
-            + `door.input.dps.close`
-            + `door.input.rex.on`
-            + `door.input.rex.off`
-            + `door.alarm.propped.on`
-            + `door.alarm.propped.off`
-            + `door.alarm.propped.alloff`
-            + `door.alarm.forced`
-            + `endpoint.alarm.comloss.on`
-            + `endpoint.alarm.comloss.off`
-            + `door.request.found`
-            + `door.request.unknown`
-            + `door.request.denied`
-            + `door.request.multiallowed`
-            + `door.request.allowed`
-    + `result` (required, enum[string])
-        Result type. `null` value indicated that all results should be retrieved.
-        + Members
-            + `null`
-            + `door.request.unknown`
-            + `door.request.denied`
-            + `door.request.multiallowed`
-            + `door.request.allowed`
-            + `action.send.email`
-            + `action.do.not.disturb`
-            + `action.force.toggle`
-            + `action.force.open`
-            + `action.force.close`
-            + `action.open`
-            + `action.close`
-            + `action.lockdown.on`
-            + `action.lockdown.off`
-            + `action.delay.open`
-            + `action.delay.close`
-            + `action.open.close`
-    + `details` (required, object)
-        Object contains list of entities ids that should be shown.
-        + Members
-            + `doors`
-            + `connections`
-            + `persons`
-            + `cards`
-    + `sort`(required, enum[string])
-        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` is used by default.
-        + Members
-            + `asc`
-            + `desc`
-    
+    + `array`
+        + `object`
+            + `id` (required, number) ... Log entry id.
+            + `info` (required, string) ... Time when event has occurred.
+            + `userid` (required, string) Id of the user that has performed the operation. `null` in case it is server event.
+            + `occurred` (required, string) ... Event happened time in `YYYY-MM-DD HH24:MM:SS` format.
+            + `event` (required, object)
+                + `object`
+                    + `id` (string) ... Event identificator.
+                    + `name` (string) ... Event name.
+            + `result` (required, object)
+                + `object`
+                    + `id` (string) ... Result identificator.
+                    + `name` (string) ... Result name.
+            + `logDetails` (required, object)
+                Object contains list of entities ids that should be shown.
+                + `object`
+                    + `doorName`
+                        + `object`
+                            + `name` (string) ... Column name.
+                            + `value` (string) ... Rule name.
+                    + `connectionName`
+                    + `personName`
+                    + `ruleName`
+                    + `cardNumber`
+
     + Headers
     
             Link: <https://panel-id.pdk.io/api/reports?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/reports?page=2&per_page=10>; rel="last"
