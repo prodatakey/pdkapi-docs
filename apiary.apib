@@ -212,7 +212,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     + `photoUrl` (optional, string) ... Person's account photo URL. `null` will be returned if Person has no photo.
     + `activeDate` (optional, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`.
     + `expireDate` (optional, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`.
-    + `enabled` (optional, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
+    + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
     
     + Headers
     
@@ -272,7 +272,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + `photoUrl` (optional, string) ... Person's account photo URL. `null` will be returned if Person has no photo.
     + `activeDate` (optional, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`.
     + `expireDate` (optional, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`.
-    + `enabled` (optional, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
+    + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
     + `cards` (required, array) ... Cards that belongs to the Person. Empty array will be returned if Person has no cards.
     + `groups` (required, array) ... Groups that the Person belongs to. Empty array will be returned if Person does not belong to any Group.
     
