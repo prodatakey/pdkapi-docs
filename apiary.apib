@@ -611,7 +611,14 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                     Does need a `target` and a `delay` to be specified.
                 + `openClose`
                     Does need a `target` and a `delay` to be specified.
-        + `emailTemplate` (optional, string) ... Template for email.
+        + `emailTemplate` (optional, object) ... Template for email. Used with `sendEmail` action type only.
+            + Members
+                + `to`
+                    Array of recipients.
+                + `subject`
+                    Subject of the email.
+                + `body`
+                    Email text.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
@@ -758,7 +765,14 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                     Does need a `target` and a `delay` to be specified.
                 + `openClose`
                     Does need a `target` and a `delay` to be specified.
-        + `emailTemplate` (optional, string) ... Template for email.
+        + `emailTemplate` (optional, object) ... Template for email. Used with `sendEmail` action type only.
+            + Members
+                + `to`
+                    Array of recipients.
+                + `subject`
+                    Subject of the email.
+                + `body`
+                    Email text.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only. Should be at least 1 second.
         + `sourceDoors` (required, array[number]) ... Door `id`s considered as event source.
         + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
@@ -880,7 +894,14 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                     Does need a `target` and a `delay` to be specified.
                 + `openClose`
                     Does need a `target` and a `delay` to be specified.
-        + `emailTemplate` (optional, string) ... Template for email.
+        + `emailTemplate` (optional, object) ... Template for email. Used with `sendEmail` action type only.
+            + Members
+                + `to`
+                    Array of recipients.
+                + `subject`
+                    Subject of the email.
+                + `body`
+                    Email text.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
@@ -1384,7 +1405,14 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                     Does need a `target` and a `delay` to be specified.
                 + `openClose`
                     Does need a `target` and a `delay` to be specified.
-        + `emailTemplate` (optional, string) ... Template for email.
+        + `emailTemplate` (optional, object) ... Template for email. Used with `sendEmail` action type only.
+            + Members
+                + `to`
+                    Array of recipients.
+                + `subject`
+                    Subject of the email.
+                + `body`
+                    Email text.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
@@ -1539,7 +1567,14 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                     Does need a `target` and a `delay` to be specified.
                 + `openClose`
                     Does need a `target` and a `delay` to be specified.
-        + `emailTemplate` (optional, string) ... Template for email.
+        + `emailTemplate` (optional, object) ... Template for email. Used with `sendEmail` action type only.
+            + Members
+                + `to`
+                    Array of recipients.
+                + `subject`
+                    Subject of the email.
+                + `body`
+                    Email text.
         + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types only.
         + `sourceDoors` (required, array) ... List of doors considered as event source.
         + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
@@ -1812,7 +1847,14 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 Does need a `target` and a `delay` to be specified.
             + `openClose`
                 Does need a `target` and a `delay` to be specified.
-    + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
+    + `emailTemplate` (optional, object) ... Template for email. Used with `sendEmail` action type only.
+            + Members
+                + `to`
+                    Array of recipients.
+                + `subject`
+                    Subject of the email.
+                + `body`
+                    Email text.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
     + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
@@ -1910,7 +1952,14 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 Does need a `target` and a `delay` to be specified.
             + `openClose`
                 Does need a `target` and a `delay` to be specified.
-    + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
+    + `emailTemplate` (optional, object) ... Template for email. Used with `sendEmail` action type only.
+            + Members
+                + `to`
+                    Array of recipients.
+                + `subject`
+                    Subject of the email.
+                + `body`
+                    Email text.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types. Should be at least 1 second.
     + `sourceDoors` (required, array[number]) ... Door `id`s considered as event source.
     + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
@@ -2002,7 +2051,14 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 Does need a `target` and a `delay` to be specified.
             + `openClose`
                 Does need a `target` and a `delay` to be specified.
-    + `emailTemplate` (optional, string) ... Template for email. Used with `sendEmail` action type only.
+            + `emailTemplate` (optional, object) ... Template for email. Used with `sendEmail` action type only.
+                + Members
+                    + `to`
+                        Array of recipients.
+                    + `subject`
+                        Subject of the email.
+                    + `body`
+                        Email text.
     + `delay` (optional, string) ... Delay for `action` performing in `HH:MM:SS` format. This field used with `delayOpen`, `delayClose`, `openClose` action types.
     + `sourceDoors` (required, array) ... List of doors considered as event source.
     + `target` (optional, enum[string]) ... Target doors type. In case when `source` value provided `targetDoors` parameter is not required.
