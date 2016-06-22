@@ -3167,7 +3167,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `custom`
     + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
     + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
-    + `event` (required, enum[string])
+    + `event` (required, array[enum[string]])
         Event type. `null` value indicated that all events should be retrieved.
         + Members
             + `null`
@@ -3189,7 +3189,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.denied`
             + `door.request.multiallowed`
             + `door.request.allowed`
-    + `result` (required, enum[string])
+    + `result` (required, array[enum[string]])
         Result type. `null` value indicated that all results should be retrieved.
         + Members
             + `null`
@@ -3233,8 +3233,8 @@ The functionality is available for [Sysop, Integrator] roles.
                     "id": 1,
                     "name": "Weekly Report",
                     "period": "lastWeek",
-                    "event": "door.input.cardread"
-                    "result": "door.request.allowed",
+                    "event": ["door.input.cardread"]
+                    "result": ["door.request.allowed", "door.request.allowed"],
                     "details": {
                         "doors": [1, 2, 3],
                         "connections": [12, 13],
@@ -3265,7 +3265,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `custom`
     + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
     + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
-    + `event` (optional, enum[string])
+    + `event` (optional, array[enum[string]])
         Event type. `null` value indicated that all events should be retrieved.
         + Members
             + `null`
@@ -3287,7 +3287,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.denied`
             + `door.request.multiallowed`
             + `door.request.allowed`
-    + `result` (optional, enum[string])
+    + `result` (optional, array[enum[string]])
         Result type. `null` value indicated that all results should be retrieved.
         + Members
             + `null`
@@ -3332,8 +3332,8 @@ The functionality is available for [Sysop, Integrator] roles.
                     "period": "custom",
                     "startDate": "2016-05-16",
                     "stopDate": "2016-05-22",
-                    "event": "door.input.cardread"
-                    "result": "door.request.allowed",
+                    "event": ["door.input.cardread"]
+                    "result": ["door.request.allowed", "action.delay.close"],
                     "details": {
                         "doors": [1, 2, 3],
                         "connections": [12, 13],
@@ -3371,7 +3371,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `custom`
     + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
     + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
-    + `event` (required, enum[string])
+    + `event` (required, array[enum[string]])
         Event type. `null` value indicated that all events should be retrieved.
         + Members
             + `null`
@@ -3393,7 +3393,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.denied`
             + `door.request.multiallowed`
             + `door.request.allowed`
-    + `result` (required, enum[string])
+    + `result` (required, array[enum[string]])
         Result type. `null` indicated that all results should be retrieved.
         + Members
             + `null`
@@ -3434,8 +3434,8 @@ The functionality is available for [Sysop, Integrator] roles.
                     "period": "custom",
                     "startDate": "2016-05-16",
                     "stopDate": "2016-05-22",
-                    "event": "door.input.cardread"
-                    "result": "door.request.allowed",
+                    "event": ["door.input.cardread"]
+                    "result": ["door.request.allowed", "action.open.close"],
                     "details": {
                         "doors": [1, 2, 3],
                         "connections": [12, 13],
@@ -3489,7 +3489,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `custom`
     + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
     + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
-    + `event` (required, enum[string])
+    + `event` (required, array[enum[string]])
         Event type. `null` value indicated that all events should be retrieved.
         + Members
             + `null`
@@ -3511,7 +3511,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.denied`
             + `door.request.multiallowed`
             + `door.request.allowed`
-    + `result` (required, enum[string])
+    + `result` (required, array[enum[string]])
         Result type. `null` value indicated that all results should be retrieved.
         + Members
             + `null`
@@ -3556,8 +3556,8 @@ The functionality is available for [Sysop, Integrator] roles.
                     "period": "custom",
                     "startDate": "2016-05-16",
                     "stopDate": "2016-05-22",
-                    "event": "door.input.cardread"
-                    "result": "door.request.allowed",
+                    "event": ["door.input.cardread"]
+                    "result": ["door.request.allowed", "action.force.close"],
                     "details": {
                         "doors": [1, 2, 3],
                         "connections": [12, 13],
