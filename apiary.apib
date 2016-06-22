@@ -3266,9 +3266,8 @@ The functionality is available for [Sysop, Integrator] roles.
     + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
     + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
     + `event` (optional, array[enum[string]])
-        Event type. `null` value indicated that all events should be retrieved.
+        Event types list. `null` value should be passed if all events should be retrieved.
         + Members
-            + `null`
             + `door.autoopen.on`
             + `door.autoopen.off`
             + `door.input.cardread`
@@ -3288,9 +3287,8 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.multiallowed`
             + `door.request.allowed`
     + `result` (optional, array[enum[string]])
-        Result type. `null` value indicated that all results should be retrieved.
+        Event types list. `null` value should be passed if all events should be retrieved.
         + Members
-            + `null`
             + `door.request.unknown`
             + `door.request.denied`
             + `door.request.multiallowed`
@@ -3308,12 +3306,13 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.close`
             + `action.open.close`
     + `details` (required, object)
-        List of entites types and ids that should be shown.
+        List of entites types to perform the filtering.
         + Members
             + `doors`
             + `connections`
             + `persons`
             + `cards`
+            + `groups`
     + `sort`(optional, enum[string])
         Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` by default.
         + Members
@@ -3372,7 +3371,7 @@ The functionality is available for [Sysop, Integrator] roles.
     + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
     + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
     + `event` (required, array[enum[string]])
-        Event type. `null` value indicated that all events should be retrieved.
+        Event types list. `null` value indicates that no events filter was set.
         + Members
             + `null`
             + `door.autoopen.on`
@@ -3394,7 +3393,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.multiallowed`
             + `door.request.allowed`
     + `result` (required, array[enum[string]])
-        Result type. `null` indicated that all results should be retrieved.
+        Result types list. `null` value indicates that no results filter was set.
         + Members
             + `null`
             + `door.request.unknown`
@@ -3414,12 +3413,13 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.close`
             + `action.open.close`
     + `details` (required, object)
-        List of entites types and ids that should be shown. `null` could be passed if no filtering by details should be performed.
+        List of entites types to perform the filtering. `null` is returned if no report has no details.
         + Members
             + `doors`
             + `connections`
             + `persons`
             + `cards`
+            + `groups`
     + `sort`(required, enum[string])
         Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` will be used by default. `null` value means to use default value.
         + Members
@@ -3490,9 +3490,8 @@ The functionality is available for [Sysop, Integrator] roles.
     + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
     + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
     + `event` (required, array[enum[string]])
-        Event type. `null` value indicated that all events should be retrieved.
+        Event types list. Pass `null` value to avoid filtering by event.
         + Members
-            + `null`
             + `door.autoopen.on`
             + `door.autoopen.off`
             + `door.input.cardread`
@@ -3512,9 +3511,8 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.multiallowed`
             + `door.request.allowed`
     + `result` (required, array[enum[string]])
-        Result type. `null` value indicated that all results should be retrieved.
+        Result types list. Pass `null` value to avoid filtering by event.
         + Members
-            + `null`
             + `door.request.unknown`
             + `door.request.denied`
             + `door.request.multiallowed`
@@ -3532,12 +3530,13 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.close`
             + `action.open.close`
     + `details` (required, object)
-        List of entites types and ids that should be shown. `null` could be passed if no filtering by details should be performed.
+        List of entites types to perform the filtering. `null` could be passed if no filtering by details should be performed.
         + Members
             + `doors`
             + `connections`
             + `persons`
             + `cards`
+            + `groups`
     + `sort`(required, enum[string])
         Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` by default.
         + Members
@@ -3619,10 +3618,9 @@ The functionality is available for [Sysop, Integrator] roles.
             + `custom`
     + startDate (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
     + stopDate (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
-    + event (required, enum[string])
-        Event type. `null` value indicated that all events should be retrieved.
+    + event (optional, array[enum[string]])
+        Event types list. Could be skipped to avoid filtering by events.
         + Members
-            + `null`
             + `door.autoopen.on`
             + `door.autoopen.off`
             + `door.input.cardread`
@@ -3641,10 +3639,9 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.denied`
             + `door.request.multiallowed`
             + `door.request.allowed`
-    + result (required, enum[string])
-        Result type. `null` value indicated that all results should be retrieved.
+    + result (optional, array[enum[string]])
+        Result types list. Could be skipped to avoid filtering by result.
         + Members
-            + `null`
             + `door.request.unknown`
             + `door.request.denied`
             + `door.request.multiallowed`
@@ -3661,13 +3658,14 @@ The functionality is available for [Sysop, Integrator] roles.
             + `action.delay.open`
             + `action.delay.close`
             + `action.open.close`
-    + details (required, object)
-        List of entites types and ids that should be shown. `null` could be passed if no filtering by details should be performed.
+    + details (optional, object)
+        List of entites types and ids that should be shown. Could be skipped.
         + Members
             + `doors`
             + `connections`
             + `persons`
             + `cards`
+            + `groups`
 
 + Request
 
@@ -3681,31 +3679,39 @@ The functionality is available for [Sysop, Integrator] roles.
         + `object`
             + `id` (required, number) ... Log entry id.
             + `info` (required, string) ... Time when event has occurred.
-            + `userid` (required, string) Id of the user that has performed the operation. `null` in case it is server event.
             + `occurred` (required, string) ... Event happened time in `YYYY-MM-DD HH24:MM:SS` format.
             + `event` (required, object)
-                + `object`
-                    + `id` (string) ... Event identificator.
-                    + `name` (string) ... Event name.
+                + `id` (string) ... Event identificator.
+                + `name` (string) ... Event name.
             + `result` (required, object)
-                + `object`
-                    + `id` (string) ... Result identificator.
-                    + `name` (string) ... Result name.
-            + `logDetails` (required, object)
-                Object contains list of entities ids that should be shown.
-                + `object`
-                    + `doorName`
-                        + `object`
-                            + `name` (string) ... Column name.
-                            + `value` (string) ... Rule name.
-                    + `connectionName`
-                    + `personName`
-                    + `ruleName`
-                    + `cardNumber`
+                + `id` (string) ... Result identificator.
+                + `name` (string) ... Result name.
+            + `logDetails` (required, object) Object contains list of entities names connected with event.
+                + `doorName` (optional, object)
+                    + `name` (string) ... Internationalized column name.
+                    + `value` (string) ... Door name.
+                + `connectionName` (optional, object)
+                    + `name` (string) ... Internationalized column name.
+                    + `value` (string) ... Connection name.
+                + `personName` (optional, object)
+                    + `name` (string) ... Internationalized column name.
+                    + `value` (string) ... Person name.
+                + `ruleName` (optional, object)
+                    + `name` (string) ... Internationalized column name.
+                    + `value` (string) ... Rule name.
+                + `cardNumber` (optional, object)
+                    + `name` (string) ... Internationalized column name.
+                    + `value` (string) ... Card number.
+                + `groupName` (optional, object)
+                    + `name` (string) ... Internationalized column name.
+                    + `value` (string) ... Group name.
+                + `elevatorName` (optional, object)
+                    + `name` (string) ... Internationalized column name.
+                    + `value` (string) ... Floor Group name.
 
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/reports?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/reports?page=2&per_page=10>; rel="last"
+            Link: <https://pdk.io/api/reports?page=1&per_page=10>; rel="next", <https://pdk.io/api/reports?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
