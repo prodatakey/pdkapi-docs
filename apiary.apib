@@ -3168,9 +3168,8 @@ The functionality is available for [Sysop, Integrator] roles.
     + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
     + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
     + `event` (required, array[enum[string]])
-        Event type. `null` value indicated that all events should be retrieved.
+        Event types list. `null` value indicates that no filtering by event will be performed.
         + Members
-            + `null`
             + `door.autoopen.on`
             + `door.autoopen.off`
             + `door.input.cardread`
@@ -3190,9 +3189,8 @@ The functionality is available for [Sysop, Integrator] roles.
             + `door.request.multiallowed`
             + `door.request.allowed`
     + `result` (required, array[enum[string]])
-        Result type. `null` value indicated that all results should be retrieved.
+        Result types list. `null` value indicates that no filtering by result will be performed.
         + Members
-            + `null`
             + `door.request.unknown`
             + `door.request.denied`
             + `door.request.multiallowed`
