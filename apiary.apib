@@ -3130,6 +3130,8 @@ The functionality is available for [Sysop, Integrator] roles.
 
 #### A report entity represents a filter for the audit log entries.
 
+The functionality is available for all roles.
+
 ### Retrieve Reports Collection [GET /reports?page={page}&per_page={per_page}&sort={sort_order}]
 
 + Parameters
@@ -3732,3 +3734,467 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
+
+# Group Partitions [WIP]
+
+#### A Partitions entity represents a filter for Person, Group, Floor Group and Door entities. Door entity can belong to several partitions. Entitie's partition is set to the User's partition during creation. There is a default partition so entity can not have no partition.
+
+The functionality is available for [Sysop, Integrator, Admin] roles.
+
+### Retrieve Partitions Collection [GET /partitions?page={page}&per_page={per_page}&sort={sort_order}]
+
++ Parameters
+
+    + page (optional, number)
+        Number of page to return, started from `0`.
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+    + sort (optional, enum[string])
+        Sorting order. Report are sorted by `name` values.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Report id.
+    + `name` (required, string) ... Report name.
+    + `period` (required, enum[string])
+        Period type.
+        + Members
+            + `today`
+            + `yesterday`
+            + `thisWeek`
+            + `thisMonth`
+            + `lastWeek`
+            + `lastMonth`
+            + `custom`
+    + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
+    + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
+    + `event` (required, array[enum[string]])
+        Event types list. `null` value indicates that no filtering by event will be performed.
+        + Members
+            + `door.autoopen.on`
+            + `door.autoopen.off`
+            + `door.input.cardread`
+            + `door.input.dps.open`
+            + `door.input.dps.close`
+            + `door.input.rex.on`
+            + `door.input.rex.off`
+            + `door.alarm.propped.on`
+            + `door.alarm.propped.off`
+            + `door.alarm.propped.alloff`
+            + `door.alarm.forced`
+            + `endpoint.alarm.comloss.on`
+            + `endpoint.alarm.comloss.off`
+            + `door.request.found`
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+    + `result` (required, array[enum[string]])
+        Result types list. `null` value indicates that no filtering by result will be performed.
+        + Members
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+            + `action.send.email`
+            + `action.do.not.disturb`
+            + `action.force.toggle`
+            + `action.force.open`
+            + `action.force.close`
+            + `action.open`
+            + `action.close`
+            + `action.lockdown.on`
+            + `action.lockdown.off`
+            + `action.delay.open`
+            + `action.delay.close`
+            + `action.open.close`
+    + `details` (required, object)
+        Object contains list of entities ids that should be shown.
+        + Members
+            + `doors`
+            + `connections`
+            + `persons`
+            + `cards`
+    + `sort`(required, enum[string])
+        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` is used by default.
+        + Members
+            + `asc`
+            + `desc`
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/reports?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/reports?page=2&per_page=10>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            {
+                    "id": 1,
+                    "name": "Weekly Report",
+                    "period": "lastWeek",
+                    "event": ["door.input.cardread"]
+                    "result": ["door.request.allowed", "door.request.allowed"],
+                    "details": {
+                        "doors": [1, 2, 3],
+                        "connections": [12, 13],
+                        "persons": [4, 56],
+                        "cards": [8]
+                    },
+                    "sort": "asc"
+            }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+## Partitions [/partitions/{report_id}]
+
++ Model
+
+    + `name` (required, string) ... Report name.
+    + `period` (required, enum[string])
+        Period type.
+        + Members
+            + `today`
+            + `yesterday`
+            + `thisWeek`
+            + `thisMonth`
+            + `lastWeek`
+            + `lastMonth`
+            + `custom`
+    + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
+    + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
+    + `event` (optional, array[enum[string]])
+        Event types list. `null` value should be passed to avoid filtering by events.
+        + Members
+            + `door.autoopen.on`
+            + `door.autoopen.off`
+            + `door.input.cardread`
+            + `door.input.dps.open`
+            + `door.input.dps.close`
+            + `door.input.rex.on`
+            + `door.input.rex.off`
+            + `door.alarm.propped.on`
+            + `door.alarm.propped.off`
+            + `door.alarm.propped.alloff`
+            + `door.alarm.forced`
+            + `endpoint.alarm.comloss.on`
+            + `endpoint.alarm.comloss.off`
+            + `door.request.found`
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+    + `result` (optional, array[enum[string]])
+        Result types list. `null` value should be passed to avoid filtering by results.
+        + Members
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+            + `action.send.email`
+            + `action.do.not.disturb`
+            + `action.force.toggle`
+            + `action.force.open`
+            + `action.force.close`
+            + `action.open`
+            + `action.close`
+            + `action.lockdown.on`
+            + `action.lockdown.off`
+            + `action.delay.open`
+            + `action.delay.close`
+            + `action.open.close`
+    + `details` (required, object)
+        List of entites types to perform the filtering.
+        + Members
+            + `doors`
+            + `connections`
+            + `persons`
+            + `cards`
+            + `groups`
+    + `sort`(optional, enum[string])
+        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` by default.
+        + Members
+            + `asc`
+            + `desc`
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/connections?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/connections?page=2&per_page=10>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            {
+                    "name": "Weekly Report",
+                    "period": "custom",
+                    "startDate": "2016-05-16",
+                    "stopDate": "2016-05-22",
+                    "event": ["door.input.cardread"]
+                    "result": ["door.request.allowed", "action.delay.close"],
+                    "details": {
+                        "doors": [1, 2, 3],
+                        "connections": [12, 13],
+                        "persons": [4, 56],
+                        "cards": [8]
+                    },
+                    "sort": "asc"
+            }
+
+### Retrieve a Partition [GET]
+
++ Parameters
+
+    + report_id (required, number) ... Numeric `id` of the Report to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Report id.
+    + `name` (required, string) ... Report name.
+    + `period` (required, enum[string])
+        Period type.
+        + Members
+            + `today`
+            + `yesterday`
+            + `thisWeek`
+            + `thisMonth`
+            + `lastWeek`
+            + `lastMonth`
+            + `custom`
+    + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
+    + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
+    + `event` (required, array[enum[string]])
+        Event types list. `null` value indicates that no events filter was set.
+        + Members
+            + `null`
+            + `door.autoopen.on`
+            + `door.autoopen.off`
+            + `door.input.cardread`
+            + `door.input.dps.open`
+            + `door.input.dps.close`
+            + `door.input.rex.on`
+            + `door.input.rex.off`
+            + `door.alarm.propped.on`
+            + `door.alarm.propped.off`
+            + `door.alarm.propped.alloff`
+            + `door.alarm.forced`
+            + `endpoint.alarm.comloss.on`
+            + `endpoint.alarm.comloss.off`
+            + `door.request.found`
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+    + `result` (required, array[enum[string]])
+        Result types list. `null` value indicates that no results filter was set.
+        + Members
+            + `null`
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+            + `action.send.email`
+            + `action.do.not.disturb`
+            + `action.force.toggle`
+            + `action.force.open`
+            + `action.force.close`
+            + `action.open`
+            + `action.close`
+            + `action.lockdown.on`
+            + `action.lockdown.off`
+            + `action.delay.open`
+            + `action.delay.close`
+            + `action.open.close`
+    + `details` (required, object)
+        List of entites types to perform the filtering. `null` is returned if no report has no details.
+        + Members
+            + `doors`
+            + `connections`
+            + `persons`
+            + `cards`
+            + `groups`
+    + `sort`(required, enum[string])
+        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` will be used by default. `null` value means to use default value.
+        + Members
+            + `asc`
+            + `desc`
+        
+    + Body
+    
+            {
+                    "id": 1,
+                    "name": "Weekly Report",
+                    "period": "custom",
+                    "startDate": "2016-05-16",
+                    "stopDate": "2016-05-22",
+                    "event": ["door.input.cardread"]
+                    "result": ["door.request.allowed", "action.open.close"],
+                    "details": {
+                        "doors": [1, 2, 3],
+                        "connections": [12, 13],
+                        "persons": [4, 56],
+                        "cards": [8]
+                    },
+                    "sort": "asc"
+            }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Create a Partition [POST /partitions]
+
++ Request (application/json)
+
+    [Reports][]
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Number `id` of created Report.
+    
+    + Body
+    
+            {
+                "id": 1
+            }
+            
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Update a Partition [PUT]
+
++ Request (application/json)
+
+    + `id` (required, number) ... Number `id` of Report to be updated.
+    + `name` (required, string) ... Report name.
+    + `period` (required, enum[string])
+        Period type.
+        + Members
+            + `today`
+            + `yesterday`
+            + `thisWeek`
+            + `thisMonth`
+            + `lastWeek`
+            + `lastMonth`
+            + `custom`
+    + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
+    + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
+    + `event` (required, array[enum[string]])
+        Event types list. Pass `null` value to avoid filtering by event.
+        + Members
+            + `door.autoopen.on`
+            + `door.autoopen.off`
+            + `door.input.cardread`
+            + `door.input.dps.open`
+            + `door.input.dps.close`
+            + `door.input.rex.on`
+            + `door.input.rex.off`
+            + `door.alarm.propped.on`
+            + `door.alarm.propped.off`
+            + `door.alarm.propped.alloff`
+            + `door.alarm.forced`
+            + `endpoint.alarm.comloss.on`
+            + `endpoint.alarm.comloss.off`
+            + `door.request.found`
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+    + `result` (required, array[enum[string]])
+        Result types list. Pass `null` value to avoid filtering by event.
+        + Members
+            + `door.request.unknown`
+            + `door.request.denied`
+            + `door.request.multiallowed`
+            + `door.request.allowed`
+            + `action.send.email`
+            + `action.do.not.disturb`
+            + `action.force.toggle`
+            + `action.force.open`
+            + `action.force.close`
+            + `action.open`
+            + `action.close`
+            + `action.lockdown.on`
+            + `action.lockdown.off`
+            + `action.delay.open`
+            + `action.delay.close`
+            + `action.open.close`
+    + `details` (required, object)
+        List of entites types to perform the filtering. `null` could be passed if no filtering by details should be performed.
+        + Members
+            + `doors`
+            + `connections`
+            + `persons`
+            + `cards`
+            + `groups`
+    + `sort`(required, enum[string])
+        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` by default.
+        + Members
+            + `asc`
+            + `desc`
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/connections?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/connections?page=2&per_page=10>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            {
+                    "name": "Weekly Report",
+                    "period": "custom",
+                    "startDate": "2016-05-16",
+                    "stopDate": "2016-05-22",
+                    "event": ["door.input.cardread"]
+                    "result": ["door.request.allowed", "action.force.close"],
+                    "details": {
+                        "doors": [1, 2, 3],
+                        "connections": [12, 13],
+                        "persons": [4, 56],
+                        "cards": [8]
+                    },
+                    "sort": "asc"
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Delete a Partition [DELETE]
+
++ Parameters
+
+    + report_id (required, number) ... Numeric `id` of the Report to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
