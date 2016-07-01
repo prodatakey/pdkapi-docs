@@ -3760,7 +3760,9 @@ Entities listed above can not have no partition. Device can belong to several pa
 
 Partitions could be managed by [Sysop, Integrator, Admin] roles. Furthermore, listed roles can set Partition for entities that they have access to. In addition, there is a Default partition that could not be removed.
 
-Person's, Group's and Floor Group partition is set to the User's partition during creation if another has not been passed. To set Device's partition `partitions/devices` endpoint should be used.
+Person's, Group's, Floor Group's and Device's partition is set to the User's partition during creation if another has not been passed. Listed above roles can change entity's partition during PUT query. To set Device's partition `partitions/devices` endpoint should be used.
+
+If Device is bound to one Partition only and someone removes this Device from that Partition, Device will be transferred to the Default Partition. So Device should be bound to at least one Partition in time.
 
 ### Retrieve Partitions Collection [GET /partitions?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -3787,70 +3789,7 @@ Person's, Group's and Floor Group partition is set to the User's partition durin
 
     + `id` (required, number) ... Report id.
     + `name` (required, string) ... Report name.
-    + `period` (required, enum[string])
-        Period type.
-        + Members
-            + `today`
-            + `yesterday`
-            + `thisWeek`
-            + `thisMonth`
-            + `lastWeek`
-            + `lastMonth`
-            + `custom`
-    + `startDate` (required, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
-    + `stopDate` (required, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Presents in the response only when `period` equals `custom`.
-    + `event` (required, array[enum[string]])
-        Event types list. `null` value indicates that no filtering by event will be performed.
-        + Members
-            + `door.autoopen.on`
-            + `door.autoopen.off`
-            + `door.input.cardread`
-            + `door.input.dps.open`
-            + `door.input.dps.close`
-            + `door.input.rex.on`
-            + `door.input.rex.off`
-            + `door.alarm.propped.on`
-            + `door.alarm.propped.off`
-            + `door.alarm.propped.alloff`
-            + `door.alarm.forced`
-            + `endpoint.alarm.comloss.on`
-            + `endpoint.alarm.comloss.off`
-            + `door.request.found`
-            + `door.request.unknown`
-            + `door.request.denied`
-            + `door.request.multiallowed`
-            + `door.request.allowed`
-    + `result` (required, array[enum[string]])
-        Result types list. `null` value indicates that no filtering by result will be performed.
-        + Members
-            + `door.request.unknown`
-            + `door.request.denied`
-            + `door.request.multiallowed`
-            + `door.request.allowed`
-            + `action.send.email`
-            + `action.do.not.disturb`
-            + `action.force.toggle`
-            + `action.force.open`
-            + `action.force.close`
-            + `action.open`
-            + `action.close`
-            + `action.lockdown.on`
-            + `action.lockdown.off`
-            + `action.delay.open`
-            + `action.delay.close`
-            + `action.open.close`
-    + `details` (required, object)
-        Object contains list of entities ids that should be shown.
-        + Members
-            + `doors`
-            + `connections`
-            + `persons`
-            + `cards`
-    + `sort`(required, enum[string])
-        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` is used by default.
-        + Members
-            + `asc`
-            + `desc`
+    + `users` (optional, array[string]) ... List of userIds, bound to the Partition.
     
     + Headers
     
@@ -3883,71 +3822,7 @@ Person's, Group's and Floor Group partition is set to the User's partition durin
 + Model
 
     + `name` (required, string) ... Report name.
-    + `period` (required, enum[string])
-        Period type.
-        + Members
-            + `today`
-            + `yesterday`
-            + `thisWeek`
-            + `thisMonth`
-            + `lastWeek`
-            + `lastMonth`
-            + `custom`
-    + `startDate` (optional, string) ... Lower date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
-    + `stopDate` (optional, string) ... Upper date bound in `YYYY-MM-DD` format for log filtering. Should present only if `period` equals `custom`.
-    + `event` (optional, array[enum[string]])
-        Event types list. `null` value should be passed to avoid filtering by events.
-        + Members
-            + `door.autoopen.on`
-            + `door.autoopen.off`
-            + `door.input.cardread`
-            + `door.input.dps.open`
-            + `door.input.dps.close`
-            + `door.input.rex.on`
-            + `door.input.rex.off`
-            + `door.alarm.propped.on`
-            + `door.alarm.propped.off`
-            + `door.alarm.propped.alloff`
-            + `door.alarm.forced`
-            + `endpoint.alarm.comloss.on`
-            + `endpoint.alarm.comloss.off`
-            + `door.request.found`
-            + `door.request.unknown`
-            + `door.request.denied`
-            + `door.request.multiallowed`
-            + `door.request.allowed`
-    + `result` (optional, array[enum[string]])
-        Result types list. `null` value should be passed to avoid filtering by results.
-        + Members
-            + `door.request.unknown`
-            + `door.request.denied`
-            + `door.request.multiallowed`
-            + `door.request.allowed`
-            + `action.send.email`
-            + `action.do.not.disturb`
-            + `action.force.toggle`
-            + `action.force.open`
-            + `action.force.close`
-            + `action.open`
-            + `action.close`
-            + `action.lockdown.on`
-            + `action.lockdown.off`
-            + `action.delay.open`
-            + `action.delay.close`
-            + `action.open.close`
-    + `details` (required, object)
-        List of entites types to perform the filtering.
-        + Members
-            + `doors`
-            + `connections`
-            + `persons`
-            + `cards`
-            + `groups`
-    + `sort`(optional, enum[string])
-        Sorting order that will be appllied by the `log` entity's `occurred` field value. `desc` by default.
-        + Members
-            + `asc`
-            + `desc`
+    + `users` (optional, array[string]) ... List of userIds, bound to the Partition.
     
     + Headers
     
