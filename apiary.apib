@@ -2366,7 +2366,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 ## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort_order}]
 
-The functionality is available for [Sysop, Integrator, Admin] roles.
+The functionality is available for [Sysop, Integrator, Admin] roles. Retrieveing Floor Groups list is also available for [Manager] role.
+All operations consider user's partition. Manager can retrieve only list of Floor Groups that are bound to his partition.
 
 ### Retrieve all Floor Groups [GET]
 
@@ -2547,7 +2548,8 @@ Floor Group removal leads to Elevator Rules removal when the specified Floor Gro
 
 #### A device entity represents the attributes of a board port that is connected with end devices which represent a physical object (door, a reader in an elevator car, etc.). These attributes include the device's name, a connection properties (port number, wireless address) and list of enabled features.
 
-The functionality is available for [Sysop, Integrator] roles.
+The functionality is available for [Sysop, Integrator] roles. Retrieving Devices list is available for [Manager, Admin] roles also.
+All operations consider user's partition. Manager can retrieve list of Devices that are bound to his partition at least.
 
 ### Retrieve Devices Collection [GET /devices?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -3142,7 +3144,8 @@ The functionality is available for [Sysop, Integrator] roles.
 
 #### A report entity represents a filter for the audit log entries.
 
-The functionality is available for all roles.
+The functionality is available for all roles. Partitions logic is applied to all operations.
+Reporters and Managers can remove any entity from Report's details that is present there at the moment but they can fill Report only with entities that they have access to according Role and Partition restrictions.
 
 ### Retrieve Reports Collection [GET /reports?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -3604,6 +3607,9 @@ The functionality is available for all roles.
 
 # Group Filter Audit Log Entries By Report
 
+Details for any Role should contain only entities that User has access to.
+Details for Reporters and Managers can contain only entities that they have access to according Role and Partition restrictions.
+
 ### Get audit log entries list filtered by report [GET /reports/generate?page={page}&per_page={per_page}&sort={sort_order}&period={period}&start_date={startDate}&stop_date={stopDate}&event={event}&result={result}&details={details}]
 
 + Parameters
@@ -3747,11 +3753,14 @@ The functionality is available for all roles.
 + Response 401 (application/json)
 + Response 403 (application/json)
 
-# Group PartitionsWIP
+# Group Partitions
 
-#### A Partitions entity represents a filter for Person, Group, Floor Group and Door entities. Door entity can belong to several partitions. Entitie's partition is set to the User's partition during creation. There is a default partition so entity can not have no partition.
+#### A Partitions entity represents a filter for Person, Group, Floor Group and Device entities.
+Entities listed above can not have no partition. Device can belong to several partitions at the same time.
 
-The functionality is available for [Sysop, Integrator, Admin] roles.
+Partitions could be managed by [Sysop, Integrator, Admin] roles. Furthermore, listed roles can set Partition for entities that they have access to. In addition, there is a Default partition that could not be removed.
+
+Person's, Group's and Floor Group partition is set to the User's partition during creation if another has not been passed. To set Device's partition `partitions/devices` endpoint should be used.
 
 ### Retrieve Partitions Collection [GET /partitions?page={page}&per_page={per_page}&sort={sort_order}]
 
