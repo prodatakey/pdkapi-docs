@@ -117,7 +117,7 @@ Roles permissions have hierarchical structure. List of possible roles given belo
 
 # Group Search
 
-The functionality is available for all roles.
+The functionality is available for all roles. Search results will be filtered by user's partition.
 
 ### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
 + Parameters
@@ -176,6 +176,7 @@ The functionality is available for all roles.
 
 # Group Persons
 A person entity represents the attributes of a person that will be interacting with the access control system.
+All operations consider user's partition. 
 These attributes include the person's first and last names, a list of their credentials, rules that apply to them, and a list of group memberships, among others. 
 
 ## Persons Collection [/persons?page={page}&per_page={per_page}&sort={sort_order}]
@@ -210,6 +211,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     + `firstName` (required, string) ...  Person's first name.
     + `lastName` (required, string) ...  Person's last name.
     + `photoUrl` (optional, string) ... Person's account photo URL. `null` will be returned if Person has no photo.
+    + `partition` (required, number) ... Partition that the Person is bound to.
     + `activeDate` (optional, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`.
     + `expireDate` (optional, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
@@ -226,6 +228,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                     "id": 10,
                     "firstName": "Ted",
                     "lastName": "Froëdington",
+                    "partition": 0,
                     "photoUrl": "http://example.com/usersImages/32224.jpg"
                 }
             ]
@@ -239,6 +242,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
     + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
     + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters.  `firstName` + `lastName` combination should be unique.
+    + `partition` (optional, number) ... Partition that the Person is bound to. Could be set only by Admin and higher.
     + `activeDate` (optional, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`.
     + `expireDate` (optional, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`.
     + `enabled` (optional, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
@@ -251,7 +255,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     
             {
                 "firstName": "Ted",
-                "lastName": "Froëdington"
+                "lastName": "Froëdington",
+                "partition": 0
             }
 
 ### Retrieve a Person [GET]
@@ -269,6 +274,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
     + `firstName` (required, string) ...  Person's first name.
     + `lastName` (required, string) ...  Person's last name.
+    + `partition` (required, number) ... Partition that the Person is bound to.
     + `photoUrl` (optional, string) ... Person's account photo URL. `null` will be returned if Person has no photo.
     + `activeDate` (optional, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`.
     + `expireDate` (optional, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`.
@@ -282,6 +288,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 "id": 1,
                 "firstName": "Ted",
                 "lastName": "Froëdington",
+                "partition": 0,
                 "photoUrl": "http://example.com/images/32224.jpg",
                 "cards": [
                     {
@@ -334,6 +341,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
     + `firstName` (required, string) ...  Person's first name. Minimum length is `1` character, maximum length is `35` characters.
     + `lastName` (required, string) ...  Person's last name. Minimum length is `1` character, maximum length is `35` characters. `firstName` + `lastName` combination should be unique.
+    + `partition` (optional, number) ... Partition that the Person is bound to. Could be set only by Admin and higher.
     + `activeDate` (required, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`. `null` should be passed if date is not set.
     + `expireDate` (required, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`. `null` should be passed if date is not set.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
@@ -346,7 +354,11 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     
             {
                 "firstName": "Ted",
-                "lastName": "Froëdington"
+                "lastName": "Froëdington",
+                "partition": 0,
+                "activeDate": "2016-05-05",
+                "expireDate": "2017-05-05",
+                "enabled": true
             }
             
 + Response 204
@@ -394,7 +406,7 @@ Person removal leads to all Person's Rules removal.
 
 ## Person Cards [/persons/{person_id}/cards]
 
-The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  Retrieving Cards is also available for the [Reporter] role.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  Retrieving Cards is also available for the [Reporter] role. Managers and Reporters have an access to Cards that bound to Persons from their own partition only.
 
 + Model
 
@@ -529,7 +541,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
 #### List of access rules, event rules and elevator rules that apply to this Person.
 
-The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles. Managers and Reporters have an access to Rules that bound to Persons from their own partition. Manager can change Rule's Doors list. Only Doors from Manager's partition could be added. Any Door present in the Rule could be removed.
 
 ### Retrieve Rules Collection for a Person [GET]
 + Parameters
@@ -1043,7 +1055,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 ## Person Groups [/persons/{person_id}/groups]
 
-The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [Reporter] role has access for retrieving operations only.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [Reporter] role has access for retrieving operations only. Manager can remove Person from any Group he is partiticipating but add to Groups from Manager's partition only.
 
 ### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -1174,7 +1186,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 
 # Group Groups
 
-A group entity represents a set of shared rules that apply to people that are members of the group.
+A group entity represents a set of shared rules that apply to people that are members of the group. Managers and Reporter can view Groups from their own partition only. Manager can remove any Person from Group that he has access to but he can add Persons from his own partition only.
 
 ## Groups Collection [/groups?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -1323,7 +1335,7 @@ Group removal leads to all Group's Rules removal.
 
 #### List of access rules, event rules and elevator rules that apply to this Group.
 
-The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
+The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles. Manager can add Doors from their own partition to the Rule.
 
 ### Retrieve Rules Collection for a Group [GET]
 + Parameters
@@ -1718,7 +1730,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 ## Group Persons [/groups/{group_id}/persons]
 
-The functionality is available for [Sysop, Integrator, Admin, Manager, Reported] roles.
+The functionality is available for [Sysop, Integrator, Admin, Manager, Reported] roles. Manager can remove any Person from Group that he has access to but only Person from his own partition cound be added.
 
 ### Retrieve all Persons [GET /groups/{group_id}/persons?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
