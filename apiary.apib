@@ -73,7 +73,7 @@ For example, calling `GET https://panel-id.pdk.io/api/persons?page=1&per_page=5`
 Link: \<https://panel-id.pdk.io/api/peoples?per_page=5>; rel="first",<br>
     \<https://panel-id.pdk.io/api/peoples?per_page=5>; rel="prev",<br>
     \<https://panel-id.pdk.io/api/peoples?page=2&per_page=5>; rel="next",<br>
-    \<https://accounts.pdk.io/api/search?page=2&per_page=5>; rel="last"<br>
+    \<https://panel-id.pdk.io/api/search?page=2&per_page=5>; rel="last"<br>
 X-Total-Count: 11
 </code>
 
@@ -117,7 +117,7 @@ Roles permissions have hierarchical structure. List of possible roles given belo
 
 # Group Search
 
-The functionality is available for all roles. Search results will be filtered by user's partition.
+The functionality is available for all roles. For [Reporter, Manager] roles search results will be filtered by user's partition.
 
 ### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
 + Parameters
@@ -156,7 +156,7 @@ The functionality is available for all roles. Search results will be filtered by
     
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/search?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/search?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/search?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/search?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -175,13 +175,14 @@ The functionality is available for all roles. Search results will be filtered by
 + Response 401 (application/json)
 
 # Group Persons
-A person entity represents the attributes of a person that will be interacting with the access control system.
-All operations consider user's partition. 
-These attributes include the person's first and last names, a list of their credentials, rules that apply to them, and a list of group memberships, among others. 
+A person entity represents attributes of a person that will be interacting with the access control system.
+These attributes include the person's first and last names, a list of their credentials, rules that apply to them, and a list of group memberships, among others.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Rerieving operations are also available for [Reporter] role.
+All operations consider user's partition. Created Persons will be bound to user's partition by default.
+For [Reporter, Manager] roles Persons will be filtered by their partition.
+[Admin, Integrator, Sysop] users can change Person's partition.
 
 ## Persons Collection [/persons?page={page}&per_page={per_page}&sort={sort_order}]
-
-The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
         
 ### Retrieve all Persons [GET /persons?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
@@ -218,7 +219,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/persons?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/persons?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/persons?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/persons?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -235,8 +236,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Response 401 (application/json)
 
 ## Person [/persons/{person_id}]
-
-The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Person is also available for the [Reporter] role.
 
 + Model
 
@@ -406,7 +405,8 @@ Person removal leads to all Person's Rules removal.
 
 ## Person Cards [/persons/{person_id}/cards]
 
-The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  Retrieving Cards is also available for the [Reporter] role. Managers and Reporters have an access to Cards that bound to Persons from their own partition only.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  Retrieving Cards is also available for the [Reporter] role.
+[Manager, Reporter] have an access to Cards that bound to Persons from their own partition only.
 
 + Model
 
@@ -456,7 +456,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/cards?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/cards?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/cards?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/cards?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -541,7 +541,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
 #### List of access rules, event rules and elevator rules that apply to this Person.
 
-The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles. Managers and Reporters have an access to Rules that bound to Persons from their own partition. Manager can change Rule's Doors list. Only Doors from Manager's partition could be added. Any Door present in the Rule could be removed.
+The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
+[Manager, Reporter] have an access to Rules that bound to Persons from their own partition.
+[Manager] can change Rule's Doors list. Only Doors from [Manager]'s partition could be added. Any Door present in the Rule could be removed.
 
 ### Retrieve Rules Collection for a Person [GET]
 + Parameters
@@ -641,7 +643,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
         
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/persons/231/rules?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/persons/231/rules?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/persons/231/rules?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/persons/231/rules?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
         
     + Body
@@ -1055,7 +1057,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 ## Person Groups [/persons/{person_id}/groups]
 
-The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [Reporter] role has access for retrieving operations only. Manager can remove Person from any Group he is partiticipating but add to Groups from Manager's partition only.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [Reporter] role has access for retrieving operations only.
+[Manager] can remove Person from any Group he is partiticipating but he is able to add the Person to Groups from the partition he is bound to only.
 
 ### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -1084,7 +1087,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/persons/32/groups?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/persons/32/groups?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/persons/32/groups?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/persons/32/groups?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
 
     + Body
@@ -1186,11 +1189,13 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 
 # Group Groups
 
-A group entity represents a set of shared rules that apply to people that are members of the group. Managers and Reporter can view Groups from their own partition only. Manager can remove any Person from Group that he has access to but he can add Persons from his own partition only.
+A group entity represents a set of shared rules that apply to people that are members of the group.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving operations are also available for [Reporter] role.
+All operations consider user's partition. Created Group will be bound to user's partition by default.
+For [Reporter, Manager] roles Groups will be filtered by their partition.
+[Admin, Integrator, Sysop] users can change Group's partition.
 
 ## Groups Collection [/groups?page={page}&per_page={per_page}&sort={sort_order}]
-
-The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
 
 ### Retrieve All Groups [GET]
 
@@ -1219,7 +1224,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/groups?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/groups?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/groups?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/groups?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
             
     + Body
@@ -1235,8 +1240,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Response 401 (application/json)
 
 ## Group [/groups/{group_id}]
-
-The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Group is also available for the [Reporter] role.
 
 + Parameters
 
@@ -1335,7 +1338,9 @@ Group removal leads to all Group's Rules removal.
 
 #### List of access rules, event rules and elevator rules that apply to this Group.
 
-The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles. Manager can add Doors from their own partition to the Rule.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving operation is also available for [Reporter] role.
+[Manager, Reporter] have an access to Rules that bound to Persons from the partition they are bound to.
+[Manager] can change Rule's Doors list. Only Doors from [Manager]'s partition could be added. Any Door present in the Rule could be removed.
 
 ### Retrieve Rules Collection for a Group [GET]
 + Parameters
@@ -1435,7 +1440,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/groups/43/rules?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/groups/43/rules?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/groups/43/rules?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/groups/43/rules?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
         
     + Body
@@ -1505,8 +1510,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Response 404 (application/json)
 
 ## Group Rules [/groups/{group_id}/rules]
-
-The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Rule is also available for the [Reporter] role.
 
 ### Retrieve a Rule for a Group  [GET /groups/{group_id}/rules/{rule_id}]
 
@@ -1730,7 +1733,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 
 ## Group Persons [/groups/{group_id}/persons]
 
-The functionality is available for [Sysop, Integrator, Admin, Manager, Reported] roles. Manager can remove any Person from Group that he has access to but only Person from his own partition cound be added.
+The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
+[Manager] can remove any Person from Group that he has access to but only Person from the partition that user is bound to cound be added.
 
 ### Retrieve all Persons [GET /groups/{group_id}/persons?page={page}&per_page={per_page}&sort={sort_order}]
 + Parameters
@@ -1764,7 +1768,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reported]
     
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/groups/12/persons?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/groups/12/persons?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/groups/12/persons?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/groups/12/persons?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -1877,7 +1881,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/system_events?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/system_events?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/system_events?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/system_events?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -1912,8 +1916,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 
 ## System Events Rules [/system_events]
-
-The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
@@ -2167,9 +2169,8 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
 #### List of access rules that represent the times that doors should be propped open.
 
-## Auto Open Rules Collection [/auto_open?page={page}&per_page={per_page}&sort={sort_order}]
-
 The functionality is available for [Sysop, Integrator, Admin] roles.
+## Auto Open Rules Collection [/auto_open?page={page}&per_page={per_page}&sort={sort_order}]
 
 ### Retrieve Auto Open Rules Collection [GET]
 
@@ -2206,7 +2207,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/auto_open?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/auto_open?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/auto_open?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/auto_open?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
             
     + Body
@@ -2234,8 +2235,6 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 401 (application/json)
 
 ## Auto Open Rules [/auto_open]
-
-The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
@@ -2363,11 +2362,10 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 # Group Floor Groups
 
 #### Associates a reader input and a group of floor outputs. This group is then referenced from an elevator rule on a person or group to activate all the floor buttons in the elevator car where input reader is installed.
-
-## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort_order}]
-
 The functionality is available for [Sysop, Integrator, Admin] roles. Retrieveing Floor Groups list is also available for [Manager] role.
-All operations consider user's partition. Manager can retrieve only list of Floor Groups that are bound to his partition.
+All operations consider user's partition. Created Floor Group will be bound to user's partition by default.
+[Manager] can retrieve only list of Floor Groups that are bound to the partition that he is bound to.
+## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort_order}]
 
 ### Retrieve all Floor Groups [GET]
 
@@ -2402,7 +2400,7 @@ All operations consider user's partition. Manager can retrieve only list of Floo
 
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/floor_groups?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/floor_groups?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/floor_groups?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/floor_groups?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
         
     + Body
@@ -2427,8 +2425,6 @@ All operations consider user's partition. Manager can retrieve only list of Floo
 + Response 403 (application/json)
 
 ## Floor Groups [/floor_groups]
-
-The functionality is available for [Sysop, Integrator, Admin] roles.
 
 + Model
 
@@ -2571,8 +2567,9 @@ Floor Group removal leads to Elevator Rules removal when the specified Floor Gro
 
 #### A device entity represents the attributes of a board port that is connected with end devices which represent a physical object (door, a reader in an elevator car, etc.). These attributes include the device's name, a connection properties (port number, wireless address) and list of enabled features.
 
-The functionality is available for [Sysop, Integrator] roles. Retrieving Devices list is available for [Manager, Admin] roles also.
-All operations consider user's partition. Manager can retrieve list of Devices that are bound to his partition at least.
+The functionality is available for [Sysop, Integrator] roles. Retrieving Devices list is also available for [Manager, Admin] roles.
+All operations consider user's partition. [Manager] can retrieve list of Devices that are bound to the same partition as he is bound to.
+Created Devices will be bound to user's partition by default.
 
 ### Retrieve Devices Collection [GET /devices?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -2629,7 +2626,7 @@ All operations consider user's partition. Manager can retrieve list of Devices t
     
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/devices?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/devices?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/devices?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/devices?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -2657,8 +2654,6 @@ All operations consider user's partition. Manager can retrieve list of Devices t
 + Response 403 (application/json)
 
 ## Devices [/devices]
-
-The functionality is available for [Sysop, Integrator] roles.
 
 + Model
 
@@ -2934,7 +2929,7 @@ The functionality is available for [Sysop, Integrator] roles.
     
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/connections?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/connections?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/connections?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/connections?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -2966,8 +2961,6 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 403 (application/json)
 
 ## Connections [/connections]
-
-The functionality is available for [Sysop, Integrator] roles.
 
 + Model
 
@@ -3096,8 +3089,6 @@ The functionality is available for [Sysop, Integrator] roles.
 
 ## Config [/config]
 
-The functionality is available for [Sysop, Integrator] roles.
-
 + Model
 
     + `logPurgeDays` (optional, number)
@@ -3178,8 +3169,9 @@ The functionality is available for [Sysop, Integrator] roles.
 
 #### A report entity represents a filter for the audit log entries.
 
-The functionality is available for all roles. Partitions logic is applied to all operations.
-Reporters and Managers can remove any entity from Report's details that is present there at the moment but they can fill Report only with entities that they have access to according Role and Partition restrictions.
+The functionality is available for all roles.
+Partitions logic is applied to all operations.
+[Reporter, Manager] can remove any entity from Report's details that is present there at the moment but they can fill Report's details only with entities that they have access to according Role and Partition restrictions.
 
 ### Retrieve Reports Collection [GET /reports?page={page}&per_page={per_page}&sort={sort_order}]
 
@@ -3273,7 +3265,7 @@ Reporters and Managers can remove any entity from Report's details that is prese
     
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/reports?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/reports?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/reports?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/reports?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -3370,7 +3362,7 @@ Reporters and Managers can remove any entity from Report's details that is prese
     
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/connections?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/connections?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/connections?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/connections?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -3594,7 +3586,7 @@ Reporters and Managers can remove any entity from Report's details that is prese
     
     + Headers
     
-            Link: <https://panel-id.pdk.io/api/connections?page=1&per_page=10>; rel="next", <https://accounts.pdk.io/api/connections?page=2&per_page=10>; rel="last"
+            Link: <https://panel-id.pdk.io/api/connections?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/connections?page=2&per_page=10>; rel="last"
             X-Total-Count: 11
     
     + Body
@@ -3641,6 +3633,7 @@ Reporters and Managers can remove any entity from Report's details that is prese
 
 # Group Filter Audit Log Entries By Report
 
+The functionality is available for all roles.
 Details for any Role should contain only entities that User has access to.
 Details for Reporters and Managers can contain only entities that they have access to according Role and Partition restrictions.
 
@@ -3790,9 +3783,9 @@ Details for Reporters and Managers can contain only entities that they have acce
 # Group Partitions
 
 #### A Partitions entity represents a filter for Person, Group, Floor Group and Device entities.
-Entities listed above can not have no partition. Device can belong to several partitions at the same time.
-
 Partitions could be managed by [Sysop, Integrator, Admin] roles. Furthermore, listed roles can set Partition for entities that they have access to. In addition, there is a Default partition that could not be removed.
+
+Person, Group, Floor Group and Device entities can not have no partition. Device can belong to several partitions at the same time.
 
 Person's, Group's, Floor Group's and Device's partition is set to the User's partition during creation if another has not been passed. Listed above roles can change entity's partition during PUT query. To set Device's partition `partitions/devices` endpoint should be used.
 
