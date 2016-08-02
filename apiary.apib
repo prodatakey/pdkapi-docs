@@ -2394,7 +2394,10 @@ All operations consider user's partition. Created Floor Group will be bound to u
 
     + `id` (required, number) ... Numeric group `id`.
     + `name` (required, string) ... Floor Group name.
-    + `readerPort` (required, number) ... Reader device `id`.
+    + `readerPort` (required, object) ... Reader device info.
+        + Members
+            + `id` - Reader port id.
+            + `name` - Reader port name.
     + `readerPortName` (required, string) ... Reader device `name`.
     + `floors` (required, array) ... List of doors in current Floor Group.
 
@@ -2464,8 +2467,10 @@ All operations consider user's partition. Created Floor Group will be bound to u
     + `id` (required, number) ... Numeric group `id`.
     + `name` (required, string) ... Floor Group name.
     + `partition` (required, number) ... Partition id that Floor Group is bound to. If field is empty, User's partition will be used.
-    + `readerPort` (required, number) ... Reader device `id`.
-    + `readerPortName` (required, string) ... Reader device `name`.
+    + `readerPort` (required, object) ... Reader device info.
+        + Members
+            + `id` - Reader port id.
+            + `name` - Reader port name.
     + `floors` (required, array) ... List of doors in current Floor Group.
         
     + Body
