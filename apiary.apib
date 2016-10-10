@@ -69,13 +69,13 @@ which are specified in `first`, `last`, `next` and `prev` links accordingly.
 
 For example, calling `GET https://panel-id.pdk.io/api/persons?page=1&per_page=5` will lead for the following headers:
 
-<code>
-Link: \<https://panel-id.pdk.io/api/peoples?per_page=5>; rel="first",<br>
-    \<https://panel-id.pdk.io/api/peoples?per_page=5>; rel="prev",<br>
-    \<https://panel-id.pdk.io/api/peoples?page=2&per_page=5>; rel="next",<br>
-    \<https://panel-id.pdk.io/api/search?page=2&per_page=5>; rel="last"<br>
+```
+Link: <https://panel-id.pdk.io/api/peoples?per_page=5>; rel="first",
+    <https://panel-id.pdk.io/api/peoples?page=3?per_page=5>; rel="prev",
+    <https://panel-id.pdk.io/api/peoples?page=3&per_page=5>; rel="next",
+    <https://panel-id.pdk.io/api/search?page=2&per_page=5>; rel="last"
 X-Total-Count: 11
-</code>
+```
 
 # Content type
 
