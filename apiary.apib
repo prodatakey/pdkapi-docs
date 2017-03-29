@@ -3373,17 +3373,18 @@ The functionality is available for [Sysop, Integrator] roles.
                 {
                     "cardFormat": 
                         "exports = {\n
-                        name: 'Custom Format Name',\n
-                        constraints: {\n
-                            constraint1: {\n
-                                type: 'integer',\n
-                                description: 'Shift',\n
-                                required: 'true'\n
+                            name: 'Custom Format Name',\n
+                            constraints: {\n
+                                constraint1: {\n
+                                    type: 'integer',\n
+                                    description: 'Shift',\n
+                                    required: 'true'\n
+                                }
                             },\n
-                        parse: function (cardNumber, constraints) {
+                            parse: function (cardNumber, constraints) {
                             return parseInt(cardNumber, 16) >> constraints.constraint1;
-                        }
-                    }
+                            }
+                        }"
                 }
             ]
 
