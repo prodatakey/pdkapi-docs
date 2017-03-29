@@ -215,6 +215,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `partition` (required, number) ... Partition that the Person is bound to.
     + `activeDate` (optional, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`.
     + `expireDate` (optional, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`.
+    + `pin` (optional, string) ... The PIN that is bound to specific Person.
+    + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
     
     + Headers
@@ -244,6 +246,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `partition` (optional, number) ... Partition that the Person is bound to. Could be set only by Admin and higher.
     + `activeDate` (optional, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`.
     + `expireDate` (optional, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`.
+    + `pin` (optional, string) ... The PIN that is bound to specific Person.
+    + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (optional, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
 
     + Headers
@@ -278,6 +282,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `activeDate` (optional, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`.
     + `expireDate` (optional, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
+    + `pin` (optional, string) ... The PIN that is bound to specific Person.
+    + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `cards` (required, array) ... Cards that belongs to the Person. Empty array will be returned if Person has no cards.
     + `groups` (required, array) ... Groups that the Person belongs to. Empty array will be returned if Person does not belong to any Group.
     
@@ -343,6 +349,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `partition` (optional, number) ... Partition that the Person is bound to. Could be set only by Admin and higher.
     + `activeDate` (required, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`. `null` should be passed if date is not set.
     + `expireDate` (required, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`. `null` should be passed if date is not set.
+    + `pin` (required, string) ... The PIN that is bound to specific Person.
+    + `duressPin` (required, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
     
     + Headers
@@ -357,6 +365,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
                 "partition": 0,
                 "activeDate": "2016-05-05",
                 "expireDate": "2017-05-05",
+                "pin": null,
+                "duressPin": null,
                 "enabled": true
             }
             
@@ -584,8 +594,24 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
         + `doors` (required, array) ... Doors on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
         + `triggerType` (required, enum[string])
@@ -595,6 +621,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
                 + `whenDeniedExplicit`
                 + `whenDeniedNoRules`
                 + `alwaysOnValidCard`
+                + `onDuress`
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
                 + `onQuadrupleSwipeAllow`
@@ -738,8 +765,24 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
         + `doors` (required, array[number]) ... Door `id`s on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array[number]) ... Floor Group `id`s on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name. Minimum length is `1` character, maximum length is `70` characters.
         + `triggerType` (required, enum[string])
@@ -748,6 +791,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `whenAllowed`
                 + `whenDeniedExplicit`
                 + `whenDeniedNoRules`
+                + `onDuress`
                 + `alwaysOnValidCard`
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
@@ -867,8 +911,24 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
         + `doors` (required, array) ... Doors on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
         + `triggerType` (required, enum[string])
@@ -877,6 +937,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `whenAllowed`
                 + `whenDeniedExplicit`
                 + `whenDeniedNoRules`
+                + `onDuress`
                 + `alwaysOnValidCard`
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
@@ -1381,8 +1442,24 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
         + `doors` (required, array) ... Doors on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
         + `triggerType` (required, enum[string])
@@ -1391,6 +1468,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `whenAllowed`
                 + `whenDeniedExplicit`
                 + `whenDeniedNoRules`
+                + `onDuress`
                 + `alwaysOnValidCard`
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
@@ -1541,8 +1619,24 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
     + Specific `door` rule type fields
         + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
         + `doors` (required, array) ... Doors on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `elevator` rule type fields
         + `floorGroups` (required, array) ... Floor Groups on which rule should be performed.
+        + `authenticationPolicy` (optional, string)
+            Authentication policy that should be applied on the certain Device.
+            + Default: `cardOnly`
+            + Members
+                + `cardOnly` - grant access by card only
+                + `pinOnly` - grant access by PIN only
+                + `cardOrPin` - grant access by either card or PIN
+                + `cardAndPin` - grant access by both card and PIN
     + Specific `event` rule type fields
         + `name` (required, string) ... Rule name.
         + `triggerType` (required, enum[string])
@@ -1551,6 +1645,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
                 + `whenAllowed`
                 + `whenDeniedExplicit`
                 + `whenDeniedNoRules`
+                + `onDuress`
                 + `alwaysOnValidCard`
                 + `onDoubleSwipeAllow`
                 + `onTripleSwipeAllow`
@@ -1829,6 +1924,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             + `onDoorPropped`
             + `onDoorForced`
             + `onPropCleared`
+            + `onAnyDuress`
             + `allPropCleared`
             + `onRexOpen`
             + `onRexClose`
@@ -1932,6 +2028,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             + `onDoorPropped`
             + `onDoorForced`
             + `onPropCleared`
+            + `onAnyDuress`
             + `allPropCleared`
             + `onRexOpen`
             + `onRexClose`
@@ -2031,6 +2128,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
             + `onDoorPropped`
             + `onDoorForced`
             + `onPropCleared`
+            + `onAnyDuress`
             + `allPropCleared`
             + `onRexOpen`
             + `onRexClose`
@@ -2628,6 +2726,14 @@ Created Devices will be bound to user's partition by default.
     + `autoOpenAfterFirstAllow` (optional, boolean)
         Flag indicates enabling Auto Open After First Allow feature for this door.
         + Default: `false`
+    + `authenticationPolicy` (optional, string)
+        Authentication policy that should be applied on the certain Device.
+        + Default: null - do not apply any policy
+        + Members
+            + `cardOnly` - grant access by card only
+            + `pinOnly` - grant access by PIN only
+            + `cardOrPin` - grant access by either card or PIN
+            + `cardAndPin` - grant access by both card and PIN
     
     + Headers
     
@@ -2690,6 +2796,14 @@ Created Devices will be bound to user's partition by default.
     + `autoOpenAfterFirstAllow` (optional, boolean)
         Flag indicates enabling Auto Open After First Allow feature for this door.
         + Default: `false`
+    + `authenticationPolicy` (optional, string)
+        Authentication policy that should be applied on the certain Device.
+        + Default: null - do not apply any policy
+        + Members
+            + `cardOnly` - grant access by card only
+            + `pinOnly` - grant access by PIN only
+            + `cardOrPin` - grant access by either card or PIN
+            + `cardAndPin` - grant access by both card and PIN
     
     + Headers
     
@@ -2753,6 +2867,14 @@ Created Devices will be bound to user's partition by default.
     + `autoOpenAfterFirstAllow` (optional, boolean)
         Flag indicates enabling Auto Open After First Allow feature for this door.
         + Default: `false`
+    + `authenticationPolicy` (optional, string)
+        Authentication policy that should be applied on the certain Device.
+        + Default: null - do not apply any policy
+        + Members
+            + `cardOnly` - grant access by card only
+            + `pinOnly` - grant access by PIN only
+            + `cardOrPin` - grant access by either card or PIN
+            + `cardAndPin` - grant access by both card and PIN
         
     + Body
     
@@ -2845,6 +2967,14 @@ Created Devices will be bound to user's partition by default.
     + `autoOpenAfterFirstAllow` (required, boolean)
         Flag indicates enabling Auto Open After First Allow feature for this door.
         + Default: `false`
+    + `authenticationPolicy` (optional, string)
+        Authentication policy that should be applied on the certain Device.
+        + Default: null - do not apply any policy
+        + Members
+            + `cardOnly` - grant access by card only
+            + `pinOnly` - grant access by PIN only
+            + `cardOrPin` - grant access by either card or PIN
+            + `cardAndPin` - grant access by both card and PIN
     
     + Headers
     
@@ -3099,15 +3229,11 @@ The functionality is available for [Sysop, Integrator] roles.
     + `logPurgeDays` (optional, number)
         Number of days to retain access log entries.
         + Default: `90`
-    + `cardFormat` (optional, enum[string])
+    + `cardFormat` (optional, object)
         Card format that is used by readers in the system.
         + Members
-            + `24bitCardIds`
-            + `26bitStandard`
-            + `34bitAdemco`
-            + `40bitFips`
-            + `combo40bitFips26bitStandard`
-        + Default: `26bitStandard`
+            + `id`
+            + `values` - Values according constraints
     + `ecards` (optional, array[number]) ... An array of 10 numbers that represent Ecards
     + `locale` (optional, enum[string])
         Locale that is used by for audit log writes and email templates.
@@ -3122,9 +3248,11 @@ The functionality is available for [Sysop, Integrator] roles.
     + Body
     
             {
-                    "logPurgeDays": 90,
-                    "cardFormat": "26bitStandard",
-                    "ecards": [99, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                "logPurgeDays": 90,
+                "cardFormat": {
+                    "id": 1
+                },
+                "ecards": [99, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }
 
 ### Retrieve Config [GET /config]
@@ -3139,14 +3267,12 @@ The functionality is available for [Sysop, Integrator] roles.
 
     + `logPurgeDays` (required, number)
         Number of days to retain access log entries.
-    + `cardFormat` (required, enum[string])
+    + `cardFormat` (required, object)
         Card format that is used by readers in the system.
         + Members
-            + `24bitCardIds`
-            + `26bitStandard`
-            + `34bitAdemco`
-            + `40bitFips`
-            + `combo40bitFips26bitStandard`
+            + `id`
+            + `name`
+            + `values`
     + `ecards` (optional, array[number]) ... An array of 10 numbers that represent Ecards
         
     + Body
@@ -3170,6 +3296,116 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
+
+### Retrieve List Of Available Card Formats [GET /config/formats]
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, integer) ... Card format id.
+    + `name` (required, string) ... Card format name.
+    + `constraints` (optional, object) ... Constraints description.
+    + `values` (optional, object) ... Constraints values (only for currently active card format).
+        
+    + Body
+    
+            [
+                {
+                    "id": 9,
+                    "name": "Custom Format Name",
+                    "constraints": {
+                        "constraint1": {
+                            "type": "integer",
+                            "desctiption": "Integer Value",
+                            "required": "true"
+                        }
+                    },
+                    "values": {
+                        "constraint1" : 1
+                    }
+                }
+            ]
+
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+### Add a New Card Format [POST /config/formats]
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `cardFormat` (required, string) ... Card format that is used by readers in the system represented as string.
+    The card format itself should represent a JavaScript module that exports at least 2 properties: `name` and `parse`. In addition it
+    can export `constraints` property that represents description of card format constraints.
+    Here is Card Format file description:
+        + Members
+            + `name` (required, string) - Name of the Card Format. Maximum length is 35.
+            + `constraints` (optional, object) - Card Format constraints description. Each constraint is represented by property in the `constraints` object. Constraint value could be referenced in the `parse` function on this way: `constraints.<nameOfProperty>`.
+                + Members
+                    + `type` (required, enum[string]) - Type of constraint.
+                        + Members
+                            + `integer`
+                            + `string`
+                            + `array`
+                    + `description` (required, string) - Constraint description. Maximum length is 35.
+                    + `required` (optional, boolean) - Flag that indicates if constraint value is required. Defaults to `false`.
+                    + `items` (optional, object) - Should be filled if `type` of the constraint is `array` (same way it is done in the JsonSchema)
+                        + Members
+                            + `type` (required, string) - Type of item.
+                                + Members
+                                    + `integer`
+                                    + `string`
+            + `parse` (required, function) - Function that performs calculation over given data. The first parameter is data and the second one is conatraints object filled with values.
+        
+    + Body
+    
+            [
+                {
+                    "cardFormat": 
+                        "exports = {\n
+                        name: 'Custom Format Name',\n
+                        constraints: {\n
+                            constraint1: {\n
+                                type: 'integer',\n
+                                description: 'Shift',\n
+                                required: 'true'\n
+                            },\n
+                        parse: function (cardNumber, constraints) {
+                            return parseInt(cardNumber, 16) >> constraints.constraint1;
+                        }
+                    }
+                }
+            ]
+
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+### Delete a Card Format [DELETE /config/formats/{format_id}]
+Removal of standard Card Formats is forbidden.
++ Parameters
+
+    + format_id (required, number) ... Numeric `id` of the Card Format to perform the action on.
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 204 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
 
 # Group Websocket API
 
@@ -3236,6 +3472,8 @@ Partitions logic is applied to all operations.
             + `door.alarm.forced`
             + `endpoint.alarm.comloss.on`
             + `endpoint.alarm.comloss.off`
+            + `door.request.duress`
+            + `door.request.anyduress`
             + `door.request.found`
             + `door.request.unknown`
             + `door.request.denied`
@@ -3332,6 +3570,8 @@ Partitions logic is applied to all operations.
             + `door.alarm.forced`
             + `endpoint.alarm.comloss.on`
             + `endpoint.alarm.comloss.off`
+            + `door.request.duress`
+            + `door.request.anyduress`
             + `door.request.found`
             + `door.request.unknown`
             + `door.request.denied`
@@ -3438,6 +3678,8 @@ Partitions logic is applied to all operations.
             + `door.alarm.forced`
             + `endpoint.alarm.comloss.on`
             + `endpoint.alarm.comloss.off`
+            + `door.request.duress`
+            + `door.request.anyduress`
             + `door.request.found`
             + `door.request.unknown`
             + `door.request.denied`
@@ -3556,6 +3798,8 @@ Partitions logic is applied to all operations.
             + `door.alarm.forced`
             + `endpoint.alarm.comloss.on`
             + `endpoint.alarm.comloss.off`
+            + `door.request.duress`
+            + `door.request.anyduress`
             + `door.request.found`
             + `door.request.unknown`
             + `door.request.denied`
@@ -3689,6 +3933,8 @@ Details for Reporters and Managers can contain only entities that they have acce
             + `door.alarm.forced`
             + `endpoint.alarm.comloss.on`
             + `endpoint.alarm.comloss.off`
+            + `door.request.duress`
+            + `door.request.anyduress`
             + `door.request.found`
             + `door.request.unknown`
             + `door.request.denied`
