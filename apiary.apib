@@ -3382,7 +3382,7 @@ The functionality is available for [Sysop, Integrator] roles.
                                 }
                             },\n
                             parse: function (cardNumber, constraints) {
-                            return parseInt(cardNumber, 16) >> constraints.constraint1;
+                                return parseInt(cardNumber, 16) >> constraints.constraint1;
                             }
                         }"
                 }
@@ -3408,9 +3408,461 @@ Removal of standard Card Formats is forbidden.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-# Group Websocket API
+# Group Stream Oriented API
 
-## TODO Here will be websocket commands description
+The stream-oriented API gives access to the main message stream of the panel.
+
+This stream not only delivers event messages for state changes like credential scans, door opens, and data modifications, it can also be used to modify the state of the system by injecting command messages.
+
+## Authentication
+
+To authenticate to the event stream, a `token` parameter of a valid panel token must be set in the query string of the initial connection request to the root (`/`) URI.
+
+An `error` message will be sent if the `token` is invalid or elided.
+
+Since the panel token has a limited life, it must be refreshed once it has expired to continue receiving events. In order to refresh the token, a `renewedToken` message must be sent with a valid panel token specified in a solitary `token` parameter of the message body.
+
+If a message is to be delivered for a connection with an expired token, the system will instead send `invalidToken` messages until the token is renewed. Once the token is renewed, the system will immediately deliver any messages that arrived while the token was expired.
+
+## Message Format
+
+Every message will have 2 manditory elements: `topic`, and `body`.
+
+The `topic` uniquely identifies each type of message, as described later.
+
+The `body` is where parameters for the message are contained and vary by message type.
+
+```
+{
+  "topic": "message.topic",
+  "body": { }
+}
+```
+
+## Event Messages
+
+Event messages are sent from the system when some state has changed. The topics of these messages are both the name of the message and are contained in the `topic` property of each.
+
+### liveEvent
+
+This message type represents a stream of audit events occuring in the system, including the audit message and any log parameters. This can be used to simply display human-readable event messages to users.
+
+```
+{
+  "info": "DPS open has been detected on the device \"%s\".",
+  "occurred":"2016-05-09 16:38:42",
+  "topic":"door.input.dps.opened",
+  "placeholders":[{
+      "text": "Building Supply Room",
+      "id": 8,
+      "type": "door"
+  }]
+}
+```
+
+### door.request.allowed
+
+This message is sent when a credential scan requested access to a door, a Person was found for the credential, and access was allowed.
+
+```
+{
+  "topic": "door.request.allowed",
+  "body": {
+    "doorId": 26,  // The Device id of the door
+    "personId": 36,  // The id of the Person that scanned
+    "requestFactor": "CARD_ONLY",  // The authentication method used
+    "cardNumber": "33855"  // The credential identifier that was read
+  }
+}
+```
+
+### door.request.denied
+
+This message is sent when a credential scan requested access to a door, a Person was found for the credential, but access was not allowed.
+
+```
+{
+  "topic": "door.request.denied",
+  "body": {
+    "doorId": 6,  // The Device id of the door
+    "personId": 379,  // The id of the Person that scanned
+    "explicit": false,  // Whether there was an explicit deny rule or the deny was implicit
+    "requestFactor": "CARD_ONLY",  // The authentication method used
+    "cardNumber": "188"  // The credential identifier that was read
+  },
+  "occurred":"2016-05-09 17:39:28"
+}
+```
+
+### door.request.unknown
+
+This message is sent when a credential scan requested access to a door, and a Person was not found that matched the credential.
+
+```
+{
+  "topic":"door.request.unknown",
+  "body":{
+    "doorId": 6,  // The Device id of the door
+    "cardNumber": "188"  // The credential identifier that was read
+  }
+}
+```
+
+### door.input.relay.on
+
+This message is sent when the relay for a door is activated.
+
+```
+{
+  "topic":"door.input.relay.on",
+  "body":{
+    "doorId":29  // The Device id of the door
+  },
+  "occurred":"2016-05-09 16:38:45"
+}
+```
+
+### door.input.relay.off
+
+This message is sent when the relay for a door is deactuated.
+
+```
+{
+  "topic":"door.input.relay.off",
+  "body":{
+    "doorId":29  // The Device id of the door
+  },
+  "occurred":"2016-05-09 16:38:45"
+}
+```
+
+### door.input.dps.opened
+
+This message is sent when the door position sensor detects the door has opened.
+
+```
+{
+  "topic":"door.input.dps.opened",
+  "body":{
+    "doorId": 10  // The Device id of the door
+  },
+  "occurred":"2016-05-09 17:14:20"
+}
+```
+
+### door.input.dps.closed
+
+This message is sent when the door position sensor detects the door has closed.
+
+```
+{
+  "topic":"door.input.dps.closed",
+  "body":{
+    "doorId": 10  // The Device id of the door
+  },
+  "occurred":"2016-05-09 17:14:25"
+}
+```
+
+### door.input.rex.on
+
+This message is sent when the request to exit sensor is activated.
+
+```
+{
+  "topic":"door.input.rex.on",
+  "body":{
+    "doorId": 10  // The Device id of the door
+  },
+  "occurred":"2016-05-09 17:14:25"
+}
+```
+
+### door.input.rex.off
+
+This message is sent when the request to exit sensor is deactivated.
+
+```
+{
+  "topic":"door.input.rex.off",
+  "body":{
+    "doorId": 10  // The Device id of the door
+  },
+  "occurred":"2016-05-09 17:14:35"
+}
+```
+
+### door.forceclose.on
+
+This message is sent when the force close feature is enabled on a door.
+
+```
+{
+  "topic":"door.forceclose.on",
+  "body":{
+    "doorId":6  // The Device id of the door
+  },
+  "occurred":"2016-05-09 17:15:45"
+}
+```
+
+### door.forceclose.off
+
+This message is sent when the force close feature is disabled on a door.
+
+```
+{
+  "topic":"door.forceclose.off",
+  "body":{
+    "doorId":6  // The Device id of the door
+  },
+  "occurred":"2016-05-09 17:15:45"
+}
+```
+
+### door.alarm.propped.on
+
+This message is sent when the system detects that the door has been propped.
+
+```
+{
+  "topic": "door.alarm.propped.on",
+  "body": {
+    "doorId": 15  // The Device id of the door that the alarm was raised on
+  },
+  "occurred": "2016-05-09 17:10:06"
+}
+```
+
+### door.alarm.propped.off
+
+This message is sent when a door propped alarm status is cleared.
+
+```
+{
+  "topic": "door.alarm.propped.off",
+  "body": {
+    "doorId": 15  // The Device id of the door that the alarm was cleared on
+  },
+  "occurred": "2016-05-09 17:10:10"
+}
+```
+
+### door.alarm.forced
+
+This message is sent when the system detects that the door has been forced.
+
+```
+{
+  "topic":"door.alarm.forced",
+  "body":{
+    "doorId": 6  // The Device id of the door
+  },
+  "occurred":"2016-05-09 17:44:20"
+}
+```
+
+### door.alarm.forced.cleared
+
+This message is sent when a door forced alarm status is cleared. This can be done using the `door.alarm.forced.clear` command message.
+
+```
+{
+  "topic": "door.alarm.forced.cleared",
+  "body": {
+    "doorId": 6  // The Device id of the door
+  },
+  "occurred":"2016-05-09 17:44:52"
+}
+```
+
+### endpoint.discovered
+
+This message is sent in response to an `endpoint.discover` command. One message is sent per discovered endpoint.
+
+```
+{
+  "topic": "endpoint.discovered",
+  "body": {
+    "ioLinkId": 1,
+    "address": "0013a200400a393b",
+    "ioLinkType": "wirelessCoordinator",
+    "ioLinkName": "wimac",
+    "doors": [
+      { "id": 8,"port": 1, "name": "Building Supply Room" },
+      { "id": 39,"port": 2, "name": "Coke Fountain" }
+    ]
+  }
+}
+```
+
+### endpoint.signal
+
+This message is sent in response to an `endpoint.querysignal` command. One response message is sent per request.
+
+```
+{
+  "topic": "endpoint.signal",
+  "body": {
+    "ioLinkId": 1,
+    "address": "0013a200400a393b",
+    "dbGain": 40
+  },
+  "occurred": "2016-05-09 16:42:57"
+}
+```
+
+## Command Messages
+
+A `command` message can be sent to the stream to modify the state of the system. Commands are slightly different, as the message name `command` is always used for dispatching these messages while the `topic` contains the message topic.
+
+```
+client.emit('command', {
+  id: '895f8d43-2279-4821-a0a4-2e16600a148d',
+  topic: 'command.topic',
+  body: { }
+})
+```
+
+When a command is acted on by the system a `command.result.succeeded` message is sent, if a command fails then a `command.result.failed` message is sent.
+
+The command message must contain a unique opaque `id` in order to correlate status response messages.
+
+```
+{
+  "topic": "command.result.succeed",
+  "body": {
+    "commandId": "895f8d43-2279-4821-a0a4-2e16600a148d"  // The `id` of the command message
+  }
+}
+```
+
+### door.actuate.open
+
+This command requests that the specified device be sent an open signal.
+
+```
+{
+  "topic": "door.actuate.open",
+  "body": {
+    "doorId":6  // The Device id of the door to actuate
+  }
+}
+```
+
+### door.actuate.close
+
+This command requests that the specified devicd be sent a close signal.
+
+```
+{
+  "topic": "door.actuate.close",
+  "body": {
+    "doorId": 6  // The Device id of the door to actuate
+  }
+}
+```
+
+### door.try.open
+
+This command requests that the system attempt to send an open/close to the specified door. This may fail if the door is in a state where this is not possible (e.g. auto open is in effect).
+
+```
+{
+  "topic": "door.try.open",
+  "body": {
+    "doorId": 6  // The Device id of the door to actuate
+  },
+  "id": "Uio5fTPKuDBoaDAODZxxSldYK7008TOs"
+}
+```
+
+### door.try.dwellopen
+
+This command requests that the system hold a specified door open for a certain amount of time.
+
+```
+{
+  "topic": "door.try.dwellopen",
+  "body": {
+    "doorId": 6,  // The Device id of the door to actuate
+    "dwell": 3000  // The dwell time in 0.10 second units (300.0 seconds = 5 min)
+  },
+  "id": "9xgtULvpWKzWtkHvEiyygYcbqg5BOPJO"
+}
+```
+
+### door.actuate.forcetoggle
+
+This command toggles the override function on the door. If it is locked, it will be opened, if it is opened (e.g. auto open) it will be locked.
+
+```
+{
+  "topic": "door.actuate.forcetoggle",
+  "body": {
+    "doorId": 6  // The Device id of the door
+  },
+  "id": "FLjQcqpGU3SfBH8l5jE4p7H6buO7UeL0"
+}
+```
+
+### door.actuate.dnd
+
+This command is used to toggle the do not disturb state on the specified door.
+
+```
+{
+  "topic": "door.actuate.dnd",
+  "body": {
+    "doorId": 6  The Device id of the door to actuate
+  },
+  "id": "m0JUwfms78mdr0KWNTH2Oa4B9e68OSTb"
+}
+```
+
+### door.alarm.forced.clear
+
+This command is used to clear an active door forced alarm for a door.
+
+```
+{
+  "topic": "door.alarm.forced.clear",
+  "body": {
+    "doorId": 6  // The Device id of the door
+  },
+  "id": "I14VcTrmoCjM2V5s3dNPO2QCE7JnNneD"
+}
+```
+
+
+### endpoint.discover
+
+This command initiates discovery of all visible wireless endpoints.
+
+```
+{
+  "topic": "endpoint.discover",
+  "body": { },
+  "id": "1pLQ2y9Kai1oSlfeES7NhXWaAgDIILTp"
+}
+```
+
+### endpoint.querysignal
+
+This command queries the last-hop signal strength of the specified wireless endpoint.
+
+```
+{
+  "topic": "endpoint.querysignal",
+  "body": {
+    "ioLinkId": 1,  // The connection ID for the wireless coordinator
+    "address": "0013a200400a393b",  // The MAC address of the wireless device
+    "actuateRelay": false,  // Whether to actuate the signalling relay on/off
+    "relayDwell": 5  // How long to hold the signalling relay on
+  },
+  "id": "6Xa94zwzq14lAvlyUnQEkQKLt5Fy3U1p"
+}
+```
 
 # Group Reports
 
