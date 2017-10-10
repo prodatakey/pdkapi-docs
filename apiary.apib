@@ -3422,6 +3422,10 @@ An `error` message will be sent if the `token` is invalid or elided.
 
 Since the panel token has a limited life, it must be refreshed once it has expired to continue receiving events. In order to refresh the token, a `renewedToken` message must be sent with a valid panel token specified in a solitary `token` parameter of the message body.
 
+```
+client.emit('renewedToken', { token: '<token goes here>' });
+```
+
 If a message is to be delivered for a connection with an expired token, the system will instead send `invalidToken` messages until the token is renewed. Once the token is renewed, the system will immediately deliver any messages that arrived while the token was expired.
 
 ## Message Format
@@ -3446,6 +3450,8 @@ Event messages are sent from the system when some state has changed. The topics 
 ### liveEvent
 
 This message type represents a stream of audit events occuring in the system, including the audit message and any log parameters. This can be used to simply display human-readable event messages to users.
+
+Unlike the other event messages, the `topic` property of this message correlates to the event type that caused the audit entry.
 
 ```
 {
