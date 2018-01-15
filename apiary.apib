@@ -3062,9 +3062,20 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
+    + Attributes (object)
+  
+        + person: 33 (number)
+            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
+
     + Headers
     
             Authorization: Bearer {token}
+            
+    + Body
+        
+            {
+                "person": 33
+            }
 
 + Response 204
 + Response 400 (application/json)
@@ -3080,9 +3091,20 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
+    + Attributes (object)
+  
+        + person: 33 (number)
+            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
+
     + Headers
     
             Authorization: Bearer {token}
+            
+    + Body
+        
+            {
+                "person": 33
+            }
 
 + Response 204
 + Response 400 (application/json)
@@ -3098,9 +3120,14 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
-    + `delay` (required, number)
-        Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
+    + Attributes (object)
     
+        + delay: 10 (required, number)
+            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
+            
+        + person: 33 (number)
+            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
+
     + Headers
     
             Authorization: Bearer {token}
@@ -3109,6 +3136,7 @@ Executing commands on the specified device.
     
             {
                 "delay": 10,
+                "person": 33
             }
 
 + Response 204
@@ -3125,9 +3153,14 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
-    + `delay` (required, number)
-        Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
+    + Attributes (object)
     
+        + delay: 10 (required, number)
+            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
+        
+        + person: 33 (number)
+            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
+
     + Headers
     
             Authorization: Bearer {token}
@@ -3136,6 +3169,7 @@ Executing commands on the specified device.
     
             {
                 "delay": 10,
+                "person": 33
             }
 
 + Response 204
@@ -3152,9 +3186,14 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
-    + `delay` (required, number)
-        Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
+    + Attributes (object)
     
+        + delay: 10 (required, number)
+            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
+
+        + person: 33 (number)
+            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
+
     + Headers
     
             Authorization: Bearer {token}
@@ -3163,6 +3202,7 @@ Executing commands on the specified device.
     
             {
                 "delay": 10,
+                "person": 33
             }
 
 + Response 204
@@ -3179,9 +3219,20 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
+    + Attributes (object)
+  
+        + person: 33 (number)
+            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
+
     + Headers
     
             Authorization: Bearer {token}
+            
+    + Body
+        
+            {
+                "person": 33
+            }
 
 + Response 204
 + Response 400 (application/json)
@@ -3197,9 +3248,20 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
+    + Attributes (object)
+  
+        + person: 33 (number)
+            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
+
     + Headers
     
-            Authorization: Bearer {token}
+            Authorization: Bearer {token}    
+            
+    + Body
+        
+            {
+                "person": 33
+            }
 
 + Response 204
 + Response 400 (application/json)
