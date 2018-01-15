@@ -3055,7 +3055,7 @@ Device removal leads to Floor Groups and Rules removal when the specified Device
 ## Commands [/devices/{device_id}/]
 Executing commands on the specified device.
 
-### Open a Device [POST /devices/{device_id}/open]
+### Open a Door [POST /devices/{device_id}/open]
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -3073,7 +3073,7 @@ Executing commands on the specified device.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Close a Device [POST /devices/{device_id}/close]
+### Close a Door [POST /devices/{device_id}/close]
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -3091,34 +3091,7 @@ Executing commands on the specified device.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Open and Close a Device [POST /devices/{device_id}/openclose]
-+ Parameters
-
-    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
-    
-+ Request (application/json)
-
-    + `delay` (required, number)
-        Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
-    
-    + Headers
-    
-            Authorization: Bearer {token}
-        
-    + Body
-    
-            {
-                "delay": 10,
-            }
-
-+ Response 204
-+ Response 400 (application/json)
-+ Response 401 (application/json)
-+ Response 403 (application/json)
-+ Response 404 (application/json)
-+ Response 500 (application/json)
-
-### Open a Device with delay [POST /devices/{device_id}/delayopen]
+### Open and Close a Door [POST /devices/{device_id}/openclose]
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -3145,7 +3118,7 @@ Executing commands on the specified device.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Close a Device with delay [POST /devices/{device_id}/delayclose]
+### Open a Door with delay [POST /devices/{device_id}/delayopen]
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -3172,7 +3145,34 @@ Executing commands on the specified device.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### DND command for Device [POST /devices/{device_id}/dnd]
+### Close a Door with delay [POST /devices/{device_id}/delayclose]
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    
++ Request (application/json)
+
+    + `delay` (required, number)
+        Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+        
+    + Body
+    
+            {
+                "delay": 10,
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### DND command for Door [POST /devices/{device_id}/dnd]
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -3190,7 +3190,7 @@ Executing commands on the specified device.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Forcetoggle command for Device [POST /devices/{device_id}/forcetoggle]
+### Forcetoggle command for Door [POST /devices/{device_id}/forcetoggle]
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
