@@ -3062,20 +3062,9 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
-    + Attributes (object)
-  
-        + person: 33 (number)
-            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
-
     + Headers
     
             Authorization: Bearer {token}
-            
-    + Body
-        
-            {
-                "person": 33
-            }
 
 + Response 204
 + Response 400 (application/json)
@@ -3091,20 +3080,9 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
-    + Attributes (object)
-  
-        + person: 33 (number)
-            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
-
     + Headers
     
             Authorization: Bearer {token}
-            
-    + Body
-        
-            {
-                "person": 33
-            }
 
 + Response 204
 + Response 400 (application/json)
@@ -3113,73 +3091,7 @@ Executing commands on the specified device.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Open and Close a Door [POST /devices/{device_id}/openclose]
-+ Parameters
-
-    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
-    
-+ Request (application/json)
-
-    + Attributes (object)
-    
-        + delay: 10 (required, number)
-            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
-            
-        + person: 33 (number)
-            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
-
-    + Headers
-    
-            Authorization: Bearer {token}
-        
-    + Body
-    
-            {
-                "delay": 10,
-                "person": 33
-            }
-
-+ Response 204
-+ Response 400 (application/json)
-+ Response 401 (application/json)
-+ Response 403 (application/json)
-+ Response 404 (application/json)
-+ Response 500 (application/json)
-
-### Open a Door with delay [POST /devices/{device_id}/delayopen]
-+ Parameters
-
-    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
-    
-+ Request (application/json)
-
-    + Attributes (object)
-    
-        + delay: 10 (required, number)
-            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
-        
-        + person: 33 (number)
-            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
-
-    + Headers
-    
-            Authorization: Bearer {token}
-        
-    + Body
-    
-            {
-                "delay": 10,
-                "person": 33
-            }
-
-+ Response 204
-+ Response 400 (application/json)
-+ Response 401 (application/json)
-+ Response 403 (application/json)
-+ Response 404 (application/json)
-+ Response 500 (application/json)
-
-### Close a Door with delay [POST /devices/{device_id}/delayclose]
+### Open and Close a Door [POST /devices/{device_id}/open_close]
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -3191,8 +3103,34 @@ Executing commands on the specified device.
         + delay: 10 (required, number)
             Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
 
-        + person: 33 (number)
-            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
+    + Headers
+    
+            Authorization: Bearer {token}
+        
+    + Body
+    
+            {
+                "delay": 10
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Open a Door with delay [POST /devices/{device_id}/delay_open]
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    
++ Request (application/json)
+
+    + Attributes (object)
+    
+        + delay: 10 (required, number)
+            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
 
     + Headers
     
@@ -3201,8 +3139,36 @@ Executing commands on the specified device.
     + Body
     
             {
-                "delay": 10,
-                "person": 33
+                "delay": 10
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Close a Door with delay [POST /devices/{device_id}/delay_close]
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    
++ Request (application/json)
+
+    + Attributes (object)
+    
+        + delay: 10 (required, number)
+            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
+
+    + Headers
+    
+            Authorization: Bearer {token}
+        
+    + Body
+    
+            {
+                "delay": 10
             }
 
 + Response 204
@@ -3219,20 +3185,27 @@ Executing commands on the specified device.
     
 + Request (application/json)
 
-    + Attributes (object)
-  
-        + person: 33 (number)
-            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
-
     + Headers
     
             Authorization: Bearer {token}
             
-    + Body
-        
-            {
-                "person": 33
-            }
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Force toggle command for Door [POST /devices/{device_id}/force_toggle]
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer {token}    
 
 + Response 204
 + Response 400 (application/json)
@@ -3241,7 +3214,7 @@ Executing commands on the specified device.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Forcetoggle command for Door [POST /devices/{device_id}/forcetoggle]
+### Remote Open a Door [POST /devices/{device_id}/remote_open]
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -3249,18 +3222,18 @@ Executing commands on the specified device.
 + Request (application/json)
 
     + Attributes (object)
-  
-        + person: 33 (number)
-            The `id` of the Person that requested the command. This is used to impersonate a Person and will be logged as if they actuated the command and the API User identity is logged as the impersonator, otherwise the request is logged with the API User's identity.
+    
+        + personId: 10 (required, number)
+            Id of person that contains in database.
 
     + Headers
     
-            Authorization: Bearer {token}    
-            
-    + Body
+            Authorization: Bearer {token}
         
+    + Body
+    
             {
-                "person": 33
+                "personId": 10
             }
 
 + Response 204
