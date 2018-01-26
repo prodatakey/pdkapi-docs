@@ -3214,7 +3214,7 @@ Executing commands on the specified device.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
-### Remote Open a Door [POST /devices/{device_id}/remote_open]
+### Perform virtual credentials input on a Door [POST /devices/{device_id}/virtual_read]
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -3224,7 +3224,7 @@ Executing commands on the specified device.
     + Attributes (object)
     
         + personId: 10 (required, number)
-            Id of person that contains in database.
+            Id of person that exists in database. System will check that person has access (except authentication policy checks) to this door before opening.
 
     + Headers
     
