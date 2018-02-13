@@ -317,7 +317,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `cards` (required, array) ... Cards that belongs to the Person. Empty array will be returned if Person has no cards.
     + `groups` (required, array) ... Groups that the Person belongs to. Empty array will be returned if Person does not belong to any Group.
-    
+    + `mobileCredentials` (required, array) ... Mobile credentials that belong to the Person. Empty array will be returned if Person has no mobile credentials.
     + Body
     
             {
@@ -337,6 +337,12 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
                     {
                         "id": 1,
                         "name": "groupName"
+                    }
+                ],
+                "mobileCredentials": [
+                    {
+                        "id": 1,
+                        "email": "mobile.credentials@email.com"
                     }
                 ]
             }
@@ -565,6 +571,117 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Parameters
 
     + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+## Person Mobile Credentials [/persons/{person_id}/mobile_credentials]
+
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  Retrieving Mobile Credentials is also available for the [Reporter] role.
+[Manager, Reporter] have an access to Mobile Credentials that bound to Persons from their own partition only.
+
++ Model
+
+    + `credentialNumber` (required, number) ... Credential number. Must be unique among all persons. Maximum value is 99999999999. This property is never returned in the response.
+    + `email` (required, string) ... Email associated with Mobile Credentials entry. Minimum length is `1` character, maximum length is `255` characters.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+    
+    + Body
+    
+            {
+                "credentialNumber": 123,
+                "email": "mobile.credentials@email.com"
+            }
+
+
+### Retrieve all Mobile Credentials [GET /persons/{person_id}/mobile_credentials?page={page}&per_page={per_page}&sort={sort_order}]
+
++ Parameters
+
+    + person_id (required, number) 
+        Numeric `id` of the Person to perform the action on.
+    + page (optional, number)
+        Number of page to return, started from `0`.
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+    + sort (optional, enum[string])
+        Sorting order. Mobile Сredentials are sorted by the `email` value.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Numeric `id` of the Mobile Credentials.
+    + `email` (required, string) ... email associated with Mobile Credentials entry.
+
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/mobile_credentials?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/mobile_credentials?page=2&per_page=10>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            [
+                {
+                    "id": 1,
+                    "email": "mobile.credentials@email.com",
+                }
+            ]
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Create Mobile Credentials [POST]
++ Parameters
+
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    
++ Request (application/json)
+
+    [Person Mobile Credentials][]
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Numeric `id` of the created Mobile Credentials entry.
+    
+    + Body
+    
+            {
+                "id": 1
+            }
+    
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Delete Mobile Credentials [DELETE /persons/{person_id}/mobile_credentials/{credential_id}]
++ Parameters
+
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    + credential_id (required, number) ... Numeric `id` of the Mobile Credentials entity that should be deleted.
 
 + Request
 
