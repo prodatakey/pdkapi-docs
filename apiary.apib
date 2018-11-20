@@ -14,6 +14,9 @@ The API conforms to many of the tenets of the REST style architecture and fully 
 
 This drives certain uniform architectural attributes of the API.
 
+> Where the documentation refers to `panel-id` this must be substituted with the actual serial number of your cloud node.
+> If the cloud node serial number was 10702AG, then `panel-id` would be replaced with `panel-10702AG`.
+
 # Authentication
 
 Authenticating to this stateless API is handled by including an HTTP Authentication header in each request.
@@ -105,6 +108,16 @@ Error messages provide human-readable description. For now only English language
         }
     }
 
+# Metadata
+
+Certain updatable entities ([Person](#reference/persons), [Group](#reference/groups), [Devices](#reference/devices)) have a `metadata` property.
+This property is opaque storage that can be leveraged by API consumers to store application-specific information.
+
+A common use case is to store a correlation key that associates a pdk entity to an entity in the application database.
+
+This property can be set to any valid JSON value, can not be null, defaults to an empty object `{}`, and there is a limit of 10KB on the size of the data stored here.
+
+Once data is stored here, it will be provided with the entity any time it is retrieved via the REST API or sent in a message via the Stream Oriented API.
 
 # Roles
 Roles permissions have hierarchical structure. List of possible roles given below:
@@ -218,6 +231,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `pin` (optional, string) ... The PIN that is bound to specific Person.
     + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Headers
     
@@ -232,7 +246,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
                     "firstName": "Ted",
                     "lastName": "Froëdington",
                     "partition": 0,
-                    "photoUrl": "http://example.com/usersImages/32224.jpg"
+                    "photoUrl": "http://example.com/usersImages/32224.jpg",
+                    "metadata": {}
                 }
             ]
 + Response 401 (application/json)
@@ -280,6 +295,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `pin` (optional, string) ... The PIN that is bound to specific Person.
     + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (optional, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
 
     + Headers
     
@@ -290,7 +306,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
             {
                 "firstName": "Ted",
                 "lastName": "Froëdington",
-                "partition": 0
+                "partition": 0,
+                "metadata": {}
             }
 
 ### Retrieve a Person [GET]
@@ -318,6 +335,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `cards` (required, array) ... Cards that belongs to the Person. Empty array will be returned if Person has no cards.
     + `groups` (required, array) ... Groups that the Person belongs to. Empty array will be returned if Person does not belong to any Group.
     + `mobileCredentials` (required, array) ... Mobile credentials that belong to the Person. Empty array will be returned if Person has no mobile credentials.
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    
     + Body
     
             {
@@ -326,6 +345,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
                 "lastName": "Froëdington",
                 "partition": 0,
                 "photoUrl": "http://example.com/images/32224.jpg",
+                "metadata": {},
                 "cards": [
                     {
                         "id": 1,
@@ -389,6 +409,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `pin` (required, string) ... The PIN that is bound to specific Person.
     + `duressPin` (required, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Headers
     
@@ -404,7 +425,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
                 "expireDate": "2017-05-05",
                 "pin": null,
                 "duressPin": null,
-                "enabled": true
+                "enabled": true,
+                "metadata" { "dbId": "ed1479c1-262f-4523-8726-24a858b1b77f" }
             }
             
 + Response 204
@@ -1304,7 +1326,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
             [
                 {
                     "id": 1,
-                    "name": "group1"
+                    "name": "group1",
+                    "metadata": {}
                 }
             ]
 
@@ -1330,7 +1353,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
     
             {
                 "id": 1,
-                "name": "group1"
+                "name": "group1",
+                "metadata": {}
             }
 
 + Response 400 (application/json)
@@ -1418,7 +1442,8 @@ For [Reporter, Manager] roles Groups will be filtered by their partition.
             [
                 {
                     "id": 1,
-                    "name": "group1"
+                    "name": "group1",
+                    "metadata": {}
                 }
             ]
 
@@ -1434,6 +1459,7 @@ For [Reporter, Manager] roles Groups will be filtered by their partition.
 + Model 
 
     + `name` (required, string) ... Group name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Headers
     
@@ -1442,7 +1468,8 @@ For [Reporter, Manager] roles Groups will be filtered by their partition.
     + Body
     
             {
-                "name": "group1"
+                "name": "group1",
+                "metadata": {}
             }
 
 ### Retrieve a Group [GET]
@@ -1456,12 +1483,14 @@ For [Reporter, Manager] roles Groups will be filtered by their partition.
 + Response 200 (application/json)
 
     + `name` (required, string) ...  Group name.
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
 
     + Body
     
             {
                 "id": 1,
-                "name": "group1"
+                "name": "group1",
+                "metadata": {}
             }
 
 + Response 400 (application/json)
@@ -2882,6 +2911,7 @@ Created Devices will be bound to user's partition by default.
             + `pinOnly` - grant access by PIN only
             + `cardOrPin` - grant access by either card or PIN
             + `cardAndPin` - grant access by both card and PIN
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Headers
     
@@ -2904,7 +2934,8 @@ Created Devices will be bound to user's partition by default.
                     "dps": true,
                     "rex": true,
                     "forcedAlarm": true,
-                    "autoOpenAfterFirstAllow": true
+                    "autoOpenAfterFirstAllow": true,
+                    "metadata": {}
                 }
             ]
 
@@ -2952,6 +2983,7 @@ Created Devices will be bound to user's partition by default.
             + `pinOnly` - grant access by PIN only
             + `cardOrPin` - grant access by either card or PIN
             + `cardAndPin` - grant access by both card and PIN
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Headers
     
@@ -2968,7 +3000,8 @@ Created Devices will be bound to user's partition by default.
                     "propDelay": 30,
                     "dps": true,
                     "rex": true,
-                    "forcedAlarm": true
+                    "forcedAlarm": true,
+                    "metadata": {}
             }
 
 ### Retrieve a Device [GET /devices/{device_id}]
@@ -3023,6 +3056,7 @@ Created Devices will be bound to user's partition by default.
             + `pinOnly` - grant access by PIN only
             + `cardOrPin` - grant access by either card or PIN
             + `cardAndPin` - grant access by both card and PIN
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
         
     + Body
     
@@ -3051,6 +3085,7 @@ Created Devices will be bound to user's partition by default.
                     "dps": true,
                     "rex": true,
                     "forcedAlarm": true
+                    "metadata": {}
             }
 
 + Response 400 (application/json)
@@ -3123,6 +3158,7 @@ Created Devices will be bound to user's partition by default.
             + `pinOnly` - grant access by PIN only
             + `cardOrPin` - grant access by either card or PIN
             + `cardAndPin` - grant access by both card and PIN
+    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Headers
     
@@ -3142,7 +3178,8 @@ Created Devices will be bound to user's partition by default.
                     "dps": true,
                     "rex": true,
                     "forcedAlarm": true,
-                    "autoOpenAfterFirstAllow": true
+                    "autoOpenAfterFirstAllow": true,
+                    "metadata" { "dbId": "ed1479c1-262f-4523-8726-24a858b1b77f" }
             }
 
 + Response 204
@@ -3814,7 +3851,25 @@ This message is sent when a credential scan requested access to a door, a Person
   "topic": "door.request.allowed",
   "body": {
     "doorId": 26,  // The Device id of the door
+    "door": {
+      "id": 26,
+      "name": "Office door",
+      "connection": 1,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    },
     "personId": 36,  // The id of the Person that scanned
+    "person": {
+      "id": 36,
+      "firstName": "Foo",
+      "lastName": "Bar",
+      "enabled": true,
+      "partition": 0,
+      "activeDate": "2018-06-04",
+      "expireDate": "2021-06-04",
+      "metadata": {}
+    },
     "requestFactor": "CARD_ONLY",  // The authentication method used
     "cardNumber": "33855"  // The credential identifier that was read
   }
@@ -3830,7 +3885,25 @@ This message is sent when a credential scan requested access to a door, a Person
   "topic": "door.request.denied",
   "body": {
     "doorId": 6,  // The Device id of the door
+    "door": {
+      "id": 6,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    },
     "personId": 379,  // The id of the Person that scanned
+    "person": {
+      "id": 379,
+      "firstName": "FirstName",
+      "lastName": "LastName",
+      "enabled": true,
+      "partition": 0,
+      "activeDate": "2018-06-04",
+      "expireDate": "2021-06-04",
+      "metadata": {}
+    },
     "explicit": false,  // Whether there was an explicit deny rule or the deny was implicit
     "requestFactor": "CARD_ONLY",  // The authentication method used
     "cardNumber": "188"  // The credential identifier that was read
@@ -3848,6 +3921,14 @@ This message is sent when a credential scan requested access to a door, and a Pe
   "topic":"door.request.unknown",
   "body":{
     "doorId": 6,  // The Device id of the door
+    "door": {
+      "id": 6,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    },
     "cardNumber": "188"  // The credential identifier that was read
   }
 }
@@ -3861,7 +3942,15 @@ This message is sent when the relay for a door is activated.
 {
   "topic":"door.input.relay.on",
   "body":{
-    "doorId":29  // The Device id of the door
+    "doorId":29,  // The Device id of the door
+    "door": {
+      "id": 29,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 16:38:45"
 }
@@ -3875,7 +3964,15 @@ This message is sent when the relay for a door is deactuated.
 {
   "topic":"door.input.relay.off",
   "body":{
-    "doorId":29  // The Device id of the door
+    "doorId":29,  // The Device id of the door
+    "door": {
+      "id": 29,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 16:38:45"
 }
@@ -3889,7 +3986,15 @@ This message is sent when the door position sensor detects the door has opened.
 {
   "topic":"door.input.dps.opened",
   "body":{
-    "doorId": 10  // The Device id of the door
+    "doorId": 10,  // The Device id of the door
+    "door": {
+      "id": 10,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 17:14:20"
 }
@@ -3903,7 +4008,15 @@ This message is sent when the door position sensor detects the door has closed.
 {
   "topic":"door.input.dps.closed",
   "body":{
-    "doorId": 10  // The Device id of the door
+    "doorId": 10,  // The Device id of the door
+    "door": {
+      "id": 10,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 17:14:25"
 }
@@ -3917,7 +4030,15 @@ This message is sent when the request to exit sensor is activated.
 {
   "topic":"door.input.rex.on",
   "body":{
-    "doorId": 10  // The Device id of the door
+    "doorId": 10,  // The Device id of the door
+    "door": {
+      "id": 10,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 17:14:25"
 }
@@ -3931,7 +4052,15 @@ This message is sent when the request to exit sensor is deactivated.
 {
   "topic":"door.input.rex.off",
   "body":{
-    "doorId": 10  // The Device id of the door
+    "doorId": 10,  // The Device id of the door
+    "door": {
+      "id": 10,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 17:14:35"
 }
@@ -3945,7 +4074,15 @@ This message is sent when the force close feature is enabled on a door.
 {
   "topic":"door.forceclose.on",
   "body":{
-    "doorId":6  // The Device id of the door
+    "doorId":6,  // The Device id of the door
+    "door": {
+      "id": 6,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 17:15:45"
 }
@@ -3959,7 +4096,15 @@ This message is sent when the force close feature is disabled on a door.
 {
   "topic":"door.forceclose.off",
   "body":{
-    "doorId":6  // The Device id of the door
+    "doorId":6,  // The Device id of the door
+    "door": {
+      "id": 6,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 17:15:45"
 }
@@ -3973,7 +4118,15 @@ This message is sent when the system detects that the door has been propped.
 {
   "topic": "door.alarm.propped.on",
   "body": {
-    "doorId": 15  // The Device id of the door that the alarm was raised on
+    "doorId": 15,  // The Device id of the door that the alarm was raised on
+    "door": {
+      "id": 15,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred": "2016-05-09 17:10:06"
 }
@@ -3987,7 +4140,15 @@ This message is sent when a door propped alarm status is cleared.
 {
   "topic": "door.alarm.propped.off",
   "body": {
-    "doorId": 15  // The Device id of the door that the alarm was cleared on
+    "doorId": 15,  // The Device id of the door that the alarm was cleared on
+    "door": {
+      "id": 15,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred": "2016-05-09 17:10:10"
 }
@@ -4001,7 +4162,15 @@ This message is sent when the system detects that the door has been forced.
 {
   "topic":"door.alarm.forced",
   "body":{
-    "doorId": 6  // The Device id of the door
+    "doorId": 6,  // The Device id of the door
+    "door": {
+      "id": 6,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 17:44:20"
 }
@@ -4015,7 +4184,15 @@ This message is sent when a door forced alarm status is cleared. This can be don
 {
   "topic": "door.alarm.forced.cleared",
   "body": {
-    "doorId": 6  // The Device id of the door
+    "doorId": 6,  // The Device id of the door
+    "door": {
+      "id": 6,
+      "name": "Back door",
+      "connection": 2,
+      "port": 1,
+      "partitions": [0],
+      "metadata": {}
+    }
   },
   "occurred":"2016-05-09 17:44:52"
 }
