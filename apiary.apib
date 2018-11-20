@@ -4988,6 +4988,11 @@ Details for Reporters and Managers can contain only entities that they have acce
                 + `elevatorName` (optional, object)
                     + `name` (string) ... Internationalized column name.
                     + `value` (string) ... Floor Group name.
+                + `doorId` (optional, number) ... The ID of the Device referred to in `doorName` or `elevatorName`.
+                + `connectionId` (optional, number) ... The ID of the Connection referred to in `connectionName`.
+                + `personId` (optional, number) ... The ID of the Person referred to in `personName`.
+                + `ruleId` (optional, number) ... The ID of the Rule referred to in `ruleName`.
+                + `groupId` (optional, number) ... The ID of the Group referred to in `groupName`.
 
     + Headers
     
@@ -4996,20 +5001,250 @@ Details for Reporters and Managers can contain only entities that they have acce
     
     + Body
     
-            {
-                    "id": 1,
-                    "name": "Weekly Report",
-                    "period": "lastWeek",
-                    "event": "door.input.cardread"
-                    "result": "door.request.allowed",
-                    "details": {
-                        "doors": [1, 2, 3],
-                        "connections": [12, 13],
-                        "persons": [4, 56],
-                        "cards": [8]
-                    },
-                    "sort": "asc"
-            }
+[
+  {
+    "id": 27594,
+    "event": {
+      "id": "door.input.cardread",
+      "name": "Credentials Input"
+    },
+    "result": {
+      "id": "door.request.found",
+      "name": "Known Person"
+    },
+    "info": "Person \"Tauni Aaaa\" has performed credentials input on the device \"Stealth Aperio\". Person used card for requesting access.",
+    "occurred": "2018-06-11 20:29:28",
+    "details": {
+      "doorId": 74,
+      "doorName": {
+        "name": "Door Name",
+        "value": "Stealth Aperio"
+      },
+      "cardNumber": {
+        "name": "Card Number",
+        "value": "10250"
+      },
+      "personId": 218,
+      "personName": {
+        "name": "Person Name",
+        "value": "Tauni Aaaa"
+      }
+    }
+  },
+  {
+    "id": 27595,
+    "event": {
+      "id": "door.input.cardread",
+      "name": "Credentials Input"
+    },
+    "result": {
+      "id": "door.request.allowed",
+      "name": "Access Allowed"
+    },
+    "info": "Person \"Tauni Aaaa\" has requested access to the device \"Stealth Aperio\". Access granted. Person used card for requesting access.",
+    "occurred": "2018-06-11 20:29:28",
+    "details": {
+      "doorId": 74,
+      "doorName": {
+        "name": "Door Name",
+        "value": "Stealth Aperio"
+      },
+      "cardNumber": {
+        "name": "Card Number",
+        "value": "10250"
+      },
+      "personId": 218,
+      "personName": {
+        "name": "Person Name",
+        "value": "Tauni Aaaa"
+      }
+    }
+  },
+  {
+    "id": 27588,
+    "event": {
+      "id": "door.input.cardread",
+      "name": "Credentials Input"
+    },
+    "result": {
+      "id": "door.request.found",
+      "name": "Known Person"
+    },
+    "info": "Person \"Tauni Aaaa\" has performed credentials input on the device \"Stealth Aperio\". Person used card for requesting access.",
+    "occurred": "2018-06-11 20:29:12",
+    "details": {
+      "doorId": 74,
+      "doorName": {
+        "name": "Door Name",
+        "value": "Stealth Aperio"
+      },
+      "cardNumber": {
+        "name": "Card Number",
+        "value": "10250"
+      },
+      "personId": 218,
+      "personName": {
+        "name": "Person Name",
+        "value": "Tauni Aaaa"
+      }
+    }
+  },
+  {
+    "id": 27589,
+    "event": {
+      "id": "door.input.cardread",
+      "name": "Credentials Input"
+    },
+    "result": {
+      "id": "door.request.allowed",
+      "name": "Access Allowed"
+    },
+    "info": "Person \"Tauni Aaaa\" has requested access to the device \"Stealth Aperio\". Access granted. Person used card for requesting access.",
+    "occurred": "2018-06-11 20:29:12",
+    "details": {
+      "doorId": 74,
+      "doorName": {
+        "name": "Door Name",
+        "value": "Stealth Aperio"
+      },
+      "cardNumber": {
+        "name": "Card Number",
+        "value": "10250"
+      },
+      "personId": 218,
+      "personName": {
+        "name": "Person Name",
+        "value": "Tauni Aaaa"
+      }
+    }
+  },
+  {
+    "id": 27111,
+    "event": {
+      "id": "door.input.cardread",
+      "name": "Credentials Input"
+    },
+    "result": {
+      "id": "door.request.found",
+      "name": "Known Person"
+    },
+    "info": "Person \"Cj Test\" has performed credentials input on the device \"Single IO - Middle\". Person used card for requesting access.",
+    "occurred": "2018-06-04 12:21:17",
+    "details": {
+      "doorId": 11,
+      "doorName": {
+        "name": "Door Name",
+        "value": "Single IO - Middle"
+      },
+      "cardNumber": {
+        "name": "Card Number",
+        "value": "39527"
+      },
+      "personId": 477,
+      "personName": {
+        "name": "Person Name",
+        "value": "Cj Test"
+      }
+    }
+  },
+  {
+    "id": 27112,
+    "event": {
+      "id": "door.input.cardread",
+      "name": "Credentials Input"
+    },
+    "result": {
+      "id": "door.request.denied",
+      "name": "Access Denied"
+    },
+    "info": "Person \"Cj Test\" has requested access to the device \"Single IO - Middle\". Access denied. Person used card for requesting access.",
+    "occurred": "2018-06-04 12:21:17",
+    "details": {
+      "doorId": 11,
+      "doorName": {
+        "name": "Door Name",
+        "value": "Single IO - Middle"
+      },
+      "cardNumber": {
+        "name": "Card Number",
+        "value": "39527"
+      },
+      "groupId": 123,
+      "groupName": {
+        "name": "Group Name",
+        "value": "ABC"
+      },
+      "personId": 477,
+      "personName": {
+        "name": "Person Name",
+        "value": "Cj Test"
+      }
+    }
+  },
+  {
+    "id": 27109,
+    "event": {
+      "id": "door.input.cardread",
+      "name": "Credentials Input"
+    },
+    "result": {
+      "id": "door.request.found",
+      "name": "Known Person"
+    },
+    "info": "Person \"Cj Test\" has performed credentials input on the device \"Single IO - Middle\". Person used card for requesting access.",
+    "occurred": "2018-06-04 12:21:00",
+    "details": {
+      "doorId": 11,
+      "doorName": {
+        "name": "Door Name",
+        "value": "Single IO - Middle"
+      },
+      "cardNumber": {
+        "name": "Card Number",
+        "value": "39527"
+      },
+      "personId": 477,
+      "personName": {
+        "name": "Person Name",
+        "value": "Cj Test"
+      }
+    }
+  },
+  {
+    "id": 27110,
+    "event": {
+      "id": "door.input.cardread",
+      "name": "Credentials Input"
+    },
+    "result": {
+      "id": "door.request.denied",
+      "name": "Access Denied"
+    },
+    "info": "Person \"Cj Test\" has requested access to the device \"Single IO - Middle\". Access denied. Person used card for requesting access.",
+    "occurred": "2018-06-04 12:21:00",
+    "details": {
+      "doorId": 11,
+      "doorName": {
+        "name": "Door Name",
+        "value": "Single IO - Middle"
+      },
+      "cardNumber": {
+        "name": "Card Number",
+        "value": "39527"
+      },
+      "groupId": 123,
+      "groupName": {
+        "name": "Group Name",
+        "value": "ABC"
+      },
+      "personId": 477,
+      "personName": {
+        "name": "Person Name",
+        "value": "Cj Test"
+      }
+    }
+  }
+]
 
 + Response 400 (application/json)
 + Response 401 (application/json)
