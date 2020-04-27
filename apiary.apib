@@ -214,6 +214,15 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
         + Members
             + `asc`
             + `desc`
+            + `ascByFirstName`
+            + `descByFirstName`
+    + include (optional, enum[string])
+        The parameter allows to  get related entity for the person.
+        + Members
+            + `groups`
+            + `credentials`
+            + `partition`
+            + `rules`
 
 + Request
 
@@ -227,12 +236,14 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `firstName` (required, string) ...  Person's first name.
     + `lastName` (required, string) ...  Person's last name.
     + `photoUrl` (optional, string) ... Person's account photo URL. `null` will be returned if Person has no photo.
-    + `partition` (required, number) ... Partition that the Person is bound to.
+    + `partition` (required, number or object) ... Partition that the Person is bound to.
     + `activeDate` (optional, string) ... The date since Person's data should be processed by server in format `YYYY-MM-DD`.
     + `expireDate` (optional, string) ... The date till Person's data should be processed by server in format `YYYY-MM-DD`.
     + `pin` (optional, string) ... The PIN that is bound to specific Person.
     + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
+    + `groups` (optional, array) ... List of person groups.
+    + `credentials` (optional, array) ... List of person credentials.
     + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Headers
@@ -298,6 +309,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (optional, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
     + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `email` (optional, string) ... The email that is bound to specific Person.
 
     + Headers
     
@@ -334,9 +346,10 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
     + `pin` (optional, string) ... The PIN that is bound to specific Person.
     + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
+    + `email` (optional, string) ... The email that is bound to specific Person.
     + `cards` (required, array) ... Cards that belongs to the Person. Empty array will be returned if Person has no cards.
     + `groups` (required, array) ... Groups that the Person belongs to. Empty array will be returned if Person does not belong to any Group.
-    + `mobileCredentials` (required, array) ... Mobile credentials that belong to the Person. Empty array will be returned if Person has no mobile credentials.
+    + `credentials` (required, array) ... Credentials that belong to the Person. Empty array will be returned if Person has no credentials.
     + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Body
@@ -411,6 +424,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `pin` (required, string) ... The PIN that is bound to specific Person.
     + `duressPin` (required, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
+    + `email` (optional, string) ... The email that is bound to specific Person.
     + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Headers
@@ -608,29 +622,10 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-## Person Mobile Credentials [/persons/{person_id}/mobile_credentials]
+## Person Credentials [/persons/{person_id}/mobile_credentials]
 
-The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  Retrieving Mobile Credentials is also available for the [Reporter] role.
-[Manager, Reporter] have an access to Mobile Credentials that bound to Persons from their own partition only.
-
-+ Model
-
-    + `credentialNumber` (required, number) ... Credential number. Must be unique among all persons. Maximum value is 99999999999. This property is never returned in the response.
-    + `email` (required, string) ... Email associated with Mobile Credentials entry. Minimum length is `1` character, maximum length is `255` characters.
-    
-    + Headers
-    
-            Authorization: Bearer {token}
-    
-    + Body
-    
-            {
-                "credentialNumber": 123,
-                "email": "mobile.credentials@email.com"
-            }
-
-
-### Retrieve all Mobile Credentials [GET /persons/{person_id}/mobile_credentials?page={page}&per_page={per_page}&sort={sort_order}]
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  Retrieving Credentials is also available for the [Reporter] role.
+[Manager, Reporter] have an access to Credentials that bound to Persons from their own partition only.
 
 + Parameters
 
@@ -638,8 +633,10 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
         Numeric `id` of the Person to perform the action on.
     + page (optional, number)
         Number of page to return, started from `0`.
+        + Default: 0
     + per_page (optional, number)
         Count of items per page. An integer from `1` to `100`.
+        + Default: 100
     + sort (optional, enum[string])
         Sorting order. Mobile Сredentials are sorted by the `email` value.
         + Default: `asc`
@@ -647,7 +644,9 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
             + `asc`
             + `desc`
 
-+ Request
+### Retrieve all Credentials [GET /persons/{person_id}/credentials?page={page}&per_page={per_page}&sort={sort}]
+
++ Request (application/json)
 
     + Headers
     
@@ -655,8 +654,11 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Numeric `id` of the Mobile Credentials.
-    + `email` (required, string) ... email associated with Mobile Credentials entry.
+    + `id` (required, number) ... Numeric `id` of the Card.
+    + `personId` (required, number) ... Id of person,
+    + `credentialNumber` (required, number) ... Credential number.
+    + `types` (required, array of string) ... Types of credential [`token`, `touch`, `card`].
+    + `description` (optional, string) ... Card description. Maximum length is `255` characters.
 
     + Headers
     
@@ -668,7 +670,12 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
             [
                 {
                     "id": 1,
-                    "email": "mobile.credentials@email.com",
+                    "personId": 12,
+                    "credentialNumber": 722,
+                    "description": "myCard"
+                    "types": [
+                        "token"
+                    ]
                 }
             ]
 
@@ -677,31 +684,60 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Create Mobile Credentials [POST]
-+ Parameters
 
-    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+### Create Credentials [POST]
+
++ Parameters
+    + person_id (required, number) - Numeric `id` of the Person to perform the action on.
     
 + Request (application/json)
 
-    [Person Mobile Credentials][]
-
 + Response 200 (application/json)
 
-    + `id` (required, number) ... Numeric `id` of the created Mobile Credentials entry.
-    
-    + Body
-    
-            {
-                "id": 1
-            }
+    + Attributes
+        + id (required, number) - Numeric `id` of the created Mobile Credentials entry.
     
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Delete Mobile Credentials [DELETE /persons/{person_id}/mobile_credentials/{credential_id}]
+### Update Credentials [PUT /persons/{person_id}/credentials/{credential_id}]
+
++ Parameters
+    + person_id (required, number) - Numeric `id` of the Person to perform the action on.
+    
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + id (required, number) - Numeric `id` of the created Mobile Credentials entry.
+    
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Accept Credentials [PUT /persons/{person_id}/credentials/{credential_id}/accept]
+
++ Parameters
+    + person_id (required, number) - Numeric `id` of the Person to perform the action on.
+    + credential_id (required, number) ... Numeric `id` of the Mobile Credentials entity that should be deleted.
+    
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + id (required, number) - Numeric `id` of the created Mobile Credentials entry.
+    
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Delete Credentials [DELETE /persons/{person_id}/credentials/{credential_id}]
 + Parameters
 
     + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
@@ -1461,6 +1497,7 @@ For [Reporter, Manager] roles Groups will be filtered by their partition.
 + Model 
 
     + `name` (required, string) ... Group name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
+    + `partition` (optional, number) ... Group partition. Default partition has `0` value.
     + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
     
     + Headers
@@ -2093,6 +2130,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
+    + `partition` (required, number) ... Partition id that System Event is bound to.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `name` (required, string) ... Rule name.
     + `triggerType` (required, enum[string])
@@ -2168,6 +2206,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                     "triggerType": "onDoorClose",
                     "action": "delayOpen",
                     "delay": "00:25:43",
+                    "partition": 12,
                     "startTime": "12:00",
                     "stopTime": "23:00",
                     "singleDate": "2016-02-23",
@@ -2197,6 +2236,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
+    + `partition` (optional, number) ... Partition id that System Event is bound to.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`. Must be today or later.
     + `name` (required, string) ... Rule name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `triggerType` (required, enum[string])
@@ -2298,6 +2338,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
+    + `partition` (optional, number) ... Partition id that Rule is bound to.
     + `name` (required, string) ... Rule name.
     + `triggerType` (required, enum[string])
         Type of event on which action should be performed. 
@@ -2368,6 +2409,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 "delay": "00:25:43",
                 "startTime": "12:00",
                 "stopTime": "23:00",
+                "partition": 0,
                 "singleDate": "2016-02-23",
                 "sourceDoors": [
                     {
@@ -2478,6 +2520,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
+    + `partition` (optional, number) ... Partition id that Rule is bound to.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array) ... Doors on which rule should be performed.
@@ -2495,6 +2538,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                     "allow": true,
                     "startTime": "12:00",
                     "stopTime": "23:00",
+                    "partition": 12,
                     "recurring": [
                         "Mon",
                         "Tue"
@@ -2519,6 +2563,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format. Must be greater than `startTime`.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`. Must be today or later.
+    + `partition` (optional, number) ... Partition id that Rule is bound to.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array[number]) ... Door `id`s on which rule should be performed.
 
@@ -2557,6 +2602,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `startTime` (required, string) ... Time when a rule performing should be enabled in `HH:MM` format.
     + `stopTime` (required, string) ... Time when a rule performing should be disabled in `HH:MM` format.
     + `recurring` (optional, array[string]) ... Days of week when a rule should be performed. Possible values: `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`.
+    + `partition` (optional, number) ... Partition id that Rule is bound to.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array) ... Doors on which rule should be performed.
@@ -2569,6 +2615,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
                 "startTime": "12:00",
                 "stopTime": "23:00",
                 "singleDate": "2016-02-23",
+                "partition": 15,
                 "doors": [
                     {
                         "id": 1,
@@ -2914,6 +2961,7 @@ Created Devices will be bound to user's partition by default.
             + `cardOrPin` - grant access by either card or PIN
             + `cardAndPin` - grant access by both card and PIN
     + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `reader` (optional, object) ... Reader bound to device
     
     + Headers
     
@@ -2937,6 +2985,7 @@ Created Devices will be bound to user's partition by default.
                     "rex": true,
                     "forcedAlarm": true,
                     "autoOpenAfterFirstAllow": true,
+                    "reader": null,
                     "metadata": {}
                 }
             ]
@@ -3399,6 +3448,97 @@ Executing commands on the specified device.
 + Response 404 (application/json)
 + Response 500 (application/json)
 
+## Device Reader [/devices/{device_id}/readers]
+Control reader entity on the specified device.
+
+### Get a Door Reader [GET /devices/{device_id}/readers/{reader_id}]
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    + reader_id (required, number) ... Numeric `id` of the Reader to perform the action on.
+    
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Create a Door Reader [POST /devices/{device_id}/readers}]
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    
++ Request (application/json)
+
+    + `id` (required, uuid) ...  Device uuid.
+    + `firmwareVersion` (required, string) ...  Version of firmware.
+    + `enableInsideOut` (required, boolean) ... Set enableInsideOut option.
+    + `disableBacklight` (required, boolean) ... Set disableBacklight option.
+    + `proxMode` (required, enum[ask, fsk]) ... Set proxMode option.
+    + `distanceThreshold` (required, number) ... Set distanceThreshold option.
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Update a Door Reader [PUT /devices/{device_id}/readers/{reader_id}}]
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    + reader_id (required, number) ... Numeric `id` of the Reader to perform the action on.
+    
++ Request (application/json)
+
+    + `firmwareVersion` (required, string) ...  Version of firmware.
+    + `enableInsideOut` (required, boolean) ... Set enableInsideOut option.
+    + `disableBacklight` (required, boolean) ... Set disableBacklight option.
+    + `proxMode` (required, enum[ask, fsk]) ... Set proxMode option.
+    + `distanceThreshold` (required, number) ... Set distanceThreshold option.
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
+### Delete a Door Reader [DELETE /devices/{device_id}/readers/{reader_id}}]
++ Parameters
+
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    + reader_id (required, number) ... Numeric `id` of the Reader to perform the action on.
+    
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 500 (application/json)
+
 # Group Connections
 
 #### A connection entity represents the attributes of a connection with board(s) via concrete transport. These attributes include the connection's name and connection properties (e.g. serial port number in case of USB connected board).
@@ -3482,10 +3622,23 @@ The functionality is available for [Sysop, Integrator] roles.
         Connection type.
         + Members
             + `wirelessCoordinator`
+            + `wirelessGateway`
             + `ethernet`
             + `usb`
     + `ipaddress` (optional, string) ... Address of connection. Represents IP address in case of Ethernet connection.
+    + `protocol` (optional, enum[string])
+        Protocol of connection.
+        + Members
+            + `IPv4`
+            + `IPv6`
     + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of Wireless or USB connection. It is an integer in `0`...`65535` range including borders for Ethernet connections and an integer in `0`...`31` range including borders for other types. In case of not `ethernet` type of connection `port` value must be unique.
+    + `macAddress` (optional, string) ... Mac address of the connection.
+    + `ipv6Address` (optional, string) ... Ipv6Address of the connection.
+    + `manufacturer` (optional, string)
+        Manufacturer of connection.
+        + Members
+            + `Lantronix`
+            + `PDK`
     
     + Headers
     
@@ -3520,6 +3673,7 @@ The functionality is available for [Sysop, Integrator] roles.
         Connection type.
         + Members
             + `wirelessCoordinator`
+            + `wirelessGateway`
             + `ethernet`
             + `usb`
     + `ipaddress` (optional, string) ... Address of connection. Represents IP address in case of Ethernet connection.
