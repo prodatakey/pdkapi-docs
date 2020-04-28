@@ -5774,7 +5774,7 @@ If User accesses the Panel and he is not bound to any Partition yet, his actions
 
 # Group RSOP
 
-#### retrieve rsop data for persons
+#### Retrieve rsop data for persons
 
 ### Retrieve RSOP data [GET /rsop/persons?ids={ids}&date={date}]
 
@@ -5887,6 +5887,57 @@ If User accesses the Panel and he is not bound to any Partition yet, his actions
                         }
                     ]
             }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+# Group Diagnostics
+
+#### Retrieve wireless network diagnostic information
+
+### Retrieve wireless information [GET /diagnostics/wireless]
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/diagnostics/wireless>; rel="next", <https://panel-id.pdk.io/api/diagnostics/wireless>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            [
+                {
+                    "id": 390,
+                    "name": "ZB",
+                    "type": "wirelessCoordinator",
+                    "nodes": [
+                        {
+                            "name": "door port 1",
+                            "shortAddress": "3ceb",
+                            "address": "0013a200403e07c6",
+                            "communicationLost": true,
+                            "averageRtt": 4737,
+                            "averageRetries": 0,
+                            "failureRate": 1
+                        }
+                    ],
+                    "links": [
+                        {
+                            "from": "0000",
+                            "to": "0013a200403e08c6",
+                            "lqi": 255
+                        }
+                    ]
+                }
+            ]
 
 + Response 400 (application/json)
 + Response 401 (application/json)
