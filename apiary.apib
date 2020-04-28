@@ -134,7 +134,7 @@ Roles permissions have hierarchical structure. List of possible roles given belo
 
 The functionality is available for all roles. For [Reporter, Manager] roles search results will be filtered by user's partition.
 
-### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort_order}&q={query_string}]
+### Global Search [GET /search?page={page}&per_page={per_page}&sort={sort}&q={q}]
 + Parameters
 
     + q (optional, string) ... Url-encoded query string. Search will be done in the following entities: Person (`firstName`, `lastName` and `cardNumber`), Group (`name`), Floor Group (`name`). Minimum length is `1` character, maximum length is `70` characters.
@@ -199,7 +199,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
 
 ## Persons Collection [/persons?page={page}&per_page={per_page}&sort={sort_order}]
         
-### Retrieve all Persons [GET /persons?page={page}&per_page={per_page}&sort={sort_order}]
+### Retrieve all Persons [GET /persons?page={page}&per_page={per_page}&sort={sort}&include={include}]
 + Parameters
 
     + page (optional, number) 
@@ -266,11 +266,10 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
 + Response 401 (application/json)
 
 ### Delete multiple Persons [POST /persons/bulk-delete]
-+ Parameters
-
-    + persons (required, array) ... Array consisting of Ids of the persons to be deleted.
 
 + Request (application/json)
+
+    + persons (required, array) ... Array consisting of Ids of the persons to be deleted.
 
     + Headers
     
@@ -510,7 +509,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
             }
 
 
-### Retrieve all Cards [GET /persons/{person_id}/cards?page={page}&per_page={per_page}&sort={sort_order}]
+### Retrieve all Cards [GET /persons/{person_id}/cards?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -622,10 +621,12 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-## Person Credentials [/persons/{person_id}/mobile_credentials]
+## Person Credentials [/persons/{person_id}/credentials]
 
 The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  Retrieving Credentials is also available for the [Reporter] role.
 [Manager, Reporter] have an access to Credentials that bound to Persons from their own partition only.
+
+### Retrieve all Credentials [GET /persons/{person_id}/credentials?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -643,8 +644,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
         + Members
             + `asc`
             + `desc`
-
-### Retrieve all Credentials [GET /persons/{person_id}/credentials?page={page}&per_page={per_page}&sort={sort}]
 
 + Request (application/json)
 
@@ -695,7 +694,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 200 (application/json)
 
     + Attributes
-        + id (required, number) - Numeric `id` of the created Mobile Credentials entry.
+        + id (required, number) - Numeric `id` of the created Credentials entry.
     
 + Response 400 (application/json)
 + Response 401 (application/json)
@@ -709,11 +708,12 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
     
 + Request (application/json)
 
-+ Response 200 (application/json)
+  + Body
+        {
+            "types": "token"
+        }
 
-    + Attributes
-        + id (required, number) - Numeric `id` of the created Mobile Credentials entry.
-    
++ Response 204 (application/json)
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
@@ -727,10 +727,12 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
     
 + Request (application/json)
 
+    + + inviteToken (required, string) - Invite token.
+
 + Response 200 (application/json)
 
     + Attributes
-        + id (required, number) - Numeric `id` of the created Mobile Credentials entry.
+        + id (required, number) - Numeric `id` of the created Credentials entry.
     
 + Response 400 (application/json)
 + Response 401 (application/json)
@@ -2071,7 +2073,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
             ]
 + Response 401 (application/json)
 
-### Assign several Persons for a Group [PUT /groups/{group_id}/persons]
+### Assign several Persons for a Group [PUT /groups/{group_id}/{persons}]
 
 + Parameters
 
@@ -3748,6 +3750,31 @@ Removal of a Connection used by any Devices is forbidden.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
+## Connections Config [connections/{connection_id}/configure]
+
+### Set a Connection Сonfig [POST /connections/{connection_id}/configure]
++ Parameters
+
+    + connection_id (required, number) ... Numeric `id` of the Connection to perform the action on.
+    
++ Request (application/json)
+
+    + `dhcp` (required, boolean)
+    + `address` (optional, string)
+    + `netmask` (optional, string)
+    + `gateway` (optional, string)
+    + `dns` (optional, string)
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
 # Group Config
 
 #### A config entity represents system configuration entries.
@@ -3806,6 +3833,8 @@ The functionality is available for [Sysop, Integrator] roles.
             + `name`
             + `values`
     + `ecards` (optional, array[number]) ... An array of 10 numbers that represent Ecards
+    + `locale` (optional, string) ... Locale
+    + `timezone` (optional, string) ... Timezone
         
     + Body
     
@@ -3939,6 +3968,155 @@ Removal of standard Card Formats is forbidden.
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
+
+## Intercoms [/config/intercoms]
+
++ Model
+
+    + `id` (required, string) Id of intercom
+    + `name` (required, string) Name of intercom
+    + `manufacturer` (required, enum[string])
+        + Members
+            + `comelit`
+    + `integrationData` (required, object)
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+        
+    + Body
+    
+            {
+                "id": 90,
+                "name": "nameConnection",
+                "manufacturer": "comelit"
+                "integrationData": {}
+            }
+
+### Retrieve Intercoms [GET /config/intercoms]
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number)
+        Number of days to retain access log entries.
+    + `name` (required, object)
+    + `integrationData` (required, object)
+    + `manufacturer` (required, string)
+        + Members
+            + `comelit`
+        
+    + Body
+        [
+            {
+                "id": "12312312312312313235326637631636",
+                "name": "123",
+                "manufacturer": "comelit",
+                "integrationData": {
+                    ...
+                }
+            }
+        ]
+
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+
+### Retrieve Intercom [GET /config/intercoms/{intercom_id}]
+
++ Parameters
+
+    + intercom_id (required, number) ... Numeric `id` of intercom
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number)
+        Number of days to retain access log entries.
+    + `name` (required, object)
+    + `integrationData` (required, object)
+    + `manufacturer` (required, string)
+        + Members
+            + `comelit`
+        
+    + Body
+    
+            {
+                "id": "12312312312312313235326637631636",
+                "name": "123",
+                "manufacturer": "comelit",
+                "integrationData": {
+                    ...
+                }
+            }
+
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+### Create a Intercom [POST]
+
++ Request (application/json)
+
+    [Intercoms][]
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Number `id` of created Intercom.
+    
+    + Body
+    
+            {
+                "id": 1
+            }
+            
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+
+### Update Intercoms [PUT /config/intercom/{intercom_id}]
+
++ Parameters
+
+    + intercom_id (required, number) ... Numeric `id` of intercom
+    
++ Request (application/json)
+
+    [Intercoms][]
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+### Delete Intercoms [DELETE /config/intercoms/{intercom_id}]
+
++ Parameters
+
+    + intercom_id (required, number) ... Numeric `id` of intercom
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 204 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
 
 # Group Stream Oriented API
 
@@ -5574,3 +5752,124 @@ If User accesses the Panel and he is not bound to any Partition yet, his actions
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
+
+# Group RSOP
+
+#### retrieve rsop data for persons
+
+### Retrieve RSOP data [GET /rsop/persons?ids={ids}&date={date}]
+
++ Parameters
+
+    + ids (optional, string) List of person ids.
+    + date (optional, string) Data
+
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `date` (required, string) ... Report id.
+    + `persons` (required, array[object]) ... Report name.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/rsop/persons>; rel="next", <https://panel-id.pdk.io/api/rsop/persons>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            {
+                    "date": "2020-04-28T08:56:42+03:00",
+                    "persons": [
+                        {
+                            "id": 13243,
+                            "doors": [
+                                {
+                                "id": 872,
+                                "name": "A Real Door (port 1)",
+                                "readerId": "7f9a9814-eb34-7d6b-8932-d126f1y55b49",
+                                "allowed": true,
+                                "activeRuleId": 2278
+                                },
+                                {
+                                    "id": 922,
+                                    "name": "door port 1",
+                                    "allowed": true,
+                                    "activeRuleId": 2426
+                                }
+                            ],
+                            "floorGroups": [],
+                            "rules": [
+                                {
+                                    "type": "event",
+                                    "id": 2425,
+                                    "startTime": "00:00",
+                                    "stopTime": "24:00",
+                                    "recurring": [
+                                        "Sun",
+                                        "Mon",
+                                        "Tue",
+                                        "Wed",
+                                        "Thu",
+                                        "Fri",
+                                        "Sat"
+                                    ],
+                                    "name": "96986",
+                                    "triggerType": "whenAllowed",
+                                    "action": "doNotDisturb",
+                                    "target": "source",
+                                    "active": true
+                                },
+                                {
+                                    "type": "door",
+                                    "id": 2426,
+                                    "startTime": "00:00",
+                                    "stopTime": "24:00",
+                                    "recurring": [
+                                        "Sun",
+                                        "Mon",
+                                        "Tue",
+                                        "Wed",
+                                        "Thu",
+                                        "Fri",
+                                        "Sat"
+                                    ],
+                                    "allow": true,
+                                    "authenticationPolicy": "cardOnly",
+                                    "active": true
+                                },
+                                {
+                                    "type": "door",
+                                    "id": 2278,
+                                    "startTime": "00:00",
+                                    "stopTime": "24:00",
+                                    "recurring": [
+                                        "Sun",
+                                        "Mon",
+                                        "Tue",
+                                        "Wed",
+                                        "Thu",
+                                        "Fri",
+                                        "Sat"
+                                    ],
+                                    "allow": true,
+                                    "authenticationPolicy": "cardOnly",
+                                    "active": true
+                                }
+                            ],
+                            "groups": [],
+                            "intercoms": {
+                                "comelit": []
+                            }
+                        }
+                    ]
+            }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
