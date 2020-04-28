@@ -287,9 +287,9 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     
     + Body
     
-        {
-            "deleted": [1, 3]
-        }
+            {
+                "deleted": [1, 3]
+            }
             
 + Response 400 (application/json)
 + Response 401 (application/json)
@@ -704,14 +704,21 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 ### Update Credentials [PUT /persons/{person_id}/credentials/{credential_id}]
 
 + Parameters
+
     + person_id (required, number) - Numeric `id` of the Person to perform the action on.
+    + credential_id (required, number) ... Numeric `id` of the Credentials entity.
     
 + Request (application/json)
+    
+    + Headers
+    
+            Authorization: Bearer {token}
 
-  + Body
-        {
-            "types": "token"
-        }
+    + Body
+
+            {
+                "types": "token"
+            }
 
 + Response 204 (application/json)
 + Response 400 (application/json)
@@ -719,21 +726,28 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Accept Credentials [PUT /persons/{person_id}/credentials/{credential_id}/accept]
+### Accept Credentials [POST /persons/{person_id}/credentials/{credential_id}/accept]
 
 + Parameters
-    + person_id (required, number) - Numeric `id` of the Person to perform the action on.
-    + credential_id (required, number) ... Numeric `id` of the Mobile Credentials entity that should be deleted.
+
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    + credential_id (required, number) ... Numeric `id` of the Credentials entity that should be accepted.
     
 + Request (application/json)
 
-    + + inviteToken (required, string) - Invite token.
+        + `inviteToken` (required, string) ... Invite token.
+        
+   + Headers
+    
+            Authorization: Bearer {token}
+            
+    + Body
+    
+            {
+                "inviteToken": "TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24="
+            }
 
 + Response 200 (application/json)
-
-    + Attributes
-        + id (required, number) - Numeric `id` of the created Credentials entry.
-    
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
@@ -757,7 +771,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-## Person Rules Collection [/persons/{person_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
+## Person Rules Collection [/persons/{person_id}/rules]
 
 #### List of access rules, event rules and elevator rules that apply to this Person.
 
@@ -765,7 +779,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 [Manager, Reporter] have an access to Rules that bound to Persons from their own partition.
 [Manager] can change Rule's Doors list. Only Doors from [Manager]'s partition could be added. Any Door present in the Rule could be removed.
 
-### Retrieve Rules Collection for a Person [GET]
+### Retrieve Rules Collection for a Person [GET /persons/{person_id}/rules?page={page}&per_page={per_page}&sort={sort}]
+
 + Parameters
 
     + person_id (required, number)
@@ -955,7 +970,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 + Response 401 (application/json)
 + Response 404 (application/json)
 
-## Person Rules  [/persons/{person_id}/rules]
+## Person Rules  [/persons/{person_id}/rules/{rule_id}]
 
 The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving a Rule is also available for the [Reporter] role.
 
@@ -1292,7 +1307,6 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 404 (application/json)
 
 ### Update a Rule for a Person [PUT /persons/{person_id}/rules/{rule_id}]
-
 + Parameters
 
     + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
@@ -1331,7 +1345,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [Reporter] role has access for retrieving operations only.
 [Manager] can remove Person from any Group he is partiticipating but he is able to add the Person to Groups from the partition he is bound to only.
 
-### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort_order}]
+### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -1405,9 +1419,11 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 
 + Parameters
 
-    + groups (required, array) ... Array consisting of Ids of the groups to be assigned to a Person.
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
 
 + Request (application/json)
+
+    + groups (required, array) ... Array consisting of Ids of the groups to be assigned to a Person.
 
     + Headers
     
@@ -1445,9 +1461,9 @@ All operations consider user's partition. Created Group will be bound to user's 
 For [Reporter, Manager] roles Groups will be filtered by their partition.
 [Admin, Integrator, Sysop] users can change Group's partition.
 
-## Groups Collection [/groups?page={page}&per_page={per_page}&sort={sort_order}]
+## Groups Collection [/groups]
 
-### Retrieve All Groups [GET]
+### Retrieve All Groups [GET /groups?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -1590,7 +1606,8 @@ Group removal leads to all Group's Rules removal.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-## Group Rules Collection [/groups/{group_id}/rules?page={page}&per_page={per_page}&sort={sort_order}]
+## Group Rules Collection [/groups/{group_id}/rules]
+
 
 #### List of access rules, event rules and elevator rules that apply to this Group.
 
@@ -1598,7 +1615,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 [Manager, Reporter] have an access to Rules that bound to Persons from the partition they are bound to.
 [Manager] can change Rule's Doors list. Only Doors from [Manager]'s partition could be added. Any Door present in the Rule could be removed.
 
-### Retrieve Rules Collection for a Group [GET]
+### Retrieve Rules Collection for a Group [GET /groups/{group_id}/rules?page={page}&per_page={per_page}&sort={sort}]
 + Parameters
 
     + group_id (required, number)
@@ -1782,7 +1799,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 + Response 401 (application/json)
 + Response 404 (application/json)
 
-## Group Rules [/groups/{group_id}/rules]
+## Group Rules [/groups/{group_id}/rules/{rule_id}]
 
 ### Retrieve a Rule for a Group  [GET /groups/{group_id}/rules/{rule_id}]
 
@@ -2026,7 +2043,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
 [Manager] can remove any Person from Group that he has access to but only Person from the partition that user is bound to cound be added.
 
-### Retrieve all Persons [GET /groups/{group_id}/persons?page={page}&per_page={per_page}&sort={sort_order}]
+### Retrieve all Persons [GET /groups/{group_id}/persons?page={page}&per_page={per_page}&sort={sort}]
 + Parameters
 
     + group_id (required, number) ... Numeric `id` of the Group to perform the action on.
@@ -2100,11 +2117,11 @@ The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter]
 
 #### List of event rules that apply to system-wide events, which are events not generated by a single person or group.
 
-## System Events Rules Collection [/system_events?page={page}&per_page={per_page}&sort={sort_order}]
+## System Events Rules Collection [/system_events]
 
 The functionality is available for [Sysop, Integrator, Admin] roles.
 
-### Retrieve System Events Collection [GET]
+### Retrieve System Events Collection [GET /system_events?page={page}&per_page={per_page}&sort={sort}]
 + Parameters
 
     + page (optional, number)
@@ -2231,7 +2248,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 
-## System Events Rules [/system_events]
+## System Events Rules [/system_events/{rule_id}]
 
 + Model
 
@@ -2491,9 +2508,9 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 #### List of access rules that represent the times that doors should be propped open.
 
 The functionality is available for [Sysop, Integrator, Admin] roles.
-## Auto Open Rules Collection [/auto_open?page={page}&per_page={per_page}&sort={sort_order}]
+## Auto Open Rules Collection [/auto_open]
 
-### Retrieve Auto Open Rules Collection [GET]
+### Retrieve Auto Open Rules Collection [GET /auto_open?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -2557,7 +2574,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 + Response 400 (application/json)
 + Response 401 (application/json)
 
-## Auto Open Rules [/auto_open]
+## Auto Open Rules [/auto_open/{rule_id}]
 
 + Model
 
@@ -2691,7 +2708,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 The functionality is available for [Sysop, Integrator, Admin] roles. Retrieveing Floor Groups list is also available for [Manager] role.
 All operations consider user's partition. Created Floor Group will be bound to user's partition by default.
 [Manager] can retrieve only list of Floor Groups that are bound to the partition that he is bound to.
-## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort_order}]
+## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort}]
 
 ### Retrieve all Floor Groups [GET]
 
@@ -2902,7 +2919,7 @@ The functionality is available for [Sysop, Integrator] roles. Retrieving Devices
 All operations consider user's partition. [Manager] can retrieve list of Devices that are bound to the same partition as he is bound to.
 Created Devices will be bound to user's partition by default.
 
-### Retrieve Devices Collection [GET /devices?page={page}&per_page={per_page}&sort={sort_order}]
+### Retrieve Devices Collection [GET /devices?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -3547,7 +3564,7 @@ Control reader entity on the specified device.
 
 The functionality is available for [Sysop, Integrator] roles.
 
-### Retrieve Connections Collection [GET /connections?page={page}&per_page={per_page}&sort={sort_order}]
+### Retrieve Connections Collection [GET /connections?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -3733,7 +3750,8 @@ The functionality is available for [Sysop, Integrator] roles.
 + Response 404 (application/json)
 
 ### Delete a Connection [DELETE /connections/{connection_id}]
-Removal of a Connection used by any Devices is forbidden.
+    Removal of a Connection used by any Devices is forbidden.
+    
 + Parameters
 
     + connection_id (required, number) ... Numeric `id` of the Connection to perform the action on.
@@ -3744,13 +3762,13 @@ Removal of a Connection used by any Devices is forbidden.
     
             Authorization: Bearer {token}
 
-+ Response 204
++ Response 204 (application/json)
 + Response 400 (application/json)
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-## Connections Config [connections/{connection_id}/configure]
+## Connections Config [/connections/{connection_id}/configure]
 
 ### Set a Connection Сonfig [POST /connections/{connection_id}/configure]
 + Parameters
@@ -4012,16 +4030,17 @@ Removal of standard Card Formats is forbidden.
             + `comelit`
         
     + Body
-        [
-            {
-                "id": "12312312312312313235326637631636",
-                "name": "123",
-                "manufacturer": "comelit",
-                "integrationData": {
-                    ...
+    
+            [
+                {
+                    "id": "12312312312312313235326637631636",
+                    "name": "123",
+                    "manufacturer": "comelit",
+                    "integrationData": {
+                        ...
+                    }
                 }
-            }
-        ]
+            ]
 
 + Response 401 (application/json)
 + Response 403 (application/json)
@@ -4730,7 +4749,7 @@ The functionality is available for all roles.
 Partitions logic is applied to all operations.
 [Reporter, Manager] can remove any entity from Report's details that is present there at the moment but they can fill Report's details only with entities that they have access to according Role and Partition restrictions.
 
-### Retrieve Reports Collection [GET /reports?page={page}&per_page={per_page}&sort={sort_order}]
+### Retrieve Reports Collection [GET /reports?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -5202,7 +5221,7 @@ The functionality is available for all roles.
 Details for any Role should contain only entities that User has access to.
 Details for Reporters and Managers can contain only entities that they have access to according Role and Partition restrictions.
 
-### Get audit log entries list filtered by report [GET /reports/generate?page={page}&per_page={per_page}&sort={sort_order}&period={period}&start_date={startDate}&stop_date={stopDate}&event={event}&result={result}&details={details}]
+### Get audit log entries list filtered by report [GET /reports/generate?page={page}&per_page={per_page}&sort={sort}&period={period}&start_date={startDate}&stop_date={stopDate}&event={event}&result={result}&details={details}]
 
 + Parameters
 
@@ -5333,250 +5352,250 @@ Details for Reporters and Managers can contain only entities that they have acce
     
     + Body
     
-[
-  {
-    "id": 27594,
-    "event": {
-      "id": "door.input.cardread",
-      "name": "Credentials Input"
-    },
-    "result": {
-      "id": "door.request.found",
-      "name": "Known Person"
-    },
-    "info": "Person \"Tauni Aaaa\" has performed credentials input on the device \"Stealth Aperio\". Person used card for requesting access.",
-    "occurred": "2018-06-11 20:29:28",
-    "details": {
-      "doorId": 74,
-      "doorName": {
-        "name": "Door Name",
-        "value": "Stealth Aperio"
-      },
-      "cardNumber": {
-        "name": "Card Number",
-        "value": "10250"
-      },
-      "personId": 218,
-      "personName": {
-        "name": "Person Name",
-        "value": "Tauni Aaaa"
-      }
-    }
-  },
-  {
-    "id": 27595,
-    "event": {
-      "id": "door.input.cardread",
-      "name": "Credentials Input"
-    },
-    "result": {
-      "id": "door.request.allowed",
-      "name": "Access Allowed"
-    },
-    "info": "Person \"Tauni Aaaa\" has requested access to the device \"Stealth Aperio\". Access granted. Person used card for requesting access.",
-    "occurred": "2018-06-11 20:29:28",
-    "details": {
-      "doorId": 74,
-      "doorName": {
-        "name": "Door Name",
-        "value": "Stealth Aperio"
-      },
-      "cardNumber": {
-        "name": "Card Number",
-        "value": "10250"
-      },
-      "personId": 218,
-      "personName": {
-        "name": "Person Name",
-        "value": "Tauni Aaaa"
-      }
-    }
-  },
-  {
-    "id": 27588,
-    "event": {
-      "id": "door.input.cardread",
-      "name": "Credentials Input"
-    },
-    "result": {
-      "id": "door.request.found",
-      "name": "Known Person"
-    },
-    "info": "Person \"Tauni Aaaa\" has performed credentials input on the device \"Stealth Aperio\". Person used card for requesting access.",
-    "occurred": "2018-06-11 20:29:12",
-    "details": {
-      "doorId": 74,
-      "doorName": {
-        "name": "Door Name",
-        "value": "Stealth Aperio"
-      },
-      "cardNumber": {
-        "name": "Card Number",
-        "value": "10250"
-      },
-      "personId": 218,
-      "personName": {
-        "name": "Person Name",
-        "value": "Tauni Aaaa"
-      }
-    }
-  },
-  {
-    "id": 27589,
-    "event": {
-      "id": "door.input.cardread",
-      "name": "Credentials Input"
-    },
-    "result": {
-      "id": "door.request.allowed",
-      "name": "Access Allowed"
-    },
-    "info": "Person \"Tauni Aaaa\" has requested access to the device \"Stealth Aperio\". Access granted. Person used card for requesting access.",
-    "occurred": "2018-06-11 20:29:12",
-    "details": {
-      "doorId": 74,
-      "doorName": {
-        "name": "Door Name",
-        "value": "Stealth Aperio"
-      },
-      "cardNumber": {
-        "name": "Card Number",
-        "value": "10250"
-      },
-      "personId": 218,
-      "personName": {
-        "name": "Person Name",
-        "value": "Tauni Aaaa"
-      }
-    }
-  },
-  {
-    "id": 27111,
-    "event": {
-      "id": "door.input.cardread",
-      "name": "Credentials Input"
-    },
-    "result": {
-      "id": "door.request.found",
-      "name": "Known Person"
-    },
-    "info": "Person \"Cj Test\" has performed credentials input on the device \"Single IO - Middle\". Person used card for requesting access.",
-    "occurred": "2018-06-04 12:21:17",
-    "details": {
-      "doorId": 11,
-      "doorName": {
-        "name": "Door Name",
-        "value": "Single IO - Middle"
-      },
-      "cardNumber": {
-        "name": "Card Number",
-        "value": "39527"
-      },
-      "personId": 477,
-      "personName": {
-        "name": "Person Name",
-        "value": "Cj Test"
-      }
-    }
-  },
-  {
-    "id": 27112,
-    "event": {
-      "id": "door.input.cardread",
-      "name": "Credentials Input"
-    },
-    "result": {
-      "id": "door.request.denied",
-      "name": "Access Denied"
-    },
-    "info": "Person \"Cj Test\" has requested access to the device \"Single IO - Middle\". Access denied. Person used card for requesting access.",
-    "occurred": "2018-06-04 12:21:17",
-    "details": {
-      "doorId": 11,
-      "doorName": {
-        "name": "Door Name",
-        "value": "Single IO - Middle"
-      },
-      "cardNumber": {
-        "name": "Card Number",
-        "value": "39527"
-      },
-      "groupId": 123,
-      "groupName": {
-        "name": "Group Name",
-        "value": "ABC"
-      },
-      "personId": 477,
-      "personName": {
-        "name": "Person Name",
-        "value": "Cj Test"
-      }
-    }
-  },
-  {
-    "id": 27109,
-    "event": {
-      "id": "door.input.cardread",
-      "name": "Credentials Input"
-    },
-    "result": {
-      "id": "door.request.found",
-      "name": "Known Person"
-    },
-    "info": "Person \"Cj Test\" has performed credentials input on the device \"Single IO - Middle\". Person used card for requesting access.",
-    "occurred": "2018-06-04 12:21:00",
-    "details": {
-      "doorId": 11,
-      "doorName": {
-        "name": "Door Name",
-        "value": "Single IO - Middle"
-      },
-      "cardNumber": {
-        "name": "Card Number",
-        "value": "39527"
-      },
-      "personId": 477,
-      "personName": {
-        "name": "Person Name",
-        "value": "Cj Test"
-      }
-    }
-  },
-  {
-    "id": 27110,
-    "event": {
-      "id": "door.input.cardread",
-      "name": "Credentials Input"
-    },
-    "result": {
-      "id": "door.request.denied",
-      "name": "Access Denied"
-    },
-    "info": "Person \"Cj Test\" has requested access to the device \"Single IO - Middle\". Access denied. Person used card for requesting access.",
-    "occurred": "2018-06-04 12:21:00",
-    "details": {
-      "doorId": 11,
-      "doorName": {
-        "name": "Door Name",
-        "value": "Single IO - Middle"
-      },
-      "cardNumber": {
-        "name": "Card Number",
-        "value": "39527"
-      },
-      "groupId": 123,
-      "groupName": {
-        "name": "Group Name",
-        "value": "ABC"
-      },
-      "personId": 477,
-      "personName": {
-        "name": "Person Name",
-        "value": "Cj Test"
-      }
-    }
-  }
-]
+            [
+              {
+                "id": 27594,
+                "event": {
+                  "id": "door.input.cardread",
+                  "name": "Credentials Input"
+                },
+                "result": {
+                  "id": "door.request.found",
+                  "name": "Known Person"
+                },
+                "info": "Person \"Tauni Aaaa\" has performed credentials input on the device \"Stealth Aperio\". Person used card for requesting access.",
+                "occurred": "2018-06-11 20:29:28",
+                "details": {
+                  "doorId": 74,
+                  "doorName": {
+                    "name": "Door Name",
+                    "value": "Stealth Aperio"
+                  },
+                  "cardNumber": {
+                    "name": "Card Number",
+                    "value": "10250"
+                  },
+                  "personId": 218,
+                  "personName": {
+                    "name": "Person Name",
+                    "value": "Tauni Aaaa"
+                  }
+                }
+              },
+              {
+                "id": 27595,
+                "event": {
+                  "id": "door.input.cardread",
+                  "name": "Credentials Input"
+                },
+                "result": {
+                  "id": "door.request.allowed",
+                  "name": "Access Allowed"
+                },
+                "info": "Person \"Tauni Aaaa\" has requested access to the device \"Stealth Aperio\". Access granted. Person used card for requesting access.",
+                "occurred": "2018-06-11 20:29:28",
+                "details": {
+                  "doorId": 74,
+                  "doorName": {
+                    "name": "Door Name",
+                    "value": "Stealth Aperio"
+                  },
+                  "cardNumber": {
+                    "name": "Card Number",
+                    "value": "10250"
+                  },
+                  "personId": 218,
+                  "personName": {
+                    "name": "Person Name",
+                    "value": "Tauni Aaaa"
+                  }
+                }
+              },
+              {
+                "id": 27588,
+                "event": {
+                  "id": "door.input.cardread",
+                  "name": "Credentials Input"
+                },
+                "result": {
+                  "id": "door.request.found",
+                  "name": "Known Person"
+                },
+                "info": "Person \"Tauni Aaaa\" has performed credentials input on the device \"Stealth Aperio\". Person used card for requesting access.",
+                "occurred": "2018-06-11 20:29:12",
+                "details": {
+                  "doorId": 74,
+                  "doorName": {
+                    "name": "Door Name",
+                    "value": "Stealth Aperio"
+                  },
+                  "cardNumber": {
+                    "name": "Card Number",
+                    "value": "10250"
+                  },
+                  "personId": 218,
+                  "personName": {
+                    "name": "Person Name",
+                    "value": "Tauni Aaaa"
+                  }
+                }
+              },
+              {
+                "id": 27589,
+                "event": {
+                  "id": "door.input.cardread",
+                  "name": "Credentials Input"
+                },
+                "result": {
+                  "id": "door.request.allowed",
+                  "name": "Access Allowed"
+                },
+                "info": "Person \"Tauni Aaaa\" has requested access to the device \"Stealth Aperio\". Access granted. Person used card for requesting access.",
+                "occurred": "2018-06-11 20:29:12",
+                "details": {
+                  "doorId": 74,
+                  "doorName": {
+                    "name": "Door Name",
+                    "value": "Stealth Aperio"
+                  },
+                  "cardNumber": {
+                    "name": "Card Number",
+                    "value": "10250"
+                  },
+                  "personId": 218,
+                  "personName": {
+                    "name": "Person Name",
+                    "value": "Tauni Aaaa"
+                  }
+                }
+              },
+              {
+                "id": 27111,
+                "event": {
+                  "id": "door.input.cardread",
+                  "name": "Credentials Input"
+                },
+                "result": {
+                  "id": "door.request.found",
+                  "name": "Known Person"
+                },
+                "info": "Person \"Cj Test\" has performed credentials input on the device \"Single IO - Middle\". Person used card for requesting access.",
+                "occurred": "2018-06-04 12:21:17",
+                "details": {
+                  "doorId": 11,
+                  "doorName": {
+                    "name": "Door Name",
+                    "value": "Single IO - Middle"
+                  },
+                  "cardNumber": {
+                    "name": "Card Number",
+                    "value": "39527"
+                  },
+                  "personId": 477,
+                  "personName": {
+                    "name": "Person Name",
+                    "value": "Cj Test"
+                  }
+                }
+              },
+              {
+                "id": 27112,
+                "event": {
+                  "id": "door.input.cardread",
+                  "name": "Credentials Input"
+                },
+                "result": {
+                  "id": "door.request.denied",
+                  "name": "Access Denied"
+                },
+                "info": "Person \"Cj Test\" has requested access to the device \"Single IO - Middle\". Access denied. Person used card for requesting access.",
+                "occurred": "2018-06-04 12:21:17",
+                "details": {
+                  "doorId": 11,
+                  "doorName": {
+                    "name": "Door Name",
+                    "value": "Single IO - Middle"
+                  },
+                  "cardNumber": {
+                    "name": "Card Number",
+                    "value": "39527"
+                  },
+                  "groupId": 123,
+                  "groupName": {
+                    "name": "Group Name",
+                    "value": "ABC"
+                  },
+                  "personId": 477,
+                  "personName": {
+                    "name": "Person Name",
+                    "value": "Cj Test"
+                  }
+                }
+              },
+              {
+                "id": 27109,
+                "event": {
+                  "id": "door.input.cardread",
+                  "name": "Credentials Input"
+                },
+                "result": {
+                  "id": "door.request.found",
+                  "name": "Known Person"
+                },
+                "info": "Person \"Cj Test\" has performed credentials input on the device \"Single IO - Middle\". Person used card for requesting access.",
+                "occurred": "2018-06-04 12:21:00",
+                "details": {
+                  "doorId": 11,
+                  "doorName": {
+                    "name": "Door Name",
+                    "value": "Single IO - Middle"
+                  },
+                  "cardNumber": {
+                    "name": "Card Number",
+                    "value": "39527"
+                  },
+                  "personId": 477,
+                  "personName": {
+                    "name": "Person Name",
+                    "value": "Cj Test"
+                  }
+                }
+              },
+              {
+                "id": 27110,
+                "event": {
+                  "id": "door.input.cardread",
+                  "name": "Credentials Input"
+                },
+                "result": {
+                  "id": "door.request.denied",
+                  "name": "Access Denied"
+                },
+                "info": "Person \"Cj Test\" has requested access to the device \"Single IO - Middle\". Access denied. Person used card for requesting access.",
+                "occurred": "2018-06-04 12:21:00",
+                "details": {
+                  "doorId": 11,
+                  "doorName": {
+                    "name": "Door Name",
+                    "value": "Single IO - Middle"
+                  },
+                  "cardNumber": {
+                    "name": "Card Number",
+                    "value": "39527"
+                  },
+                  "groupId": 123,
+                  "groupName": {
+                    "name": "Group Name",
+                    "value": "ABC"
+                  },
+                  "personId": 477,
+                  "personName": {
+                    "name": "Person Name",
+                    "value": "Cj Test"
+                  }
+                }
+              }
+            ]
 
 + Response 400 (application/json)
 + Response 401 (application/json)
@@ -5595,7 +5614,7 @@ If Device is bound to one Partition only and someone removes this Device from th
 
 If User accesses the Panel and he is not bound to any Partition yet, his actions will be perceived as he is in the Default partition untill he will be explicitly bound to some other partition.
 
-### Retrieve Partitions Collection [GET /partitions?page={page}&per_page={per_page}&sort={sort_order}]
+### Retrieve Partitions Collection [GET /partitions?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -5761,9 +5780,8 @@ If User accesses the Panel and he is not bound to any Partition yet, his actions
 
 + Parameters
 
-    + ids (optional, string) List of person ids.
-    + date (optional, string) Data
-
+    + ids (optional, string) ... List of person ids
+    + date (optional, string) ... Data
 
 + Request
 
