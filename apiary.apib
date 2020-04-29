@@ -464,6 +464,120 @@ Person removal leads to all Person's Rules removal.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
+### Activate Intercom link [POST /persons/{person_id}/activateIntercomLink]
+
++ Parameters
+
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    
++ Request (application/json)
+
+    + `userId` (required, number) ... If of a user.
+    + `deviceId` (required, string) ...  deviceId.
+    + `apartmentId` (required, number) ... Id of apartment.
+
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+
+    + Body
+    
+            {
+                "userId": 22342,
+                "deviceId": "1478524567894512457854145789652",
+                "apartmentId": "AP124578"
+            }
+            
+            
++ Response 200 (application/json)
+
+    + `activationCode` (required, string) ... Activation code
+
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/cards?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/cards?page=2&per_page=10>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            {
+                "activationCode": "12321"
+            }
+            
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 422 (application/json)
+
+### Deactivate Intercom link [POST /persons/{person_id}/deactivateIntercomLink]
+
++ Parameters
+
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    
++ Request (application/json)
+
+    + `userId` (required, number) ... If of a user.
+    + `deviceId` (required, string) ...  deviceId.
+    + `apartmentId` (required, number) ... Id of apartment.
+
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+
+    + Body
+    
+            {
+                "userId": 22342,
+                "deviceId": "1478524567894512457854145789652",
+                "apartmentId": "AP124578"
+            }
+            
+            
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 422 (application/json)
+
+
+### Clear Intercom link [POST /persons/{person_id}/clearIntercomLink]
+
++ Parameters
+
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    
++ Request (application/json)
+
+    + `userId` (required, number) ... If of a user.
+    + `deviceId` (required, string) ...  deviceId.
+    + `apartmentId` (required, number) ... Id of apartment.
+
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+
+    + Body
+    
+            {
+                "userId": 22342,
+                "deviceId": "1478524567894512457854145789652",
+                "apartmentId": "AP124578"
+            }
+            
+            
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
++ Response 422 (application/json)
+
 ## Person Photo [/persons/{person_id}/photo]
 
 ### Update person photo [PUT]
