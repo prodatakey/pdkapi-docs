@@ -5715,6 +5715,727 @@ Details for Reporters and Managers can contain only entities that they have acce
 + Response 401 (application/json)
 + Response 403 (application/json)
 
+# Group People Reports
+
+#### A report entity represents a filter for people entities.
+
+The functionality is available for all roles.
+Partitions logic is applied to all operations.
+[Reporter, Manager] can remove any entity from Report's details that is present there at the moment but they can fill Report's details only with entities that they have access to according Role and Partition restrictions.
+
+### Retrieve Reports Collection [GET /reports/people?page={page}&per_page={per_page}&sort={sort}]
+
++ Parameters
+
+    + page (optional, number)
+        Number of page to return, started from `0`.
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`
+    + sort (optional, enum[string])
+        Sorting order. Report are sorted by `name` values.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Report id.
+    + `name` (required, string) ... Report name.
+    + `filters` (optional, array[object])
+        List of filters for people enitites.
+        + Members
+            + `type` (required, enum[string])
+                Filter type. Specifies field to apply filter for.
+                + Members
+                    + `firstName`
+                    + `lastName`
+                    + `email`
+                    + `groups`
+                    + `enabled`
+                    + `credentials`
+                    + `partition`
+            + `operator` (optional, enum[string])
+                Filter operator. Field is required for the following filter types: `firstName`, `lastName` and `email`.
+                + Members
+                    + `equals`
+                    + `does not equal`
+                    + `contains`
+                    + `does not contain`
+            + `operand` (optional, string) ... Value to be used with operator. Required when `operator` field is specified. 
+            + `caseSensitive` (optional, boolean) ... Use case-sensitive comparison or not for the operator. Used only when `operator` field is specified. Default value is `false`.
+            + `value` (optional, boolean) ... Value to be used for boolean fields check. Used for `enabled` filter type only. 
+            + `memberOf` (optional, array[number]) ... List of ids person entity should be related with. Used only in `groups` and `partition` filters.
+            + `notMemberOf` (optional, array[number]) ... List of ids person entity should not be related with. Used only in `groups` and `partition` filters.
+            + `cardNumber` (optional, object)
+                Filter for person cards. Used only with `credentials` filter type.
+                + Members
+                    + `operator` (required, enum[string])
+                        Filter operator.
+                        + Members
+                            + `equals`
+                            + `does not equal`
+                    + `operand` (required, number) ... Value to be used with operator.
+            + `mobile` (optional, object)
+                Filter for person mobile credentials. Used only with `credentials` filter type.
+                + Members
+                    + `type` (optional, array[enum[string]])
+                        Mobile credentials type (or list of types) to search for.
+                        + Members
+                            + `touch`
+                            + `token`
+                    + `status` (optional, array[enum[string]])
+                        Mobile credentials status (or list of statuses) to search for.
+                        + Members
+                            + `pending`
+                            + `accepted`
+    + `output` (optional, array[enum[string]])
+        Fields that will be returned for People entities.
+        + Members
+            + `id`
+            + `First Name`
+            + `Last Name`
+            + `Cards`
+            + `Groups`
+            + `Email`
+            + `Touch`
+            + `Unredeemed Touch`
+            + `Token`
+            + `Unredeemed Token`
+            + `Enabled`
+            + `Pin`
+            + `Duress Pin`
+            + `Partition`
+    + `partition`(required, number)
+        Partition id report entity belongs to.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/reports/people?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/reports/people?page=2&per_page=10>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            [{
+                    "id": 1,
+                    "name": "People Report",
+                    "filters": [
+                        {
+                            "type": "firstName",
+                            "operator": "equals",
+                            "operand": "Jane",
+                            "caseSensitive": true
+                        },
+                        {
+                            "type": "firstName",
+                            "operator": "contains",
+                            "operand": "Jon"
+                        },
+                        {
+                            "type": "credentials",
+                            "cardNumber": {
+                                "operator": "equals",
+                                "operand": 12345
+                            }
+                        },
+                        {
+                            "type": "credentials",
+                            "mobile": {
+                                "type": ["touch"],
+                                "status": ["accepted"]
+                            }
+                        },
+                        {
+                            "type": "email",
+                            "operator": "does not equal",
+                            "operand": "john.doe@test.com"
+                        },
+                        {
+                            "type": "groups",
+                            "memberOf": [1, 2, 3],
+                            "notMemberOf": [4, 5]
+                        },
+                        {
+                            "type": "partition",
+                            "memberOf": [0, 1],
+                            "notMemberOf": [4, 5]
+                        }
+                    ],
+                    "output": [
+                        "First Name",
+                        "Last Name",
+                        "Enabled",
+                        "Touch"
+                    ],
+                    "partition": 0
+            }]
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+## People Reports [/reports/people]
+
++ Model
+    + `name` (required, string) ... Report name.
+    + `filters` (optional, array[object])
+        List of filters for people enitites.
+        + Members
+            + `type` (required, enum[string])
+                Filter type. Specifies field to apply filter for.
+                + Members
+                    + `firstName`
+                    + `lastName`
+                    + `email`
+                    + `groups`
+                    + `enabled`
+                    + `credentials`
+                    + `partition`
+            + `operator` (optional, enum[string])
+                Filter operator. Field is required for the following filter types: `firstName`, `lastName` and `email`.
+                + Members
+                    + `equals`
+                    + `does not equal`
+                    + `contains`
+                    + `does not contain`
+            + `operand` (optional, string) ... Value to be used with operator. Required when `operator` field is specified. 
+            + `caseSensitive` (optional, boolean) ... Use case-sensitive comparison or not for the operator. Used only when `operator` field is specified. Default value is `false`.
+            + `value` (optional, boolean) ... Value to be used for boolean fields check. Used for `enabled` filter type only. 
+            + `memberOf` (optional, array[number]) ... List of ids person entity should be related with. Used only in `groups` and `partition` filters.
+            + `notMemberOf` (optional, array[number]) ... List of ids person entity should not be related with. Used only in `groups` and `partition` filters.
+            + `cardNumber` (optional, object)
+                Filter for person cards. Used only with `credentials` filter type.
+                + Members
+                    + `operator` (required, enum[string])
+                        Filter operator.
+                        + Members
+                            + `equals`
+                            + `does not equal`
+                    + `operand` (required, number) ... Value to be used with operator.
+            + `mobile` (optional, object)
+                Filter for person mobile credentials. Used only with `credentials` filter type.
+                + Members
+                    + `type` (optional, array[enum[string]])
+                        Mobile credentials type (or list of types) to search for.
+                        + Members
+                            + `touch`
+                            + `token`
+                    + `status` (optional, array[enum[string]])
+                        Mobile credentials status (or list of statuses) to search for.
+                        + Members
+                            + `pending`
+                            + `accepted`
+    + `output` (optional, array[enum[string]])
+        Fields that will be returned for People entities.
+        + Members
+            + `id`
+            + `First Name`
+            + `Last Name`
+            + `Cards`
+            + `Groups`
+            + `Email`
+            + `Touch`
+            + `Unredeemed Touch`
+            + `Token`
+            + `Unredeemed Token`
+            + `Enabled`
+            + `Pin`
+            + `Duress Pin`
+            + `Partition`
+    + `partition`(required, number)
+        Partition id report entity belongs to.
+        
+    + Body
+    
+            {
+                    "name": "People Report",
+                    "filters": [
+                        {
+                            "type": "firstName",
+                            "operator": "equals",
+                            "operand": "Jane",
+                            "caseSensitive": true
+                        },
+                        {
+                            "type": "firstName",
+                            "operator": "contains",
+                            "operand": "Jon"
+                        },
+                        {
+                            "type": "credentials",
+                            "cardNumber": {
+                                "operator": "equals",
+                                "operand": 12345
+                            }
+                        }
+                    ],
+                    "output": [
+                        "First Name",
+                        "Last Name",
+                        "Enabled",
+                        "Touch"
+                    ],
+                    "partition": 0
+            }
+
+### Retrieve a Report [GET /reports/people/{report_id}]
+
++ Parameters
+
+    + report_id (required, number) ... Numeric `id` of the Report to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Report id.
+    + `name` (required, string) ... Report name.
+    + `filters` (optional, array[object])
+        List of filters for people enitites.
+        + Members
+            + `type` (required, enum[string])
+                Filter type. Specifies field to apply filter for.
+                + Members
+                    + `firstName`
+                    + `lastName`
+                    + `email`
+                    + `groups`
+                    + `enabled`
+                    + `credentials`
+                    + `partition`
+            + `operator` (optional, enum[string])
+                Filter operator. Field is required for the following filter types: `firstName`, `lastName` and `email`.
+                + Members
+                    + `equals`
+                    + `does not equal`
+                    + `contains`
+                    + `does not contain`
+            + `operand` (optional, string) ... Value to be used with operator. Required when `operator` field is specified. 
+            + `caseSensitive` (optional, boolean) ... Use case-sensitive comparison or not for the operator. Used only when `operator` field is specified. Default value is `false`.
+            + `value` (optional, boolean) ... Value to be used for boolean fields check. Used for `enabled` filter type only. 
+            + `memberOf` (optional, array[number]) ... List of ids person entity should be related with. Used only in `groups` and `partition` filters.
+            + `notMemberOf` (optional, array[number]) ... List of ids person entity should not be related with. Used only in `groups` and `partition` filters.
+            + `cardNumber` (optional, object)
+                Filter for person cards. Used only with `credentials` filter type.
+                + Members
+                    + `operator` (required, enum[string])
+                        Filter operator.
+                        + Members
+                            + `equals`
+                            + `does not equal`
+                    + `operand` (required, number) ... Value to be used with operator.
+            + `mobile` (optional, object)
+                Filter for person mobile credentials. Used only with `credentials` filter type.
+                + Members
+                    + `type` (optional, array[enum[string]])
+                        Mobile credentials type (or list of types) to search for.
+                        + Members
+                            + `touch`
+                            + `token`
+                    + `status` (optional, array[enum[string]])
+                        Mobile credentials status (or list of statuses) to search for.
+                        + Members
+                            + `pending`
+                            + `accepted`
+    + `output` (optional, array[enum[string]])
+        Fields that will be returned for People entities.
+        + Members
+            + `id`
+            + `First Name`
+            + `Last Name`
+            + `Cards`
+            + `Groups`
+            + `Email`
+            + `Touch`
+            + `Unredeemed Touch`
+            + `Token`
+            + `Unredeemed Token`
+            + `Enabled`
+            + `Pin`
+            + `Duress Pin`
+            + `Partition`
+    + `partition`(required, number)
+        Partition id report entity belongs to.
+        
+    + Body
+    
+            {
+                    "id": 1,
+                    "name": "People Report",
+                    "filters": [
+                        {
+                            "type": "firstName",
+                            "operator": "equals",
+                            "operand": "Jane",
+                            "caseSensitive": true
+                        },
+                        {
+                            "type": "firstName",
+                            "operator": "contains",
+                            "operand": "Jon"
+                        },
+                        {
+                            "type": "credentials",
+                            "cardNumber": {
+                                "operator": "equals",
+                                "operand": 12345
+                            }
+                        },
+                        {
+                            "type": "credentials",
+                            "mobile": {
+                                "type": ["touch"],
+                                "status": ["accepted"]
+                            }
+                        },
+                        {
+                            "type": "email",
+                            "operator": "does not equal",
+                            "operand": "john.doe@test.com"
+                        },
+                        {
+                            "type": "groups",
+                            "memberOf": [1, 2, 3],
+                            "notMemberOf": [4, 5]
+                        },
+                        {
+                            "type": "partition",
+                            "memberOf": [0, 1],
+                            "notMemberOf": [4, 5]
+                        },
+                        {
+                            "type": "enabled",
+                            "value": true
+                        }
+                    ],
+                    "output": [
+                        "First Name",
+                        "Last Name",
+                        "Enabled",
+                        "Touch"
+                    ],
+                    "partition": 0
+            }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Create a Report [POST]
+
++ Request (application/json)
+
+    [People Reports][]
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Number `id` of created Report.
+    
+    + Body
+    
+            {
+                "id": 1
+            }
+            
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Update a Report [PUT /reports/people/{report_id}]
+
++ Request (application/json)
+
+    + `name` (required, string) ... Report name.
+    + `filters` (optional, array[object])
+        List of filters for people enitites.
+        + Members
+            + `type` (required, enum[string])
+                Filter type. Specifies field to apply filter for.
+                + Members
+                    + `firstName`
+                    + `lastName`
+                    + `email`
+                    + `groups`
+                    + `enabled`
+                    + `credentials`
+                    + `partition`
+            + `operator` (optional, enum[string])
+                Filter operator. Field is required for the following filter types: `firstName`, `lastName` and `email`.
+                + Members
+                    + `equals`
+                    + `does not equal`
+                    + `contains`
+                    + `does not contain`
+            + `operand` (optional, string) ... Value to be used with operator. Required when `operator` field is specified. 
+            + `caseSensitive` (optional, boolean) ... Use case-sensitive comparison or not for the operator. Used only when `operator` field is specified. Default value is `false`.
+            + `value` (optional, boolean) ... Value to be used for boolean fields check. Used for `enabled` filter type only. 
+            + `memberOf` (optional, array[number]) ... List of ids person entity should be related with. Used only in `groups` and `partition` filters.
+            + `notMemberOf` (optional, array[number]) ... List of ids person entity should not be related with. Used only in `groups` and `partition` filters.
+            + `cardNumber` (optional, object)
+                Filter for person cards. Used only with `credentials` filter type.
+                + Members
+                    + `operator` (required, enum[string])
+                        Filter operator.
+                        + Members
+                            + `equals`
+                            + `does not equal`
+                    + `operand` (required, number) ... Value to be used with operator.
+            + `mobile` (optional, object)
+                Filter for person mobile credentials. Used only with `credentials` filter type.
+                + Members
+                    + `type` (optional, array[enum[string]])
+                        Mobile credentials type (or list of types) to search for.
+                        + Members
+                            + `touch`
+                            + `token`
+                    + `status` (optional, array[enum[string]])
+                        Mobile credentials status (or list of statuses) to search for.
+                        + Members
+                            + `pending`
+                            + `accepted`
+    + `output` (optional, array[enum[string]])
+        Fields that will be returned for People entities.
+        + Members
+            + `id`
+            + `First Name`
+            + `Last Name`
+            + `Cards`
+            + `Groups`
+            + `Email`
+            + `Touch`
+            + `Unredeemed Touch`
+            + `Token`
+            + `Unredeemed Token`
+            + `Enabled`
+            + `Pin`
+            + `Duress Pin`
+            + `Partition`
+    + `partition`(required, number)
+        Partition id report entity belongs to.
+    
+    + Body
+    
+            {
+                    "name": "People Report",
+                    "filters": [
+                        {
+                            "type": "firstName",
+                            "operator": "equals",
+                            "operand": "Jane",
+                            "caseSensitive": true
+                        },
+                        {
+                            "type": "firstName",
+                            "operator": "contains",
+                            "operand": "Jon"
+                        },
+                        {
+                            "type": "credentials",
+                            "cardNumber": {
+                                "operator": "equals",
+                                "operand": 12345
+                            }
+                        }
+                    ],
+                    "output": [
+                        "First Name",
+                        "Last Name",
+                        "Enabled",
+                        "Touch"
+                    ],
+                    "partition": 0
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Delete a Report [DELETE /reports/people/{report_id}]
+
++ Parameters
+
+    + report_id (required, number) ... Numeric `id` of the Report to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+# Group Filter People By Report
+
+The functionality is available for all roles.
+Details for any Role should contain only entities that User has access to.
+Details for Reporters and Managers can contain only entities that they have access to according Role and Partition restrictions.
+
+### Get people list filtered by report [POST /reports/people/generate]
+
++ Request (application/json)
+
+    + `page` (optional, number)
+        Number of page to return, started from `0`.
+    + `perPage` (optional, number)
+        Count of items per page. An integer from `1` to `100`
+    + `reportId` (optional, number)
+        Report entity id to use filters and output from. If specified, no `filters` and `output` sections should be used.
+    + `filters` (optional, array[object])
+        List of filters for people enitites.
+        + Members
+            + `type` (required, enum[string])
+                Filter type. Specifies field to apply filter for.
+                + Members
+                    + `firstName`
+                    + `lastName`
+                    + `email`
+                    + `groups`
+                    + `enabled`
+                    + `credentials`
+                    + `partition`
+            + `operator` (optional, enum[string])
+                Filter operator. Field is required for the following filter types: `firstName`, `lastName` and `email`.
+                + Members
+                    + `equals`
+                    + `does not equal`
+                    + `contains`
+                    + `does not contain`
+            + `operand` (optional, string) ... Value to be used with operator. Required when `operator` field is specified. 
+            + `value` (optional, boolean) ... Value to be used for boolean fields check. Used for `enabled` filter type only. 
+            + `caseSensitive` (optional, boolean) ... Use case-sensitive comparison or not for the operator. Used only when `operator` field is specified. Default value is `false`.
+            + `memberOf` (optional, array[number]) ... List of ids person entity should be related with. Used only in `groups` and `partition` filters.
+            + `notMemberOf` (optional, array[number]) ... List of ids person entity should not be related with. Used only in `groups` and `partition` filters.
+            + `cardNumber` (optional, object)
+                Filter for person cards. Used only with `credentials` filter type.
+                + Members
+                    + `operator` (required, enum[string])
+                        Filter operator.
+                        + Members
+                            + `equals`
+                            + `does not equal`
+                    + `operand` (required, number) ... Value to be used with operator.
+            + `mobile` (optional, object)
+                Filter for person mobile credentials. Used only with `credentials` filter type.
+                + Members
+                    + `type` (optional, array[enum[string]])
+                        Mobile credentials type (or list of types) to search for.
+                        + Members
+                            + `touch`
+                            + `token`
+                    + `status` (optional, array[enum[string]])
+                        Mobile credentials status (or list of statuses) to search for.
+                        + Members
+                            + `pending`
+                            + `accepted`
+    + `output` (optional, array[enum[string]])
+        Fields that will be returned for People entities.
+        + Members
+            + `id`
+            + `First Name`
+            + `Last Name`
+            + `Cards`
+            + `Groups`
+            + `Email`
+            + `Touch`
+            + `Unredeemed Touch`
+            + `Token`
+            + `Unredeemed Token`
+            + `Enabled`
+            + `Pin`
+            + `Duress Pin`
+            + `Partition`
+    
+    + Body
+    
+            {
+                    "page": 0,
+                    "perPage": 100,
+                    "filters": [
+                        {
+                            "type": "firstName",
+                            "operator": "equals",
+                            "operand": "Jane",
+                            "caseSensitive": true
+                        },
+                        {
+                            "type": "firstName",
+                            "operator": "contains",
+                            "operand": "Jon"
+                        },
+                        {
+                            "type": "credentials",
+                            "cardNumber": {
+                                "operator": "equals",
+                                "operand": 12345
+                            }
+                        }
+                    ],
+                    "output": [
+                        "First Name",
+                        "Last Name",
+                        "Enabled",
+                        "Touch"
+                    ]
+            }
++ Response 200 (application/json)
+
+    + `id` (optional, number) ... Person id. Returned if `id` is present in output.
+    + `First Name` (optional, string) ... Person first name. Returned if `First Name` is present in output.
+    + `Last Name` (optional, string) ... Person last name. Returned if `Last Name` is present in output.
+    + `Cards` (optional, string) ... Comma separated list of person's cards. Returned if `Cards` is present in output.
+    + `Groups` (optional, string) ... Comma separated list of person's groups names. Returned if `Groups` is present in output.
+    + `Email` (optional, string) ... Person email. Returned if `Email` is present in output.
+    + `Touch`(optional, number) ... Number of accepted person Bluetooth credentials. Returned if `Touch` is present in output.
+    + `Unredeemed Touch` (optional, number) ... Number of pending person Bluetooth credentials. Returned if `Unredeemed Touch` is present in output.
+    + `Token` (optional, number) ... Number of accepted person Mobile App credentials. Returned if `Token` is present in output.
+    + `Unredeemed Token` (optional, number) ... Number of pending person Mobile App credentials. Returned if `Unredeemed Token` is present in output.
+    + `Enabled` (optional, string) ... Person `enabled` field. '1' value if enabled, '0' if not. Returned if `Enabled` is present in output.
+    + `Pin` (optional, string) ... Person PIN. Returned if `Pin` is present in output.
+    + `Duress Pin` (optional, string) ... Person Duress PIN. Returned if `Duress Pin` is present in output.
+    + `Partition` (optional, string) ... Person partition name. Returned if `Partition` is present in output.
+        
+    + Body
+    
+            [{
+                    "id": 1,
+                    "First Name": "John",
+                    "Last Name": "Doe",
+                    "Cards": "1234,7890",
+                    "Groups": "Tech,Administrators",
+                    "Email": "john@doe.com",
+                    "Touch": 1,
+                    "Unredeemed Touch": 0,
+                    "Token": 0,
+                    "Unredeemed Token": 2,
+                    "Enabled": '1',
+                    "Pin": '1234',
+                    "Duress Pin": "91234",
+                    "Partition": "Default"
+            }]
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
 # Group Partitions
 
 #### A Partitions entity represents a filter for Person, Group, Floor Group and Device entities.
