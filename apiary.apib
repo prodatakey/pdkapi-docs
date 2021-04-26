@@ -20,10 +20,10 @@ This drives certain uniform architectural attributes of the API.
 # Authentication
 
 Authenticating to this stateless API is handled by including an HTTP Authentication header in each request.
-Before making any requests to the panel's API andpoint you will need a Bearer token.
+Before making any requests to the panel's API endpoint you will need a Bearer token.
 This token represents your application's permission to access the API as delegated by the user.
 
-For instructions on retrieving a token for communicating with a panel's API, see the [Auth Server API documentation](http://docs.pdkauthapi.apiary.io/). There are quite many libaries that support OpenID Connect protocol which is used for authentication. Please check [this link](https://openid.net/developers/libraries/) to see the list with some of them.
+For instructions on retrieving a token for communicating with a panel's API, see the [Auth Server API documentation](http://docs.pdkauthapi.apiary.io/). There are many libraries that support OpenID Connect protocol which is used for authentication. Please check [this link](https://openid.net/developers/libraries/) to see the list with some of them.
 
 Because the API is stateless, this Bearer token must be included in every request to the API.
 The Authorization header MUST be of the following format:
@@ -36,7 +36,7 @@ The Authorization header MUST be of the following format:
 Standard CRUD operations on resources are performed using HTTP verbs.
 
 * GET - Retrieve a resource, never modifies data.
-* POST - Create a resource. All required fields must be specified. In case when one of optional parameters is not specified, it's default value will be used.
+* POST - Create a resource. All required fields must be specified. In the case where one of the optional parameters is not specified, its default value will be used.
 * PUT - Update a resource. Requires whole resource body to be specified.
 * DELETE - Delete a resource.
 
@@ -67,7 +67,7 @@ Example - `https://panel-id.pdk.io/api/persons/1/groups/2`
 
 Most of calls that return collections return paginated results in order to decrease panel server load 
 (see `page` and `per_page` url query parameters).
-Response contains link headers with links to first, last, next and prevous pages of results, 
+Response contains link headers with links to first, last, next and previous pages of results, 
 which are specified in `first`, `last`, `next` and `prev` links accordingly.
 
 For example, calling `GET https://panel-id.pdk.io/api/persons?page=1&per_page=5` will lead for the following headers:
@@ -99,7 +99,7 @@ Content type is set to `application/json` for all API calls.
 
 ## Error message format
 
-Error messages provide human-readable description. For now only English language is supported, localization support will come in next releases.
+Error messages provide a human-readable description. For now, only English language is supported. Localization support will come in next releases.
 
     {
         "message" : "Human-friendly error message",
@@ -123,7 +123,7 @@ Once data is stored here, it will be provided with the entity any time it is ret
 
 # Roles
 Roles permissions have hierarchical structure. List of possible roles given below:
-* `Reporter` has read only access for Persons, Groups entities.
+* `Reporter` has read-only access for Persons, Groups entities.
 * `Manager` in addition to `Reporter` permissions has write access for Persons and Groups entities.
 * `Admin` in addition to `Manager` permissions has write access for Persons, Groups, System Events, Auto Open Rules, Floor Groups entities.
 * `Integrator` in addition to `Admin` permissions can change hardware configuration (Devices, Connections, Config and Websocket API commands).
@@ -190,9 +190,9 @@ The functionality is available for all roles. For [Reporter, Manager] roles sear
 + Response 401 (application/json)
 
 # Group Persons
-A person entity represents attributes of a person that will be interacting with the access control system.
+A person entity represents the attributes of a person that will be interacting with the access control system.
 These attributes include the person's first and last names, a list of their credentials, rules that apply to them, and a list of group memberships, among others.
-The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Rerieving operations are also available for [Reporter] role.
+The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Retrieving operations are also available for [Reporter] role.
 All operations consider user's partition. Created Persons will be bound to user's partition by default.
 For [Reporter, Manager] roles Persons will be filtered by their partition.
 [Admin, Integrator, Sysop] users can change Person's partition.
@@ -217,7 +217,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
             + `ascByFirstName`
             + `descByFirstName`
     + include (optional, enum[string])
-        The parameter allows to  get related entity for the person.
+        The parameter allows to get a related entity for the person.
         + Members
             + `groups`
             + `credentials`
@@ -244,7 +244,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
     + `groups` (optional, array) ... List of person groups.
     + `credentials` (optional, array) ... List of person credentials.
-    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `metadata` (optional, object) ... An optional piece of opaque metadata stored with the entity
     
     + Headers
     
@@ -307,8 +307,10 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `pin` (optional, string) ... The PIN that is bound to specific Person.
     + `duressPin` (optional, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (optional, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
-    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `metadata` (optional, object) ... An optional piece of opaque metadata stored with the entity
     + `email` (optional, string) ... The email that is bound to specific Person.
+    + `customAttributes` (optional, object) ... The list of the custom attributes for specific Person. The schema is used from bound partition.
+    + `mode` (optional, enum) ... Values: `merge`, `rewrite`. There is a mode for merging customAttributes.
 
     + Headers
     
@@ -333,6 +335,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + Headers
     
             Authorization: Bearer {token}
+            Want-Digest: sha-256 [optional]
 
 + Response 200 (application/json)
 
@@ -349,7 +352,8 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `cards` (required, array) ... Cards that belongs to the Person. Empty array will be returned if Person has no cards.
     + `groups` (required, array) ... Groups that the Person belongs to. Empty array will be returned if Person does not belong to any Group.
     + `credentials` (required, array) ... Credentials that belong to the Person. Empty array will be returned if Person has no credentials.
-    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `metadata` (optional, object) ... An optional piece of opaque metadata stored with the entity
+    + `customAttributes` (optional, object) ... The list of the custom attributes for specific Person. The schema is used from bound partition.
     
     + Body
     
@@ -424,11 +428,14 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + `duressPin` (required, string) ... The duress PIN that is bound to specific Person. Defaults to '9' + PIN value.
     + `enabled` (required, boolean) ... Flag indicating whether should or should not the Person's data be processed by server.
     + `email` (optional, string) ... The email that is bound to specific Person.
-    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `metadata` (optional, object) ... An optional piece of opaque metadata stored with the entity
+    + `customAttributes` (optional, object) ... The list of the custom attributes for specific Person. The schema is used from bound partition.
+    + `mode` (optional, enum) ... Values: `merge`, `rewrite`. There is a mode for merging customAttributes.
     
     + Headers
     
             Authorization: Bearer {token}
+            Digest: diges [optional]
 
     + Body
     
@@ -464,7 +471,75 @@ Person removal leads to all Person's Rules removal.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
+## Persons Import [/persons/import]
 
+Please use a digest from 'import/preview' for correct import.
+
+### Import csv [POST]
+
++ Request (application/json)
+
+    + `csv` (required, string) ... String `csv` data.
+    + `partition` (optional, number) ... An id of the partition.
+    + `upsert` (optional, boolean) ... A flag to apply changes.
+    + `resolutions` (optional, array) ... A list of the resolutions for existing conflicts.
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+            Digest: {digest}
+
+    + Body
+    
+            {
+                "csv": "First Name,Last Name,Cards,Groups,Email,Touch,Token,Unredeemed Touch,Unredeemed Token,Enabled,Pin,Duress Pin,Active Date,Expire Date,Partitiontest,testLastName,,,test@pdk.io,1,1,,,,,,2021-01-01T10:00:00Z,2021-01-01T10:00:00Z,newOne",
+                "partition": 0,
+                "upsert": true,
+                "resolutions": [
+                    {
+                    "line": 2,
+                    "decision": "create"
+                    }
+                ]
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+## Persons Import Preview [/persons/import/preview]
+
+The endpoint returns info of an import result and a list of the confilcts. A user should resolve conflicts.
+Also, the endpoint returns digest of the result.
+
+### Import csv preview [POST]
+
++ Request (application/json)
+
+    + `csv` (required, string) ... String `csv` data.
+    + `partition` (optional, number) ... An id of the partition.
+    + `upsert` (optional, boolean) ... A flag to apply changes.
+    
+    + Headers
+
+            Authorization: Bearer {token}
+            Want-Digest: sha-265
+
+    + Body
+    
+            {
+                "csv": "First Name,Last Name,Cards,Groups,Email,Touch,Token,Unredeemed Touch,Unredeemed Token,Enabled,Pin,Duress Pin,Active Date,Expire Date,Partitiontest,testLastName,,,test@pdk.io,1,1,,,,,,2021-01-01T10:00:00Z,2021-01-01T10:00:00Z,newOne",
+                "partition": 0,
+                "upsert": true
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
 
 ## Person Photo [/persons/{person_id}/photo]
 
@@ -472,7 +547,7 @@ Person removal leads to all Person's Rules removal.
 
 + Request (application/json)
 
-    + `base64` (required, string) ... Value in base64 format. To remove Person's photo null should be pased.
+    + `base64` (required, string) ... Value in base64 format. To remove Person's photo null should be based.
     
     + Headers
     
@@ -1345,7 +1420,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 ## Person Groups [/persons/{person_id}/groups]
 
 The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [Reporter] role has access for retrieving operations only.
-[Manager] can remove Person from any Group he is partiticipating but he is able to add the Person to Groups from the partition he is bound to only.
+[Manager] can remove Person from any Group he is participating but he is able to add the Person to Groups from the partition he is bound to only.
 
 ### Retrieve all Groups for a Person [GET /persons/{person_id}/groups?page={page}&per_page={per_page}&sort={sort}]
 
@@ -1518,7 +1593,7 @@ For [Reporter, Manager] roles Groups will be filtered by their partition.
 
     + `name` (required, string) ... Group name. Must be unique. Minimum length is `1` character, maximum length is `70` characters.
     + `partition` (optional, number) ... Group partition. Default partition has `0` value.
-    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `metadata` (optional, object) ... An optional piece of opaque metadata stored with the entity
     
     + Headers
     
@@ -1542,7 +1617,7 @@ For [Reporter, Manager] roles Groups will be filtered by their partition.
 + Response 200 (application/json)
 
     + `name` (required, string) ...  Group name.
-    + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `metadata` (optional, object) ... An optional piece of opaque metadata stored with the entity
 
     + Body
     
@@ -2043,7 +2118,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. Re
 ## Group Persons [/groups/{group_id}/persons]
 
 The functionality is available for [Sysop, Integrator, Admin, Manager, Reporter] roles.
-[Manager] can remove any Person from Group that he has access to but only Person from the partition that user is bound to cound be added.
+[Manager] can remove any Person from Group that he has access to but only Person from the partition that user is bound to could be added.
 
 ### Retrieve all Persons [GET /groups/{group_id}/persons?page={page}&per_page={per_page}&sort={sort}]
 + Parameters
@@ -2707,7 +2782,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
 # Group Floor Groups
 
 #### Associates a reader input and a group of floor outputs. This group is then referenced from an elevator rule on a person or group to activate all the floor buttons in the elevator car where input reader is installed.
-The functionality is available for [Sysop, Integrator, Admin] roles. Retrieveing Floor Groups list is also available for [Manager] role.
+The functionality is available for [Sysop, Integrator, Admin] roles. Retrieving Floor Groups list is also available for [Manager] role.
 All operations consider user's partition. Created Floor Group will be bound to user's partition by default.
 [Manager] can retrieve only list of Floor Groups that are bound to the partition that he is bound to.
 ## Floor Groups Collection [/floor_groups?page={page}&per_page={per_page}&sort={sort}]
@@ -2950,10 +3025,10 @@ Created Devices will be bound to user's partition by default.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device. Field presents only for devices with `wirelessCoordinator` connection type.
     + `delay` (optional, number)
-        Amount of time (in tenths of second) that the relay should delay before actuating.
+        Amount of time (in tenths of a second) that the relay should delay before actuating.
         + Default: `0`
     + `dwell` (optional, number)
-        Amount of time (in tenths of second) that the relay should stay actuated.
+        Amount of time (in tenths of a second) that the relay should stay actuated.
         + Default: `30`
     + `dps` (optional, boolean)
         Enables Door Position Sense (DPS) feature for this door.
@@ -3024,10 +3099,10 @@ Created Devices will be bound to user's partition by default.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device. Should be present only for devices with `wirelessCoordinator` connection type.
     + `delay` (optional, number)
-        Amount of time (in tenths of second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
+        Amount of time (in tenths of a second) that the relay should delay before actuating. It is an integer in `0`...`9999` range including borders.
         + Default: `0`
     + `dwell` (optional, number)
-        Amount of time (in tenths of second) that the relay should stay actuated. It is an integer in `1`...`9999` range including borders.
+        Amount of time (in tenths of a second) that the relay should stay actuated. It is an integer in `1`...`9999` range including borders.
         + Default: `30`
     + `dps` (optional, boolean)
         Enables Door Position Sense (DPS) feature for this door.
@@ -3080,7 +3155,7 @@ Created Devices will be bound to user's partition by default.
 
 + Parameters
 
-    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    + device_id (required, number) ... Numeric `id` of the device to perform the action on.
     
 + Request
 
@@ -3097,10 +3172,10 @@ Created Devices will be bound to user's partition by default.
     + `port` (required, number) ... Board port number. An integer from `1` to `32`. The port must not be occupied by another device (i.e. connection + port pair must be unique).
     + `wirelessAddress` (optional, string) ... Wireless address of this device. Field presents only for devices with `wirelessCoordinator` connection type.
     + `delay` (optional, number)
-        Amount of time (in tenths of second) that the relay should delay before actuating.
+        Amount of time (in tenths of a second) that the relay should delay before actuating.
         + Default: `0`
     + `dwell` (optional, number)
-        Amount of time (in tenths of second) that the relay should stay actuated.
+        Amount of time (in tenths of a second) that the relay should stay actuated.
         + Default: `30`
     + `dps` (optional, boolean)
         Enables Door Position Sense (DPS) feature for this door.
@@ -3190,7 +3265,7 @@ Created Devices will be bound to user's partition by default.
 
 + Parameters
 
-    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    + device_id (required, number) ... Numeric `id` of the device to perform the action on.
 
 + Request (application/json)
 
@@ -3261,7 +3336,7 @@ Created Devices will be bound to user's partition by default.
 + Response 404 (application/json)
 
 ### Delete a Device [DELETE /devices/{device_id}]
-Device removal leads to Floor Groups and Rules removal when the specified Device is the only one used in correspond Floor Group or Rule.
+Device removal leads to Floor Groups and Rules removal when the specified device is the only one used in corresponding Floor Group or Rule.
 + Parameters
 
     + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
@@ -3327,7 +3402,7 @@ Executing commands on the specified device.
     + Attributes (object)
     
         + delay: 10 (required, number)
-            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
+            Amount of time (in tenths of a second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
 
     + Headers
     
@@ -3356,7 +3431,7 @@ Executing commands on the specified device.
     + Attributes (object)
     
         + delay: 10 (required, number)
-            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
+            Amount of time (in tenths of a second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
 
     + Headers
     
@@ -3385,7 +3460,7 @@ Executing commands on the specified device.
     + Attributes (object)
     
         + delay: 10 (required, number)
-            Amount of time (in tenths of second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
+            Amount of time (in tenths of a second) that the relay should delay between open and close actuations. It is an integer in [`0`...`9999`] range inclusive.
 
     + Headers
     
@@ -4012,7 +4087,7 @@ If a message is to be delivered for a connection with an expired token, the syst
 
 ## Message Format
 
-Every message will have 2 manditory elements: `topic`, and `body`.
+Every message will have 2 mandatory elements: `topic`, and `body`.
 
 The `topic` uniquely identifies each type of message, as described later.
 
@@ -4031,7 +4106,7 @@ Event messages are sent from the system when some state has changed. The topics 
 
 ### liveEvent
 
-This message type represents a stream of audit events occuring in the system, including the audit message and any log parameters. This can be used to simply display human-readable event messages to users.
+This message type represents a stream of audit events occurring in the system, including the audit message and any log parameters. This can be used to simply display human-readable event messages to users.
 
 Unlike the other event messages, the `topic` property of this message correlates to the event type that caused the audit entry.
 
@@ -4481,7 +4556,7 @@ This command requests that the specified device be sent an open signal.
 
 ### door.actuate.close
 
-This command requests that the specified devicd be sent a close signal.
+This command requests that the specified device be sent a close signal.
 
 ```
 {
@@ -4588,7 +4663,7 @@ This command queries the last-hop signal strength of the specified wireless endp
     "ioLinkId": 1,  // The connection ID for the wireless coordinator
     "address": "0013a200400a393b",  // The MAC address of the wireless device
     "actuateRelay": false,  // Whether to actuate the signalling relay on/off
-    "relayDwell": 5  // How long to hold the signalling relay on
+    "relayDwell": 5  // How long to hold the signaling relay on
   },
   "id": "6Xa94zwzq14lAvlyUnQEkQKLt5Fy3U1p"
 }
@@ -5740,7 +5815,7 @@ Partitions logic is applied to all operations.
     + `id` (required, number) ... Report id.
     + `name` (required, string) ... Report name.
     + `filters` (optional, array[object])
-        List of filters for people enitites.
+        List of filters for people entities.
         + Members
             + `type` (required, enum[string])
                 Filter type. Specifies field to apply filter for.
@@ -5898,7 +5973,7 @@ Partitions logic is applied to all operations.
 
     + `name` (required, string) ... Report name.
     + `filters` (optional, array[object])
-        List of filters for people enitites.
+        List of filters for people entities.
         + Members
             + `type` (required, enum[string])
                 Filter type. Specifies field to apply filter for.
@@ -6177,16 +6252,16 @@ Details for Reporters and Managers can contain only entities that they have acce
 
 # Group Partitions
 
-#### A Partitions entity represents a filter for Person, Group, Floor Group and Device entities.
+#### A Partitions entity represents a filter for Person, Group, Floor Group, and Device entities.
 Partitions could be managed by [Sysop, Integrator, Admin] roles. Furthermore, listed roles can set Partition for entities that they have access to. In addition, there is a Default partition that could not be removed.
 
-Person, Group, Floor Group and Device entities can not have no partition. Device can belong to several partitions at the same time.
+Person, Group, Floor Group, and Device entities cannot have any partition. Device can belong to several partitions at the same time.
 
-Person's, Group's, Floor Group's and Device's partition is set to the User's partition during creation if another has not been passed. Listed above roles can change entity's partition during PUT query. To set Device's partition `partitions/devices` endpoint should be used.
+Person's, Group's, Floor Group's, and Device's partition are set to the user's partition during creation if another has not been passed. Listed above roles can change entity's partition during PUT query. To set Device's partition `partitions/devices` endpoint should be used.
 
 If Device is bound to one Partition only and someone removes this Device from that Partition, Device will be transferred to the Default Partition. So Device should be bound to at least one Partition in time.
 
-If User accesses the Panel and he is not bound to any Partition yet, his actions will be perceived as he is in the Default partition untill he will be explicitly bound to some other partition.
+If User accesses the Panel and he is not bound to any Partition yet, his actions will be perceived as he is in the Default partition until he will be explicitly bound to some other partition.
 
 ### Retrieve Partitions Collection [GET /partitions?page={page}&per_page={per_page}&sort={sort}]
 
