@@ -6646,6 +6646,153 @@ Partitions logic is applied to all operations.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
+# Group Map
+
+## Maps [/maps/{map_id}]
+
++ Model
+
+    + `name` (required, string) ... Map name.
+    + `description` (required, string) ... Map description.
+    + `type` (required, enum[string]) ... Map description.
+        + Members
+            + `local`
+            + `global`
+    + `partitions` (required, array) ... List of partitions.
+    + `image` (optional, string) ... Image of the map.
+    + `opacity` (optional, number) ... Values from 0 to 100.
+    + `iconSize` (optional, enum) ... Size of icons.
+            + Members
+                + `S`
+                + `M`
+                + `L`
+    + `zoom` (optional, number) ... Values from 0 to 19.
+    + `latitude` (optional, number) ... A latitude of the map.
+    + `longitude` (optional, number) ... A longitude of the map.
+    + `doors` (optional, array) ... List of doors on the map. Each door has next fields: id, displayName, latitude, longitude, x, y.
+    + `links` (optional, array) ... List of links on the map. Each linkt has next fields: id, latitude, longitude, x, y.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/maps>; rel="next", <https://panel-id.pdk.io/api//maps>; rel="last"
+            X-Total-Count: 1
+    
+    + Body
+    
+            {
+                    "name": "Main map",
+                    "type": "global",
+                    "opacity": 100
+            }
+
+### Retrieve a Maps [GET]
+
++ Parameters
+
+    + map_id (required, number) ... Numeric `id` of the Map to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+        
+    + Body
+    
+            {
+                    "name": "Main map",
+                    "type": "global",
+                    "opacity": 100
+            }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Create a Map [POST /maps]
+
++ Request (application/json)
+
+    [Maps][]
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Number `id` of created Partition.
+    
+    + Body
+    
+            {
+                "id": 1
+            }
+            
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Update a Map [PUT]
+
++ Request (application/json)
+
+     + `name` (required, string) ... Map name.
+    + `description` (required, string) ... Map description.
+    + `type` (required, enum[string]) ... Map description.
+        + Members
+            + `local`
+            + `global`
+    + `partitions` (required, array) ... List of partitions.
+    + `image` (optional, string) ... Image of the map.
+    + `opacity` (optional, number) ... Values from 0 to 100.
+    + `iconSize` (optional, enum) ... Size of icons.
+            + Members
+                + `S`
+                + `M`
+                + `L`
+    + `zoom` (optional, number) ... Values from 0 to 19.
+    + `latitude` (optional, number) ... A latitude of the map.
+    + `longitude` (optional, number) ... A longitude of the map.
+    + `doors` (optional, array) ... List of doors on the map. Each door has next fields: id, displayName, latitude, longitude, x, y.
+    + `links` (optional, array) ... List of links on the map. Each linkt has next fields: id, latitude, longitude, x, y.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/maps/1>; rel="next", <https://panel-id.pdk.io/api/maps/1>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            {
+                    "name": "Global map",
+                    "description": "New description",
+                    "iconSize": "M"
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Delete a Map [DELETE]
+
++ Parameters
+
+    + map_id (required, number) ... Numeric `id` of the Map to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
 
 # Group Partitions
 
@@ -6711,8 +6858,6 @@ If User accesses the Panel and he is not bound to any Partition yet, his actions
 + Response 403 (application/json)
 
 ## Partitions [/partitions/{partition_id}]
-
-The next types of attributes are supported for a partition: `boolean`, `enum`, `string`, `number`, `object`, `array`.
 
 + Model
 
@@ -6856,7 +7001,7 @@ The next types of attributes are supported for a partition: `boolean`, `enum`, `
     
             {
                     "name": "Mail hall",
-                    "users": ["132a1c14b321e43123"]
+                    "type": "boolean"
             }
 
 ### Retrieve a Partition Attributes [GET /partitions/{partition_id}/attributes?page={page}&per_page={per_page}&sort={sort}]
@@ -7024,20 +7169,7 @@ The next types of attributes are supported for a partition: `boolean`, `enum`, `
 
 + Request (application/json)
 
-    + `id` (required, string) ... Attribute id.
-    + `type` (required, string) ... One of supported type.
-    + other restrictions depends on type
-    
-    + Headers
-    
-            Authorization: Bearer {token}
-    + Body
-    
-            {
-                "id": "Enum atr",
-                "type": "enum",
-                "values": [{"id": "value1"}]
-            }
+    [Partitions Attribute][]
 
 + Response 204 (application/json)
 + Response 400 (application/json)
@@ -7063,6 +7195,177 @@ The next types of attributes are supported for a partition: `boolean`, `enum`, `
 + Response 401 (application/json)
 + Response 403 (application/json)
 + Response 404 (application/json)
+
+## Partitions Devices [/partitions/{partition_id}/devices/{device_id}]
+
+### Retrieve a Partition Devices [GET /partitions/{partition_id}/devices?page={page}&per_page={per_page}&sort={sort}]
+
++ Parameters
+
+    + partition_id (required, number) ... Numeric `id` of the Partition to perform the action on.
+    + page (optional, number) 
+        Number of page to return, started from `0`.
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort (optional, enum[string])
+        Sorting order. Entities are sorted by `name` values.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + List of devices.
+        
+    + Body
+        
+            [
+                {
+                        autoOpenAfterFirstAllow: false
+                        connection: 3
+                        created: "2021-04-19 11:05:36"
+                        delay: 0
+                        dps: false
+                        dwell: 30
+                        firmwareVersion: null
+                        forcedAlarm: false
+                        hardwareVersion: null
+                        id: 5
+                        inputTypes: ["wiegand", "unencryptedOsdp", "encryptedOsdp"]
+                        0: "wiegand"
+                        1: "unencryptedOsdp"
+                        2: "encryptedOsdp"
+                        metadata: {}
+                        name: "7474"
+                        osdpAddress: null
+                        port: 23
+                        propAlarm: false
+                        propDelay: 0
+                        publicIcon: null
+                        reader: null
+                        rex: false
+                        serialNumber: null
+                        type: "elevatorReader"
+                },
+                {
+                    autoOpenAfterFirstAllow: false
+                    connection: 3
+                    created: "2021-04-19 11:04:41"
+                    delay: 0
+                    dps: false
+                    dwell: 30
+                    firmwareVersion: null
+                    forcedAlarm: false
+                    hardwareVersion: null
+                    id: 4
+                    inputTypes: ["wiegand", "unencryptedOsdp", "encryptedOsdp"]
+                    0: "wiegand"
+                    1: "unencryptedOsdp"
+                    2: "encryptedOsdp"
+                    metadata: {}
+                    name: "clearDevice"
+                    osdpAddress: 1
+                    port: 2
+                    propAlarm: false
+                    propDelay: 0
+                    publicIcon: "swingingDoor"
+                    reader: null
+                    rex: false
+                    serialNumber: null
+                    type: "primaryReader"
+                }
+            ]
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Update a Partition Devices [PUT /partitions/{partition_id}/devices]
+
++ Request (application/json)
+
+    + `devices` (optional, array) ... List of devices.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/partitions/0/attributes/1>; rel="next", <https://panel-id.pdk.io/api/partitions/0/attributes/1>; rel="last"
+            X-Total-Count: 1
+    
+    + Body
+    
+            {
+                    "devices": [0,12,45]
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Delete a Partition Device [DELETE /partitions/{partition_id}/devices/{device_id}]
+
++ Parameters
+
+    + partition_id (required, number) ... Numeric `id` of the Partition to perform the action on.
+    + device_id (required, number) ... Numeric `id` of the Device to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+# Group Info
+
+#### Retrieve info data
+
+### Retrieve Info data [GET /info]
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `online` (required, boolean) ... A status of panel.
+    + `version` (required, string) ... A version of sabackend.
+    + `elevatorsPresent` (required, boolean) ... It shows that system supports elevators. .
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/info>; rel="next", <https://panel-id.pdk.io/api/info>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            {
+                online: true,
+                version: "1.2.2",
+                elevatorsPresent: false
+            }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
 
 # Group RSOP
 
