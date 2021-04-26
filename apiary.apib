@@ -435,7 +435,7 @@ For [Reporter, Manager] roles Persons will be filtered by their partition.
     + Headers
     
             Authorization: Bearer {token}
-            Digest: diges [optional]
+            Digest: digest [optional]
 
     + Body
     
@@ -760,6 +760,51 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
 + Response 403 (application/json)
 + Response 404 (application/json)
 
+### Retrieve Credential [GET /persons/{person_id}/credentials/{id}]
+
++ Parameters
+
+    + person_id (required, number) 
+        Numeric `id` of the Person to perform the action on.
+    + id (required, number) 
+        Numeric `id` of the Credentials.
+    
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Numeric `id` of the Card.
+    + `personId` (required, number) ... Id of person,
+    + `credentialNumber` (required, number) ... Credential number.
+    + `types` (required, array of string) ... Types of credential [`token`, `touch`, `card`].
+    + `description` (optional, string) ... Card description. Maximum length is `255` characters.
+
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/mobile_credentials?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/mobile_credentials?page=2&per_page=10>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+                {
+                    "id": 1,
+                    "personId": 12,
+                    "credentialNumber": 722,
+                    "description": "myCard"
+                    "types": [
+                        "token"
+                    ]
+                }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
 
 ### Create Credentials [POST]
 
@@ -767,7 +812,15 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
     + person_id (required, number) - Numeric `id` of the Person to perform the action on.
     
 + Request (application/json)
-
+    
+    + `types` (required, array) - The list of the types.
+    + `credentialNumber` (optional, number) - Number of the created credentials.
+    + `description` (optional, string) - The description.
+        
+    + Headers
+    
+            Authorization: Bearer {token}
+    
 + Response 200 (application/json)
 
     + Attributes
@@ -786,6 +839,8 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles.  R
     + credential_id (required, number) ... Numeric `id` of the Credentials entity.
     
 + Request (application/json)
+
+    + `types` (required, array) - The list of the types.
     
     + Headers
     
@@ -1470,7 +1525,7 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 + Parameters
 
     + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
-    + group_id (required, number) ... Numeric `id` of the Rule to perform the action on.
+    + group_id (required, number) ... Numeric `id` of the Group to perform the action on.
     
 + Request
 
@@ -1519,6 +1574,11 @@ The functionality is available for [Sysop, Integrator, Admin, Manager] roles. [R
 
 ### Remove a Person from a Group [DELETE /persons/{person_id}/groups/{group_id}]
 
++ Parameters
+
+    + person_id (required, number) ... Numeric `id` of the Person to perform the action on.
+    + group_id (required, number) ... Numeric `id` of the Group to perform the action on.
+
 + Request
 
     + Headers
@@ -1540,7 +1600,7 @@ For [Reporter, Manager] roles Groups will be filtered by their partition.
 
 ## Groups Collection [/groups]
 
-### Retrieve All Groups [GET /groups?page={page}&per_page={per_page}&sort={sort}]
+### Retrieve All Groups [GET /groups?page={page}&per_page={per_page}&sort={sort}&include={include}]
 
 + Parameters
 
@@ -1556,6 +1616,11 @@ For [Reporter, Manager] roles Groups will be filtered by their partition.
         + Members
             + `asc`
             + `desc`
+    + include (optional, oneOf [array, string]) The result should contain bound entities.
+        + Members
+            + `partition`
+            + `persons`
+            + `rules`
     
 + Request
 
@@ -2702,6 +2767,7 @@ The functionality is available for [Sysop, Integrator, Admin] roles.
     + `singleDate` (optional, string) ... Date when a rule should be performed in `YYYY-MM-DD` format. Only one field can be in the JSON at the same time `recurring` or `singleDate`.
     + `allow` (required, boolean) ... Flag which indicates if access granted or denied.
     + `doors` (required, array) ... Doors on which rule should be performed.
+    + `partition` (optional, number) ... Partition id.
             
     + Body
     
@@ -2996,7 +3062,7 @@ The functionality is available for [Sysop, Integrator] roles. Retrieving Devices
 All operations consider user's partition. [Manager] can retrieve list of Devices that are bound to the same partition as he is bound to.
 Created Devices will be bound to user's partition by default.
 
-### Retrieve Devices Collection [GET /devices?page={page}&per_page={per_page}&sort={sort}]
+### Retrieve Devices Collection [GET /devices?page={page}&per_page={per_page}&sort={sort}&include={include}&type={type}]
 
 + Parameters
 
@@ -3010,6 +3076,22 @@ Created Devices will be bound to user's partition by default.
         + Members
             + `asc`
             + `desc`
+    + include (optional, enum[string])
+        The parameter allows to get a related entity for the person.
+        + Members
+            + `connection`
+            + `partition`
+    + type (optional, oneOf [array, string])
+        The parameter allows to filter the list of devices by type.
+        + Members
+            + `primaryReader`
+            + `additionalReader`
+            + `ioDevice`
+            + `premiumIoDevice`
+            + `elevatorReader`
+            + `additionalElevatorReader`
+            + `floorRelay`
+            + `legacy`
 
 + Request
 
@@ -3131,6 +3213,42 @@ Created Devices will be bound to user's partition by default.
             + `cardOrPin` - grant access by either card or PIN
             + `cardAndPin` - grant access by both card and PIN
     + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `type` (optional, enum)
+        Type of the device.
+        + Members
+            + `primaryReader`
+            + `additionalReader`
+            + `ioDevice`
+            + `premiumIoDevice`
+            + `elevatorReader`
+            + `additionalElevatorReader`
+            + `floorRelay`
+    + `primaryReader` (optional, number) An id of the primary reader
+    + `publicIcon` (optional, enum])
+        An icon of the device.
+        + Members
+            + `swingingDoor`
+            + `swingingGate`
+            + `rollUpDoor`
+            + `alarm`
+            + `light`
+            + `fan`
+            + `panicButton`
+            + `sprinkler`
+            + `other`
+    + `forceUpdate` (optional, boolean)
+    + `inputTypes` (optional, array of enum)
+        An input types of the device.
+        + Members
+            + `wiegand`
+            + `unencryptedOsdp`
+            + `encryptedOsdp`
+    + `osdpAddress` (optional, number]) Osdp address of the device.
+        + Members
+            + 0
+            + 1
+            + 2
+            + 3
     
     + Headers
     
@@ -3148,6 +3266,8 @@ Created Devices will be bound to user's partition by default.
                     "dps": true,
                     "rex": true,
                     "forcedAlarm": true,
+                    "primaryReader": "primaryReader",
+                    "publicIcon": "swingingGate",
                     "metadata": {}
             }
 
@@ -3204,6 +3324,8 @@ Created Devices will be bound to user's partition by default.
             + `cardOrPin` - grant access by either card or PIN
             + `cardAndPin` - grant access by both card and PIN
     + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+    + `primaryReader` (required, string) ... A type of the device
+    + `publicIcon` (required, string) ... A public icon of the device
         
     + Body
     
@@ -3306,6 +3428,42 @@ Created Devices will be bound to user's partition by default.
             + `cardOrPin` - grant access by either card or PIN
             + `cardAndPin` - grant access by both card and PIN
     + `metadata` (optional, object) ... An optional peice of opaque metadata stored with the entity
+        + `type` (optional, enum)
+        Type of the device.
+        + Members
+            + `primaryReader`
+            + `additionalReader`
+            + `ioDevice`
+            + `premiumIoDevice`
+            + `elevatorReader`
+            + `additionalElevatorReader`
+            + `floorRelay`
+    + `primaryReader` (optional, number) An id of the primary reader
+    + `publicIcon` (optional, enum])
+        An icon of the device.
+        + Members
+            + `swingingDoor`
+            + `swingingGate`
+            + `rollUpDoor`
+            + `alarm`
+            + `light`
+            + `fan`
+            + `panicButton`
+            + `sprinkler`
+            + `other`
+    + `forceUpdate` (optional, boolean)
+    + `inputTypes` (optional, array of enum)
+        An input types of the device.
+        + Members
+            + `wiegand`
+            + `unencryptedOsdp`
+            + `encryptedOsdp`
+    + `osdpAddress` (optional, number]) Osdp address of the device.
+        + Members
+            + 0
+            + 1
+            + 2
+            + 3
     
     + Headers
     
@@ -3672,6 +3830,7 @@ The functionality is available for [Sysop, Integrator] roles.
             + `wirelessCoordinator`
             + `ethernet`
             + `usb`
+            + `aperio`
     + `connected` (optional, boolean) ... Connection status.
     + `ipaddress` (optional, string) ... Address of connection. Represents IP address in case of Ethernet connection.
     + `port` (required, number) ... Port number. Represents TCP port in case of Ethernet connection or serial port number in case of USB connection.
@@ -3993,6 +4152,8 @@ The functionality is available for [Sysop, Integrator] roles.
 ### Add a New Card Format [POST /config/formats]
 
 + Request
+
+        + `cardFormat` (required, string) ... Card format that is used by readers in the system represented as string.
 
     + Headers
     
@@ -4669,7 +4830,7 @@ This command queries the last-hop signal strength of the specified wireless endp
 }
 ```
 
-# Group Reports
+# Group Events Reports
 
 #### A report entity represents a filter for the audit log entries.
 
@@ -4677,7 +4838,7 @@ The functionality is available for all roles.
 Partitions logic is applied to all operations.
 [Reporter, Manager] can remove any entity from Report's details that is present there at the moment but they can fill Report's details only with entities that they have access to according Role and Partition restrictions.
 
-### Retrieve Reports Collection [GET /reports?page={page}&per_page={per_page}&sort={sort}]
+### Retrieve Events Reports Collection [GET /reports?page={page}&per_page={per_page}&sort={sort}]
 
 + Parameters
 
@@ -4795,7 +4956,7 @@ Partitions logic is applied to all operations.
 + Response 401 (application/json)
 + Response 403 (application/json)
 
-## Reports [/reports]
+## Events Reports [/reports]
 
 + Model
 
@@ -4891,7 +5052,7 @@ Partitions logic is applied to all operations.
                     "sort": "asc"
             }
 
-### Retrieve a Report [GET /reports/{report_id}]
+### Retrieve a Events Report [GET /reports/{report_id}]
 
 + Parameters
 
@@ -5001,11 +5162,11 @@ Partitions logic is applied to all operations.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Create a Report [POST]
+### Create a Events Report [POST]
 
 + Request (application/json)
 
-    [Reports][]
+    [Events Reports][]
 
 + Response 200 (application/json)
 
@@ -5022,7 +5183,7 @@ Partitions logic is applied to all operations.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Update a Report [PUT /reports/{report_id}]
+### Update a Events Report [PUT /reports/{report_id}]
 
 + Request (application/json)
 
@@ -5125,7 +5286,7 @@ Partitions logic is applied to all operations.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
-### Delete a Report [DELETE /reports/{report_id}]
+### Delete a Events Report [DELETE /reports/{report_id}]
 
 + Parameters
 
@@ -6250,6 +6411,242 @@ Details for Reporters and Managers can contain only entities that they have acce
 + Response 403 (application/json)
 + Response 404 (application/json)
 
+# Group Credentials Reports
+
+#### A report entity represents a filter for credentials entities.
+
+The functionality is available for all roles.
+Partitions logic is applied to all operations.
+[Reporter, Manager] can remove any entity from Report's details that is present there at the moment but they can fill Report's details only with entities that they have access to according Role and Partition restrictions.
+
+### Retrieve Credentials Reports Collection [GET /reports/credentials?page={page}&per_page={per_page}&sort={sort}]
+
++ Parameters
+
+    + page (optional, number)
+        Number of page to return, started from `0`.
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`
+    + sort (optional, enum[string])
+        Sorting order. Report are sorted by `name` values.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Report id.
+    + `name` (required, string) ... Report name.
+    + `filters` (optional, array[object]) List of filters for credentials enitites.
+    + `output` (optional, array[enum[string]])
+        Fields that will be returned for Credential entities.
+        + Members
+            + `id`
+            + `creationTimestamp`
+            + `credentialNumber`
+            + `firstName`
+            + `lastName`
+            + `lastScanDetails`
+            + `lastScanTimestamp`
+            + `personId`
+            + `status`
+            + `type`
+    + `partition`(required, number)
+        Partition id report entity belongs to.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/reports/people?page=1&per_page=10>; rel="next", <https://panel-id.pdk.io/api/reports/people?page=2&per_page=10>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            [{
+                    "id": 1,
+                    "name": "Credentials Report",
+                    "filters": [],
+                    "output": [
+                        "id"
+                    ],
+                    "partition": 0
+            }]
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
+
+## Credentials Reports [/reports/credentials]
+
++ Model
+    + `name` (required, string) ... Report name.
+    + `filters` (optional, array[object]) List of filters for people enitites.
+    + `output` (optional, array[enum[string]])
+        Fields that will be returned for People entities.
+        + Members
+            + `id`
+            + `creationTimestamp`
+            + `credentialNumber`
+            + `firstName`
+            + `lastName`
+            + `lastScanDetails`
+            + `lastScanTimestamp`
+            + `personId`
+            + `status`
+            + `type`
+    + `partition`(required, number)
+        Partition id report entity belongs to.
+        
+    + Body
+    
+            {
+                    "name": "People Report",
+                    "filters": [],
+                    "output": [
+                        "status",
+                        "personId"
+                    ],
+                    "partition": 0
+            }
+
+### Retrieve a Report [GET /reports/credentials/{report_id}]
+
++ Parameters
+
+    + report_id (required, number) ... Numeric `id` of the Report to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Report id.
+    + `name` (required, string) ... Report name.
+    + `filters` (optional, array[object]) List of filters for people entities.
+    + `output` (optional, array[enum[string]])
+        Fields that will be returned for People entities.
+        + Members
+            + `id`
+            + `creationTimestamp`
+            + `credentialNumber`
+            + `firstName`
+            + `lastName`
+            + `lastScanDetails`
+            + `lastScanTimestamp`
+            + `personId`
+            + `status`
+            + `type`
+    + `partition`(required, number)
+        Partition id report entity belongs to.
+        
+    + Body
+    
+            {
+                    "id": 1,
+                    "name": "People Report",
+                    "filters": [],
+                    "output": [
+                        "id"
+                    ],
+                    "partition": 0
+            }
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Create a Report [POST]
+
++ Request (application/json)
+
+    [People Reports][]
+
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Number `id` of created Report.
+    
+    + Body
+    
+            {
+                "id": 1
+            }
+            
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Update a Report [PUT /reports/people/{report_id}]
+
++ Request (application/json)
+
+    + `name` (required, string) ... Report name.
+    + `filters` (optional, array[object]) List of filters for people entities.
+    + `output` (optional, array[enum[string]])
+        Fields that will be returned for People entities.
+        + Members
+            + `id`
+            + `creationTimestamp`
+            + `credentialNumber`
+            + `firstName`
+            + `lastName`
+            + `lastScanDetails`
+            + `lastScanTimestamp`
+            + `personId`
+            + `status`
+            + `type`
+    + `partition`(required, number)
+        Partition id report entity belongs to.
+    
+    + Body
+    
+            {
+                    "name": "People Report",
+                    "filters": [],
+                    "output": [
+                        "id",
+                        "creationTimestamp",
+                        "credentialNumber",
+                        "lastScanDetails"
+                    ],
+                    "partition": 0
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Delete a Report [DELETE /reports/credentials/{report_id}]
+
++ Parameters
+
+    + report_id (required, number) ... Numeric `id` of the Report to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+
 # Group Partitions
 
 #### A Partitions entity represents a filter for Person, Group, Floor Group, and Device entities.
@@ -6263,7 +6660,7 @@ If Device is bound to one Partition only and someone removes this Device from th
 
 If User accesses the Panel and he is not bound to any Partition yet, his actions will be perceived as he is in the Default partition until he will be explicitly bound to some other partition.
 
-### Retrieve Partitions Collection [GET /partitions?page={page}&per_page={per_page}&sort={sort}]
+### Retrieve Partitions Collection [GET /partitions?page={page}&per_page={per_page}&sort={sort}&include={include}]
 
 + Parameters
 
@@ -6277,6 +6674,12 @@ If User accesses the Panel and he is not bound to any Partition yet, his actions
         + Members
             + `asc`
             + `desc`
+    + include (optional, enum[string])
+        The parameter allows to get a related entity for the person.
+        + Members
+            + `attributes`
+            + `doors`
+            + `users`
 
 + Request
 
@@ -6308,6 +6711,8 @@ If User accesses the Panel and he is not bound to any Partition yet, his actions
 + Response 403 (application/json)
 
 ## Partitions [/partitions/{partition_id}]
+
+The next types of attributes are supported for a partition: `boolean`, `enum`, `string`, `number`, `object`, `array`.
 
 + Model
 
@@ -6361,7 +6766,7 @@ If User accesses the Panel and he is not bound to any Partition yet, his actions
 
 + Request (application/json)
 
-    [Reports][]
+    [Partitions][]
 
 + Response 200 (application/json)
 
@@ -6408,6 +6813,244 @@ If User accesses the Panel and he is not bound to any Partition yet, his actions
 + Parameters
 
     + partition_id (required, number) ... Numeric `id` of the Partition to perform the action on.
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+## Partitions Attribute [/partitions/{partition_id}/attributes/{attribute_id}]
+
+The next types of attributes are supported for a partition: `boolean`, `enum`, `string`, `number`, `object`, `array`.
+
++ Model
+
+    + `id` (required, string) ... Id of the attribute.
+    + `displayName` (optional, string) ... Display name of the attribute.
+    + `type` (required, enum[string]) ... Type of the attribute.
+    + `default` (optional, boolean) ...
+    + `min` (optional, number) ... 
+    + `max` (optional, number) ... 
+    + `visibility` (optional, enum[string]) ... [ "hidden", "readonly", "visible"]
+    + `decimals` (optional, number) ... A restriction for number parameter.
+    + `regex` (optional, string) ... A restriction for strings parameter.
+    + `values` (optional, array) ... Parameter for the Enum type.
+    + `fields` (optional, array) ... List of object type parameters.
+    + `items` (optional, array) ... Parameter for the array type.
+    + `minLength` (optional, number) ... A restrinction for a length of attribute.
+    + `maxLength` (optional, number) ... A restrinction for a length of attribute.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/partitions/0/attributes>; rel="next", <https://panel-id.pdk.io/api/partitions/0/attributes>; rel="last"
+            X-Total-Count: 11
+    
+    + Body
+    
+            {
+                    "name": "Mail hall",
+                    "users": ["132a1c14b321e43123"]
+            }
+
+### Retrieve a Partition Attributes [GET /partitions/{partition_id}/attributes?page={page}&per_page={per_page}&sort={sort}]
+
++ Parameters
+
+    + partition_id (required, number) ... Numeric `id` of the Partition to perform the action on.
+    + page (optional, number) 
+        Number of page to return, started from `0`.
+        + Default: `0`
+    + per_page (optional, number)
+        Count of items per page. An integer from `1` to `100`.
+        + Default: `10`
+    + sort (optional, enum[string])
+        Sorting order. Entities are sorted by `name` values.
+        + Default: `asc`
+        + Members
+            + `asc`
+            + `desc`
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Report id.
+    + `type` (required, string) ... Report name.
+    + other parameters depends on type.
+        
+    + Body
+        
+            [
+                {
+                        "id": 1,
+                        "type": "boolean"
+                }
+            ]
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Retrieve a Partition Attribute [GET /partitions/{partition_id}/attributes/{attribute_id}]
+
++ Parameters
+
+    + partition_id (required, number) ... Numeric `id` of the Partition to perform the action on.
+    + attribute_id (required, number) ... Specific id of the attribute.
+
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+
+    + `id` (required, number) ... Report id.
+    + `type` (required, string) ... Report name.
+    + other parameters depends on type.
+        
+    + Body
+        
+            
+            {
+                    "id": 1,
+                    "type": "boolean"
+            }
+            
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Update a Partition Attribute [PUT /partitions/{partition_id}/attributes/{attribute_id}]
+
++ Request (application/json)
+
+    + `displayName` (optional, string) ... Display name of the attribute.
+    + `type` (required, enum[string]) ... Type of the attribute.
+    + `default` (optional, boolean) ...
+    + `min` (optional, number) ... 
+    + `max` (optional, number) ... 
+    + `visibility` (optional, enum[string]) ... [ "hidden", "readonly", "visible"]
+    + `decimals` (optional, number) ... A restriction for number parameter.
+    + `regex` (optional, string) ... A restriction for strings parameter.
+    + `values` (optional, array) ... Parameter for the Enum type.
+    + `fields` (optional, array) ... List of object type parameters.
+    + `items` (optional, array) ... Parameter for the array type.
+    + `minLength` (optional, number) ... A restrinction for a length of attribute.
+    + `maxLength` (optional, number) ... A restrinction for a length of attribute.
+    
+    + Headers
+    
+            Link: <https://panel-id.pdk.io/api/partitions/0/attributes/1>; rel="next", <https://panel-id.pdk.io/api/partitions/0/attributes/1>; rel="last"
+            X-Total-Count: 1
+    
+    + Body
+    
+            {
+                    "id": "Mail hall",
+                    "type": boolean,
+                    "default": true
+            }
+
++ Response 204
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Manage all Partition Attributes [POST /partitions/{partition_id}/attributes/all]
+
++ Request (application/json)
+
+    + `id` (required, string) ... Attribute id.
+    + `type` (required, string) ... One of supported type.
+    + other restrictions depends on type
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            [
+                {
+                "id": "Logical",
+                "type": "boolean"
+                }, {
+                "id": "Enum atr",
+                "type": "enum",
+                "values": [{"id": "value1"}]
+                }, {
+                "id": "String atr",
+                "type": "string"
+                }, {
+                "id": "Number atr",
+                "min": 10,
+                "max": 100,
+                "type": "number"
+                }, {
+                "id": "Object atr",
+                "type": "object",
+                "fields": [{"id": "fieldFirst", "type": "string"}, {"id": "fieldSecond", "type": "string"}]
+                }, {
+                "id": "Array atr",
+                "type": "array",
+                "items": {"type": "number", "min": 1}
+                }
+            ]
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Create Partition Attribute [POST /partitions/{partition_id}/attributes/single]
+
++ Request (application/json)
+
+    + `id` (required, string) ... Attribute id.
+    + `type` (required, string) ... One of supported type.
+    + other restrictions depends on type
+    
+    + Headers
+    
+            Authorization: Bearer {token}
+    + Body
+    
+            {
+                "id": "Enum atr",
+                "type": "enum",
+                "values": [{"id": "value1"}]
+            }
+
++ Response 204 (application/json)
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
+### Delete a Partition Attribute[DELETE /partitions/{partition_id}/attributes/{attribute_id}]
+
++ Parameters
+
+    + partition_id (required, number) ... Numeric `id` of the Partition to perform the action on.
+    + attribute_id (required, number) ... Numeric `id` of the Attribute to perform the action on.
     
 + Request
 
