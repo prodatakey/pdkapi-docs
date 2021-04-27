@@ -6646,6 +6646,59 @@ Partitions logic is applied to all operations.
 + Response 403 (application/json)
 + Response 404 (application/json)
 
+# Group Hardware
+
+### Retrieve a Hardware [GET /hardware]
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {token}
+    
++ Response 200 (application/json)
+        
+    + Body
+        
+            [
+                {
+                        batteryChargeCategory: null
+                        batteryCurrent: null
+                        batteryHealth: null
+                        batteryLevel: null
+                        batteryTime: null
+                        communicationLost: false
+                        connection: {id: 3, name: "ethernetConnection", type: "ethernet", connected: true}
+                        firmwareVersion: null
+                        hardwareVersion: null
+                        inputCurrent: null
+                        inputVoltage: null
+                        isPowerSourceOn: null
+                        lowPowerModeOn: null
+                        overcurrent: null
+                        peripheralCurrent: null
+                        peripheralPowerOn: null
+                        peripheralVoltage: null
+                        recentComlosses: []
+                        serialNumber: null
+                        type: "controller"
+                        unstableConnection: false
+                        wirelessAddress: ""
+                },
+                {
+                        connected: false
+                        id: 4
+                        ipAddress: "192.168.0.108"
+                        name: "gateway connection"
+                        type: "ethernetGateway"
+                }
+            ]
+
++ Response 400 (application/json)
++ Response 401 (application/json)
++ Response 403 (application/json)
++ Response 404 (application/json)
+
 # Group Map
 
 ## Maps [/maps/{map_id}]
